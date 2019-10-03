@@ -7,7 +7,7 @@ import random
 import csv
 import sys
 
-from multiprocessing import Process, Queue, Lock, Manager
+from multiprocessing import Process, Queue, JoinableQueue, Lock, Manager
 from urllib.parse import urlparse
 from urllib import parse
 from bs4 import BeautifulSoup
@@ -15,18 +15,29 @@ from bs4 import BeautifulSoup
 PING_INT = 10000000 # 1/100th of a second
 
 def follow_redirects_consumer(redirects_q, followed_q, access_stats):
-    for i in range(1, 5):
+    while True:
+        #print("i: " + str(i))
         url, rid = redirects_q.get()
+        print("URL: %s" % url)
+        print("RID: %i" % rid)
         o = urlparse(url)
         domain = o.netloc
-        if safe_to_access(domain):
-            r = requests.head(url, allow_redirects=False)
-            access_stats[domain] = time.time_ns()
-            if r.headers["location"] == url:
-                # we're done with this one
-                followed_q.put((r.headers["location"], rid))
+        if safe_to_access(domain, access_stats):
+            try:
+                r = requests.head(url, allow_redirects=False)
+                access_stats[domain] = time.time_ns()
+            except:
+                print("Error with " + url)
+                pass
+            if "Location" in r.headers:
+                if r.headers["Location"] == url:
+                    # we're done with this one
+                    followed_q.put((r.headers["Location"], rid))
+                else:
+                    redirects_q.put((r.headers["Location"], rid))
             else:
-                redirects_q.put((r.headers["location"], rid))
+                print("No location specified in header... assuming this one is done")
+                followed_q.put((r.url, rid))
         else:
             redirects_q.put((url, rid)) # put it right back for safe keeping
 
@@ -36,20 +47,25 @@ def follow_redirects_consumer(redirects_q, followed_q, access_stats):
 def followed_consumer(followed_q, params_q, access_stats):
     while True:
         url, rid = followed_q.get()
+        print("HANDLING URL " + url)
         o = urlparse(url)
         params = parse.parse_qs(o.query)
         if(len(params) > 0):
             domain = o.netloc
             can_hit = safe_to_access(domain, access_stats)
             if can_hit:
-                r = requests.get(url)
-                access_stats[domain] = time.time_ns()
+                try:
+                    r = requests.get(url)
+                    access_stats[domain] = time.time_ns()
+                except:
+                    print("Error with " + url)
+                    pass
                 if r.status_code == 200:
                     params_q.put(({"params": params, "url": url.split('?', maxsplit=1)[0], "text": r.text}, rid))
                 else:
                     followed_q.put((url, rid))
         else:
-            print("COMPLETED " + url + " AT ROW " + rid)
+            print("COMPLETED " + url + " AT ROW " + str(rid))
             # we're done
     
         time.sleep(0.05)
@@ -79,8 +95,12 @@ def params_consumer(params_q, access_stats):
         can_hit = safe_to_access(domain, access_stats)
 
         if can_hit:
-            r = requests.get(new_url)
-            access_stats[domain] = time.time_ns()
+            try:
+                r = requests.get(new_url)
+                access_stats[domain] = time.time_ns()
+            except:
+                print("Error with " + url)
+                pass
             changed = webpages_different(text, r.text)
             if changed: # a change was detected
                 req.prepare_url(url, param_to_remove)
@@ -98,6 +118,8 @@ def safe_to_access(domain, access_stats):
     Returns True if it's been more than PING_INT nanoseconds since we last pinged the domain,
     False otherwise
     """
+
+    print(access_stats)
 
     if domain in access_stats:
         last_access = access_stats[domain]
@@ -127,39 +149,47 @@ def webpages_different(x, y):
         return True
     return False
 
+def producer_thread(redirects_q):
+    f = open('urls2.tsv','r')
+
+    rid = 0
+    while True:
+        url = f.readline().strip()
+        redirects_q.put((url, rid))
+        time.sleep(0.005)
+    f.close()
+
 def main():
-    with open('urls.tsv','r') as tsvin:
-        tsvin = csv.reader(tsvin, delimiter='\t')
-
-        redirects_q = Queue()
-        followed_q = Queue()
-        params_q = Queue()
-
-        rid = 0
-        for row in tsvin:
-            url = row[0]
-            params_q.put((rid, url))
-
-            if rid >= 5:
-                break
+    redirects_q = Queue()
+    followed_q = Queue()
+    params_q = Queue()
     
-    print("MADE IT HERE")
-    with Manager() as manager:
-        access_stats = manager.dict()
-        
-        p1 = Process(target=follow_redirects_consumer, args=(redirects_q, followed_q, manager))
+    prod = Process(target=producer_thread, args=(redirects_q,))
+    prod.daemon = True
+    prod.start()
+
+    manager = Manager()
+    access_stats = manager.dict()
+    
+    threads = []
+    for i in range(0, 20):
+        p1 = Process(target=follow_redirects_consumer, args=(redirects_q, followed_q, access_stats))
         p1.daemon = True
-        print("STARTING P1")
         p1.start()
 
-        # p2 = Process(target=followed_consumer, args=(followed_q, params_q, access_stats))
-        # p2.daemon = True
-        # p2.start()
+        p2 = Process(target=followed_consumer, args=(followed_q, params_q, access_stats))
+        p2.daemon = True
+        p2.start()
 
-        # p3 = Process(target=params_consumer, args=(params_q, access_stats))
-        # p3.daemon = True
-        # p3.start()
+        p3 = Process(target=params_consumer, args=(params_q, access_stats))
+        p3.daemon = True
+        p3.start()
 
+        threads.append((p1, p2, p3))
+
+    
+    prod.join()
+    for p1,p2,p3 in threads:
         p1.join()
-        # p2.join()
-        # p3.join()
+        p2.join()
+        p3.join()
