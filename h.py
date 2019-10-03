@@ -11,6 +11,7 @@ from multiprocessing import Process, Queue, JoinableQueue, Lock, Manager
 from urllib.parse import urlparse
 from urllib import parse
 from bs4 import BeautifulSoup
+from requests.models import PreparedRequest
 
 PING_INT = 10000000 # 1/100th of a second
 
@@ -24,8 +25,8 @@ def follow_redirects_consumer(redirects_q, followed_q, access_stats):
         domain = o.netloc
         if safe_to_access(domain, access_stats):
             try:
-                r = requests.head(url, allow_redirects=False)
                 access_stats[domain] = time.time_ns()
+                r = requests.head(url, allow_redirects=False)
             except:
                 print("Error with " + url)
                 pass
@@ -51,12 +52,13 @@ def followed_consumer(followed_q, params_q, access_stats):
         o = urlparse(url)
         params = parse.parse_qs(o.query)
         if(len(params) > 0):
+            print("LENGTH OF PARAMS IS " + str(len(params)))
             domain = o.netloc
             can_hit = safe_to_access(domain, access_stats)
             if can_hit:
                 try:
-                    r = requests.get(url)
                     access_stats[domain] = time.time_ns()
+                    r = requests.get(url)
                 except:
                     print("Error with " + url)
                     pass
@@ -64,6 +66,8 @@ def followed_consumer(followed_q, params_q, access_stats):
                     params_q.put(({"params": params, "url": url.split('?', maxsplit=1)[0], "text": r.text}, rid))
                 else:
                     followed_q.put((url, rid))
+            else:
+                followed_q.put((url, rid))
         else:
             print("COMPLETED " + url + " AT ROW " + str(rid))
             # we're done
@@ -77,37 +81,44 @@ def params_consumer(params_q, access_stats):
         params = entry["params"]
         text = entry["text"]
 
+        print("PARAMS HANDLER " + url + ", " + str(len(params)))
+
         if len(params) == 0:
-            print("COMPLETED " + url + " AT ROW " + rid + " WITH PARAMS POST PROCESSING")
+            print("PARAMS COMPLETED " + url + " AT ROW " + str(rid) + " WITH PARAMS POST PROCESSING")
             continue
-
-        # randomly pick a parameter to ignore
-        # see if it changes things
-        param_to_remove = random.choice(list(params.keys()))
-        del params[param_to_remove]
-
-        req = PreparedRequest()
-        req.prepare_url(url, params)
-        new_url = req.url # url, plus the parameters we added
-
+        
         o = urlparse(url)
         domain = o.netloc
         can_hit = safe_to_access(domain, access_stats)
 
         if can_hit:
+            # randomly pick a parameter to ignore
+            # see if it changes things
+            param_to_remove = random.choice(list(params.keys()))
+            param_to_remove_val = params[param_to_remove]
+            del params[param_to_remove]
+
+            req = PreparedRequest()
+            req.prepare_url(url, params)
+            new_url = req.url # url, plus the parameters we added
+        
             try:
-                r = requests.get(new_url)
                 access_stats[domain] = time.time_ns()
+                r = requests.get(new_url)
             except:
                 print("Error with " + url)
                 pass
             changed = webpages_different(text, r.text)
             if changed: # a change was detected
-                req.prepare_url(url, param_to_remove)
+                print("DETECTED A CHANGE")
+                req.prepare_url(url, {param_to_remove: param_to_remove_val})
                 # param_to_remove has been identified as necessary
-                params_q.put(({"params": params, "url": req.url}, rid)) # URL now contains the removed param as a permanent fixture
+                params_q.put(({"params": params, "url": req.url, "text": text}, rid)) # URL now contains the removed param as a permanent fixture
             else:
-                params_q.put(({"params": params, "url": url}, rid))
+                print("NO CHANGE DETECTED")
+                params_q.put(({"params": params, "url": url, "text": text}, rid))
+        else:
+            params_q.put((entry, rid))
 
         time.sleep(0.05)
 
@@ -119,7 +130,7 @@ def safe_to_access(domain, access_stats):
     False otherwise
     """
 
-    print(access_stats)
+    #print(access_stats)
 
     if domain in access_stats:
         last_access = access_stats[domain]
@@ -150,7 +161,7 @@ def webpages_different(x, y):
     return False
 
 def producer_thread(redirects_q):
-    f = open('urls2.tsv','r')
+    f = open('urls.tsv','r')
 
     rid = 0
     while True:
