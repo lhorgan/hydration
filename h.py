@@ -15,23 +15,22 @@ from bs4 import BeautifulSoup
 PING_INT = 10000000 # 1/100th of a second
 
 def follow_redirects_consumer(redirects_q, followed_q, access_stats):
-    print("HELLO")
-    # for i in range(1, 5):
-    #     url, rid = redirects_q.get()
-    #     o = urlparse(url)
-    #     domain = o.netloc
-    #     if safe_to_access(domain):
-    #         r = requests.head(url, allow_redirects=False)
-    #         access_stats[domain] = time.time_ns()
-    #         if r.headers["location"] == url:
-    #             # we're done with this one
-    #             followed_q.put((r.headers["location"], rid))
-    #         else:
-    #             redirects_q.put((r.headers["location"], rid))
-    #     else:
-    #         redirects_q.put((url, rid)) # put it right back for safe keeping
+    for i in range(1, 5):
+        url, rid = redirects_q.get()
+        o = urlparse(url)
+        domain = o.netloc
+        if safe_to_access(domain):
+            r = requests.head(url, allow_redirects=False)
+            access_stats[domain] = time.time_ns()
+            if r.headers["location"] == url:
+                # we're done with this one
+                followed_q.put((r.headers["location"], rid))
+            else:
+                redirects_q.put((r.headers["location"], rid))
+        else:
+            redirects_q.put((url, rid)) # put it right back for safe keeping
 
-    #     time.sleep(0.05) # sleep for 50 milliseconds
+        time.sleep(0.05) # sleep for 50 milliseconds
 
 
 def followed_consumer(followed_q, params_q, access_stats):
