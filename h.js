@@ -1,5 +1,6 @@
 const micro = require("microtime");
 const request = require("request");
+const cheerio = require("cheerio");
 
 const TIME_TO_WAIT = 1000000;
 const TIMEOUT = 300;
@@ -49,10 +50,15 @@ class UrlProcessor {
         });
     }
 
+    updateAccessLogs(url) {
+        // tbd
+    }
+
     async hitURL(url, options) {
         let timeOfLastAccess = await this.lastAccessed(url);
         if(micro.now() - timeOfLastAccess > TIME_TO_WAIT) {
             return new Promise((resolve, reject) => {
+                this.updateAccessLogs(url);
                 request(url, {
                     options,
                 }, (err, resp, body) => {
@@ -75,8 +81,10 @@ class UrlProcessor {
     }
 
     // url --> text of page at URL
-    getContent(url) {
+    async getContent(url) {
+        let [resp, body] = await this.hitURL(url, {timeout: TIMEOUT});
 
+        return body;
     }
 
     // page, page --> is the text different? true/false
@@ -88,7 +96,16 @@ class UrlProcessor {
     parsePage(text) {
 
     }
+
+    async test() {
+        //urlproc.followRedirects({"url": "http://bit.ly/31UAFMx"});
+        console.log("HITTING");
+        let text = await urlproc.getContent("http://bit.ly/31UAFMx");
+        console.log("parsing");
+        let $ = cheerio.load(text);
+        console.log($("title").text());
+    }
 }
 
 urlproc = new UrlProcessor();
-urlproc.followRedirects({"url": "http://bit.ly/31UAFMx"});
+urlproc.test();
