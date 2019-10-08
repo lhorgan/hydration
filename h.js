@@ -11,29 +11,20 @@ class UrlProcessor {
 
     // url --> original url, new url
     async followRedirects(entry) {
-        let timeOfLastAccess = await this.lastAccessed(entry.url);
-        if(micro.now() - timeOfLastAccess > TIME_TO_WAIT) {
-            let [resp, body] = await this.hitURL(entry.url, {
-                                            method: "HEAD",
-                                            followAllRedirects: false,
-                                            followRedirect: false,
-                                            timeout: TIMEOUT
-                                        });
-            console.log("HERE IS THE NEW URL");
-            let newURL = resp.request.uri.href;
-            if(newURL === entry.url) {
-                console.log("we are done");
-                return "done";
-            }
-            else {
-                entry.url = newURL;
-                return this.followRedirects(entry);
-            }
+        let [resp, body] = await this.hitURL(entry.url, {
+                                        method: "HEAD",
+                                        followAllRedirects: false,
+                                        followRedirect: false,
+                                        timeout: TIMEOUT
+                                    });
+        console.log("HERE IS THE NEW URL");
+        let newURL = resp.request.uri.href;
+        if(newURL === entry.url) {
+            return entry;
         }
         else {
-            console.log("we must wait a bit");
-            await this.delay();
-            return false;
+            entry.url = newURL;
+            return this.followRedirects(entry);
         }
     }
 
@@ -59,23 +50,28 @@ class UrlProcessor {
     }
 
     async hitURL(url, options) {
-        this.accessLog[url] = micro.now();
-        return new Promise((resolve, reject) => {
-            request(url, {
-                options,
-            }, (err, resp, body) => {
-                if(err) {
-                    reject(err);
-                }
-                else {
-                    resolve([resp, body]);
-                }
+        let timeOfLastAccess = await this.lastAccessed(url);
+        if(micro.now() - timeOfLastAccess > TIME_TO_WAIT) {
+            return new Promise((resolve, reject) => {
+                request(url, {
+                    options,
+                }, (err, resp, body) => {
+                    if(err) {
+                        reject(err);
+                    }
+                    else {
+                        resolve([resp, body]);
+                    }
+                });
             });
-        });
-    }
-
-    getTime() {
-
+        }
+        else {
+            console.log("We must wait a bit because " + url + " has been accessed too recently.");
+            let timeToDelay = max(TIME_TO_WAIT - (micro.now() - timeOfLastAccess), 0);
+            
+            await this.delay(timeToDelay);
+            return this.hitURL(url, options);
+        }
     }
 
     // url --> text of page at URL
