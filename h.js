@@ -7,6 +7,8 @@ const difflib = require('difflib');
 const TIME_TO_WAIT = 1000000;
 const TIMEOUT = 300;
 
+const { Worker, isMainThread, parentPort } = require('worker_threads');
+
 class UrlProcessor {
     constructor() {
         this.accessLog = {};
@@ -36,10 +38,69 @@ class UrlProcessor {
     }
 
     async process(entry) {
-        let entry = await this.followRedirects(entry);
-        entry["text"] = this.getContent(entry.url);
-        entry["tree"] = cheerio.load(entry["text"]);
-        let entry = await this.stripParams(entry);
+        try {
+            /**
+             * Follow redirects safely
+             */
+            entry = await this.followRedirects(entry).catch((err) => {
+                console.log("ERROR");
+                throw(err);
+            });
+            
+            /**
+             * Read the contents of the page and parse the DOM with Cheerio
+             */
+            entry["text"] = await this.getContent(entry.url).catch((err) => {
+                console.log("GRRRR");
+                throw(err);
+            });
+            entry["tree"] = cheerio.load(entry["text"]);
+
+            /**
+             * Try to read the canonical URL from the page
+             * If there is one, stop, we're done.
+             * Otherwise, keep going.
+             */
+            let canURL = this.getCanonicalURL(entry);
+            if(canURL) {
+                entry["url"] = canURL;
+                return entry;
+            }
+            
+            /**
+             * Separate the query parameters from the URL using Node's "url" package
+             */
+            let parsed = URL.parse(entry.url, {parseQueryString: true});
+            entry["params"] = parsed.query;
+            entry["url"] = entry.url.split("?")[0];
+
+            /**
+             * Remove any unnecessary query params from the URL
+             */
+            entry = await this.stripParams(entry);
+
+            return entry;
+        } catch(err) {
+            console.log(err);
+        }
+    }
+
+    /**
+     * Reads the canonical URL, if there is one
+     */
+    getCanonicalURL(entry) {
+        let tree = entry.tree;
+        let canURL = tree("meta[property='og:url']").attr("content");
+        if(canURL) {
+            return canURL;
+        }
+        
+        canURL = tree("link[rel='canonical']").attr("href");
+        if(canURL) {
+            return canURL;
+        }
+
+        return null;
     }
 
     async stripParams(entry) {
@@ -71,6 +132,7 @@ class UrlProcessor {
             console.log("REMOVING PARAM " + Object.keys(params)[0] + " did not result in a change");
             // so we just drop that param
             entry["params"] = newParams;
+            this.logUselessParam(Object.keys(params)[0], parsedURL.host);
         }
         else {
             console.log("REMOVING PARAM" + Object.keys(params)[0] + " CHANGED THE PAGE!!!");
@@ -84,6 +146,10 @@ class UrlProcessor {
         console.log("\n");
 
         return this.stripParams(entry);
+    }
+
+    logUselessParam(param, domain) {
+
     }
 
     // url --> time when last accessed
@@ -160,15 +226,24 @@ class UrlProcessor {
         console.log("parsing");
         let $ = cheerio.load(text);
         console.log($("title").text());*/
-        let entry = {"url": "https://www.amazon.com/Hello-World-Boxed-Jill-McDonald/dp/0525581324/ref=sr_1_1?keywords=hello+world&qid=1570659748&sr=8-1"};
+        
+        /*let entry = {"url": "https://www.amazon.com/Hello-World-Boxed-Jill-McDonald/dp/0525581324/ref=sr_1_1?keywords=hello+world&qid=1570659748&sr=8-1"};
         let parsed = URL.parse(entry.url, {parseQueryString: true});
         entry["params"] = parsed.query;
         entry["url"] = entry.url.split("?")[0];
         entry["text"] = await this.getContent(entry.url);
         entry["tree"] = await cheerio.load(entry["text"]);
-        await this.stripParams(entry);
+        await this.stripParams(entry);*/
+
+        let entry = {"url": "https://moz.com/learn/seo/canonicalization"};
+        this.process(entry);
     }
 }
 
 urlproc = new UrlProcessor();
-urlproc.test();
+
+console.log(typeof(parentPort));
+parentPort.on('message', (message) => {
+    console.log("We got a message " + message);
+    urlproc.process({"url": message});
+});
