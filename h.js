@@ -12,18 +12,25 @@ const { Worker, isMainThread, parentPort } = require('worker_threads');
 class UrlProcessor {
     constructor() {
         this.accessLog = {};
+        this.errors = {};
+        this.maxRetries = 2;
+        this.callbacks = {};
+        this.completedNum = 0;
     }
 
     // url --> original url, new url
     async followRedirects(entry) {
+        //console.log("FOLLOWING REDIRECTS FOR " + entry.url);
         let [resp, body] = await this.hitURL(entry.url, {
                                         method: "HEAD",
                                         followAllRedirects: false,
                                         followRedirect: false,
                                         timeout: TIMEOUT
                                     });
-        console.log("HERE IS THE NEW URL");
+        //console.log("REDIRECTS PARTIALLY FOLLOWED, AT LEAST");
+        //console.log(resp.request.uri.href);
         let newURL = resp.request.uri.href;
+        //console.log("N:O: " + newURL + ", " + entry.url);
         if(newURL === entry.url) {
             return entry;
         }
@@ -37,23 +44,51 @@ class UrlProcessor {
         return new Promise(resolve => setTimeout(resolve, ms));
     }
 
+    postMessage(data, callback) {
+        data["mid"] = this.randomString();
+        parentPort.postMessage(data);
+        if(callback) {
+            this.callbacks[data["mid"]] = callback;
+        }
+    }
+
+    onMessage(data) {
+        //console.log("THE MESSAGE FROM MAIN " + JSON.stringify(data));
+        if("mid" in data && data["mid"] in this.callbacks) {
+            //console.log("MID " + data["mid"]);
+            this.callbacks[data["mid"]](data);
+            //delete this.callbacks[data["mid"]];
+        }
+    }
+
+    randomString() {
+        return Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15);
+    }
+
     async process(entry) {
         try {
+            entry.origURL = entry.url;
+
+            //console.log("Processing entry " + JSON.stringify(entry));
+
             /**
              * Follow redirects safely
              */
             entry = await this.followRedirects(entry).catch((err) => {
-                console.log("ERROR");
                 throw(err);
             });
+
+            //console.log("We have succesffully followed the redirects");
             
             /**
              * Read the contents of the page and parse the DOM with Cheerio
              */
             entry["text"] = await this.getContent(entry.url).catch((err) => {
-                console.log("GRRRR");
                 throw(err);
             });
+
+            //console.log("We have successfully fetched the content");
+
             entry["tree"] = cheerio.load(entry["text"]);
 
             /**
@@ -64,24 +99,40 @@ class UrlProcessor {
             let canURL = this.getCanonicalURL(entry);
             if(canURL) {
                 entry["url"] = canURL;
-                return entry;
             }
-            
-            /**
-             * Separate the query parameters from the URL using Node's "url" package
-             */
-            let parsed = URL.parse(entry.url, {parseQueryString: true});
-            entry["params"] = parsed.query;
-            entry["url"] = entry.url.split("?")[0];
+            else {
+                /**
+                 * Separate the query parameters from the URL using Node's "url" package
+                 */
+                let parsed = URL.parse(entry.url, {parseQueryString: true});
+                entry["params"] = parsed.query;
+                entry["url"] = entry.url.split("?")[0];
 
-            /**
-             * Remove any unnecessary query params from the URL
-             */
-            entry = await this.stripParams(entry);
+                /**
+                 * Remove any unnecessary query params from the URL
+                 */
+                entry = await this.stripParams(entry);
+            }
 
-            return entry;
+            //console.log("This entry is complete " + entry.url + ", " + this.completedNum++);
+            this.postMessage({"kind": "writeURL", "url": entry.url, "origURL": entry.origURL});
         } catch(err) {
-            console.log(err);
+            ////console.log(err);
+            //console.log("Error on " + entry.url);
+            //console.log("\n\n" + err + "\n\n");
+            if(!(entry.url in this.errors)) {
+                this.errors[entry.url] = 0;
+            }
+            this.errors[entry.url] += 1;
+
+            if(this.errors[entry.url] >= this.maxRetries) {
+                //console.log("Max retry limit for " + entry.url + " exceeded.");
+                // TODO: post a complete message for this URL, with error
+            }
+            else {
+                // try again
+                this.process(entry);
+            }
         }
     }
 
@@ -104,9 +155,8 @@ class UrlProcessor {
     }
 
     async stripParams(entry) {
-        console.log("HERE IS OUR ENTRY");
-        console.log(entry.url);
-        console.log(entry.params);
+        ////console.log(entry.url);
+        ////console.log(entry.params);
         if(Object.keys(entry.params).length === 0) {
             return entry;
         }
@@ -121,58 +171,64 @@ class UrlProcessor {
         }
         let newURL = URL.format(parsedURL);
         let newText = await this.getContent(newURL);
-        console.log("HERE IS THE URL WE ARE HITTING");
-        console.log(newURL);
         
         let a = {"text": entry.text, "tree": entry.tree};
         let b = {"text": newText, "tree": cheerio.load(newText)};
 
         // we removed one param - is the content the same?
         if(!this.isContentDifferent(a, b)) { // the content IS the same with the one removed param
-            console.log("REMOVING PARAM " + Object.keys(params)[0] + " did not result in a change");
+            ////console.log("REMOVING PARAM " + Object.keys(params)[0] + " did not result in a change");
             // so we just drop that param
             entry["params"] = newParams;
             this.logUselessParam(Object.keys(params)[0], parsedURL.host);
         }
         else {
-            console.log("REMOVING PARAM" + Object.keys(params)[0] + " CHANGED THE PAGE!!!");
+            //console.log("REMOVING PARAM" + Object.keys(params)[0] + " CHANGED THE PAGE!!!");
             entry["params"] = newParams;
             parsedURL = URL.parse(entry.url, {parseQueryString: true});
             let removedParamName = Object.keys()[0];
             parsedURL.query[removedParamName] = params[removedParamName];
             entry["url"] = URL.format(parsedURL);
         }
-        
-        console.log("\n");
 
         return this.stripParams(entry);
     }
 
+    /**
+     * todo, just there to note that some params aren't needed
+     */
     logUselessParam(param, domain) {
+        //let parsedURL = URL.parse(entry.url);
+    }
 
+    getDomain(url) {
+        let parsedURL = URL.parse(url);
+        return parsedURL.host;
     }
 
     // url --> time when last accessed
     async lastAccessed(url) {
-        // console.log("CHECKING ACCESS LOG FOR " + url);
-        // return new Promise((resolve, reject) => {
-        //     if(url in this.accessLog) {
-        //         resolve(this.accessLog[url]);
-        //     }
-        //     else {
-        //         resolve(0);
-        //     }
-        // });
-        return 0;
+        let domain = this.getDomain(url);
+
+        //console.log("Hi, so, we are accessing a time for " + url);
+        return new Promise((resolve) => {
+            this.postMessage({"kind": "lastAccessed", "domain": domain}, (data) => {
+                //console.log("Here is the time we read " + data.time);
+                resolve(data.time);
+            });
+        });
     }
 
     updateAccessLogs(url) {
-        // tbd
+        let domain = this.getDomain(url);
+
+        this.postMessage({"kind": "updateAccessLogs", "domain": domain, "time": micro.now()});
     }
 
     async hitURL(url, options) {
         let timeOfLastAccess = await this.lastAccessed(url);
         if(micro.now() - timeOfLastAccess > TIME_TO_WAIT) {
+            //console.log("Fantastic, hitting URL");
             return new Promise((resolve, reject) => {
                 this.updateAccessLogs(url);
                 request(url, {
@@ -182,16 +238,20 @@ class UrlProcessor {
                         reject(err);
                     }
                     else {
+                        //console.log("RESOLVING URL, yay!")
                         resolve([resp, body]);
                     }
                 });
             });
         }
         else {
-            console.log("We must wait a bit because " + url + " has been accessed too recently.");
-            let timeToDelay = max(TIME_TO_WAIT - (micro.now() - timeOfLastAccess), 0);
-            
-            await this.delay(timeToDelay);
+            //console.log("We must wait a bit because " + url + " has been accessed too recently.");
+            let timeToDelay = Math.max(TIME_TO_WAIT - (micro.now() - timeOfLastAccess), 0);
+            //timeToDelay *= (1 + Math.random());
+
+            //console.log("DELAYING " + timeToDelay / 1000 + " milliseconds");
+            //await this.delay(timeToDelay / 1000);
+            //console.log("Delay over");
             return this.hitURL(url, options);
         }
     }
@@ -208,11 +268,6 @@ class UrlProcessor {
         let aTitle = a.tree("title").text();
         let bTitle = b.tree("title").text();
 
-        // console.log("B TEXT");
-        // console.log(b.text);
-        // console.log("A TEXT");
-        // console.log(a.text);
-
         let s = new difflib.SequenceMatcher(null, a.text, b.text);
         let diff = s.quickRatio();
 
@@ -221,11 +276,11 @@ class UrlProcessor {
 
     async test() {
         //urlproc.followRedirects({"url": "http://bit.ly/31UAFMx"});
-        /*console.log("HITTING");
+        /*//console.log("HITTING");
         let text = await urlproc.getContent("http://bit.ly/31UAFMx");
-        console.log("parsing");
+        //console.log("parsing");
         let $ = cheerio.load(text);
-        console.log($("title").text());*/
+        //console.log($("title").text());*/
         
         /*let entry = {"url": "https://www.amazon.com/Hello-World-Boxed-Jill-McDonald/dp/0525581324/ref=sr_1_1?keywords=hello+world&qid=1570659748&sr=8-1"};
         let parsed = URL.parse(entry.url, {parseQueryString: true});
@@ -242,8 +297,19 @@ class UrlProcessor {
 
 urlproc = new UrlProcessor();
 
-console.log(typeof(parentPort));
+//console.log(typeof(parentPort));
 parentPort.on('message', (message) => {
-    console.log("We got a message " + message);
-    urlproc.process({"url": message});
+    ////console.log("We got a message " + JSON.stringify(message));
+    if("mid" in message) {
+        urlproc.onMessage(message);
+    }
+    else if("url" in message) {
+        urlproc.process(message);
+        /*urlproc.hitURL(message.url, {
+            method: "HEAD",
+            followAllRedirects: false,
+            followRedirect: false,
+            timeout: TIMEOUT
+        });*/
+    }
 });
