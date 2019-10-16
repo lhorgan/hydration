@@ -38,11 +38,10 @@ class UrlProcessor {
                                         followRedirect: false,
                                         timeout: TIMEOUT
                                     });
-        //console.log("REDIRECTS PARTIALLY FOLLOWED, AT LEAST");
-        //console.log(resp.request.uri.href);
-        let newURL = resp.request.uri.href;
-        //console.log("N:O: " + newURL + ", " + entry.url);
-        if(newURL === entry.url) {
+
+
+        let newURL = resp.headers.location;//resp.request.uri.href;
+        if(newURL === entry.url || newURL === undefined) {
             return entry;
         }
         else {
@@ -244,9 +243,9 @@ class UrlProcessor {
             //console.log("Fantastic, hitting URL");
             return new Promise((resolve, reject) => {
                 this.updateAccessLogs(url);
-                request(url, {
-                    options,
-                }, (err, resp, body) => {
+                options["url"] = url;
+                options["headers"] = {"User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/73.0.3683.75 Safari/537.36"};
+                request(options, (err, resp, body) => {
                     if(err) {
                         reject(err);
                     }
