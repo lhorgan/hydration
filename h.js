@@ -11,11 +11,22 @@ const { Worker, isMainThread, parentPort } = require('worker_threads');
 
 class UrlProcessor {
     constructor() {
-        this.accessLog = {};
         this.errors = {};
         this.maxRetries = 2;
         this.callbacks = {};
         this.completedNum = 0;
+        this.queue = [];
+    }
+
+    addToQueue(entry) {
+        this.queue.push(entry);
+    }
+
+    go() {
+        for(let i = 0; i < this.queue.length; i++) {
+            this.process(this.queue[i]);
+        }
+        this.queue.length = 0;
     }
 
     // url --> original url, new url
@@ -57,7 +68,7 @@ class UrlProcessor {
         if("mid" in data && data["mid"] in this.callbacks) {
             //console.log("MID " + data["mid"]);
             this.callbacks[data["mid"]](data);
-            //delete this.callbacks[data["mid"]];
+            delete this.callbacks[data["mid"]];
         }
     }
 
@@ -115,7 +126,7 @@ class UrlProcessor {
             }
 
             //console.log("This entry is complete " + entry.url + ", " + this.completedNum++);
-            this.postMessage({"kind": "writeURL", "url": entry.url, "origURL": entry.origURL});
+            this.postMessage({"kind": "writeURL", "url": entry.url, "origURL": entry.origURL, "error": false});
         } catch(err) {
             ////console.log(err);
             //console.log("Error on " + entry.url);
@@ -128,6 +139,8 @@ class UrlProcessor {
             if(this.errors[entry.url] >= this.maxRetries) {
                 //console.log("Max retry limit for " + entry.url + " exceeded.");
                 // TODO: post a complete message for this URL, with error
+                this.postMessage({"kind": "writeURL", "url": entry.url, "origURL": entry.origURL, "error": true});
+                delete this.errors[entry.url];
             }
             else {
                 // try again
@@ -304,12 +317,14 @@ parentPort.on('message', (message) => {
         urlproc.onMessage(message);
     }
     else if("url" in message) {
-        urlproc.process(message);
-        /*urlproc.hitURL(message.url, {
-            method: "HEAD",
-            followAllRedirects: false,
-            followRedirect: false,
-            timeout: TIMEOUT
-        });*/
+        if(message.queue) {
+            urlproc.addToQueue(message);
+        }
+        else {
+            urlproc.process(message);
+        }
+    }
+    else if("go" in message) {
+        urlproc.go();
     }
 });

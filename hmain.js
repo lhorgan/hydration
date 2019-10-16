@@ -5,8 +5,10 @@ const { Worker } = require('worker_threads');
 
 class Earl {
     constructor(ifname, binSize) {
+        this.urlIndex = 0;
         this.binSize = binSize; 
         this.accessLogs = {};
+        this.assignmentCounts = [];
         this.go(ifname);
     }
 
@@ -15,7 +17,7 @@ class Earl {
         this.urls = await this.readURLs(ifname);
         //console.log(this.urls);
         this.shuffle(this.urls);
-        this.assignWorkers();
+        this.initialAssignWorkers();
         //console.log("workers assigned");
     }
 
@@ -23,7 +25,7 @@ class Earl {
         let workers = [];
         //os.cpus().length
 
-        for(let i = 0; i < 3; i++) {
+        for(let i = 0; i < os.cpus().length; i++) {
             let worker = new Worker("./h.js", {});
             worker.on("message", (message) => {
                 //console.log("we got a message in the main thread");
@@ -52,6 +54,13 @@ class Earl {
         }
         else if(message["kind"] === "writeURL") {
             console.log(message.url + " --< " + message.origURL);
+            if(this.urlIndex < this.urls.length) {
+                worker.postMessage({"url": this.urls[this.urlIndex], "queue": false});
+                this.urlIndex++;
+            }
+            else {
+                console.log("we are done");
+            }
         }
     }
 
@@ -83,15 +92,20 @@ class Earl {
         return urls;
     }
 
-    assignWorkers() {
+    initialAssignWorkers() {
         console.log("ASSINGING WORKERS");
         //console.log(this.urls);
-        let binOffset = this.binSize * this.currentBin;
         for(let i = 0; i < this.binSize && i < this.urls.length; i += this.workers.length) {
             for(let j = 0; j < this.workers.length; j++) {
                 //console.log("ASSIGNING " + this.urls[i + j] + " to " + j);
-                this.workers[j].postMessage({"url": this.urls[binOffset + i + j]});
+                this.workers[j].postMessage({"url": this.urls[i + j], "queue": true});
+                this.urlIndex++;
             }
+        }
+        console.log("URL INDEX IS " + this.urlIndex);
+
+        for(let i = 0; i < this.workers.length; i++) {
+            this.workers[i].postMessage({"go": true});
         }
     }
 
@@ -104,4 +118,4 @@ class Earl {
     }
 }
 
-let e = new Earl("urls.tsv", 1000);
+let e = new Earl("urls.tsv", 50);
