@@ -95,11 +95,15 @@ class Earl {
     initialAssignWorkers() {
         console.log("ASSINGING WORKERS");
         //console.log(this.urls);
-        for(let i = 0; i < this.binSize && i < this.urls.length; i += this.workers.length) {
+        for(let i = 0; i < this.binSize; i++) {
             for(let j = 0; j < this.workers.length; j++) {
-                //console.log("ASSIGNING " + this.urls[i + j] + " to " + j);
-                this.workers[j].postMessage({"url": this.urls[i + j], "queue": true});
-                this.urlIndex++;
+                if(this.urlIndex < this.urls.length) {
+                    this.workers[j].postMessage({"url": this.urls[this.urlIndex], "queue": true});
+                    this.urlIndex++;
+                }
+                else {
+                    break;
+                }
             }
         }
         console.log("URL INDEX IS " + this.urlIndex);
