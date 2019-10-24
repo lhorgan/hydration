@@ -9,6 +9,7 @@ class Earl {
         this.binSize = binSize; 
         this.accessLogs = {};
         this.assignmentCounts = [];
+        this.urlsToWrite = [];
         this.go(ifname);
     }
 
@@ -54,14 +55,40 @@ class Earl {
         }
         else if(message["kind"] === "writeURL") {
             console.log(message.url + " --< " + message.origURL);
+            this.urlsToWrite.push(message);
+            if(this.urlsToWrite.length >= 50) {
+                this.writeURLs();
+            }
+
             if(this.urlIndex < this.urls.length) {
                 worker.postMessage({"url": this.urls[this.urlIndex], "queue": false});
                 this.urlIndex++;
             }
             else {
                 console.log("we are done");
+                this.writeURLs();
             }
         }
+    }
+
+    writeURLs() {
+        //console.log("Writing a batch of URLs");
+        let urlsCopy = JSON.parse(JSON.stringify(this.urlsToWrite)); // live with it
+        this.urlsToWrite.length = 0;
+        let urlStr = "";
+        for(let i = 0; i < urlsCopy.length; i++) {
+            urlStr += urlsCopy[i].url + "," + urlsCopy[i].origURL + "," + urlsCopy[i].urlWithParams + "," + urlsCopy[i].error;
+            if(urlsCopy[i].error) {
+                //console.log("There has been an error, we are writing "  + urlsCopy[i].errorMessage);
+                urlStr += "," + '"' + urlsCopy[i].errorMessage + '"';
+            }
+            urlStr += "\r\n";
+        }
+        fs.appendFile("results.csv", urlStr, (err) => {
+            if(err) {
+                throw(err);
+            }
+        });
     }
 
     async readURLs(ifname) {
@@ -75,8 +102,10 @@ class Earl {
         let p = new Promise((resolve, reject) => {
             readInterface.on('line', function(line) {
                 let url = line.trim();
-                ////console.log(url);
-                urls.push(url);
+                if(url[0] != "#") {
+                    ////console.log(url);
+                    urls.push(url);
+                }
             });
 
             readInterface.on('close', () => {

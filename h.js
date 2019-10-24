@@ -5,7 +5,7 @@ const URL = require('url');
 const difflib = require('difflib');
 
 const TIME_TO_WAIT = 1000000;
-const TIMEOUT = 300;
+const TIMEOUT = 10000;
 
 const { Worker, isMainThread, parentPort } = require('worker_threads');
 
@@ -31,7 +31,7 @@ class UrlProcessor {
 
     // url --> original url, new url
     async followRedirects(entry) {
-        //console.log("FOLLOWING REDIRECTS FOR " + entry.url);
+        //console.log("FOLLOWING REDIRECTS FOR " + entry.url + " orig url " + entry.origURL);
         let [resp, body] = await this.hitURL(entry.url, {
                                         method: "HEAD",
                                         followAllRedirects: false,
@@ -39,14 +39,23 @@ class UrlProcessor {
                                         timeout: TIMEOUT
                                     });
 
-
         let newURL = resp.headers.location;//resp.request.uri.href;
-        if(newURL === entry.url || newURL === undefined) {
-            return entry;
-        }
-        else {
+        if(resp.statusCode >= 300 && resp.statusCode < 400 && newURL) {
+            //console.log("HERE IS OUR NEW URL " + newURL);
+            let parsedNew = URL.parse(newURL);
+            if(!parsedNew.hostname && parsedNew.path) {
+                let path = parsedNew.path;
+                if(path[0] !== "/") {
+                    path = "/" + path;
+                }
+                let parsedOrig = URL.parse(resp.request.uri.href);
+                newURL = parsedOrig.protocol + "//" + parsedOrig.hostname + path;
+            }
             entry.url = newURL;
             return this.followRedirects(entry);
+        }
+        else { // hooray!
+            return entry;
         }
     }
 
@@ -77,7 +86,9 @@ class UrlProcessor {
 
     async process(entry) {
         try {
-            entry.origURL = entry.url;
+            if(!("origURL" in entry)) {
+                entry.origURL = entry.url;
+            }
 
             //console.log("Processing entry " + JSON.stringify(entry));
 
@@ -87,12 +98,14 @@ class UrlProcessor {
             entry = await this.followRedirects(entry).catch((err) => {
                 throw(err);
             });
+            entry.urlWithParams = entry.url;
 
-            //console.log("We have succesffully followed the redirects");
+            // //console.log("We have succesffully followed the redirects");
             
             /**
              * Read the contents of the page and parse the DOM with Cheerio
              */
+            //console.log("READING CONTENT FOR " + entry.url);
             entry["text"] = await this.getContent(entry.url).catch((err) => {
                 throw(err);
             });
@@ -100,6 +113,7 @@ class UrlProcessor {
             //console.log("We have successfully fetched the content");
 
             entry["tree"] = cheerio.load(entry["text"]);
+            //console.log("TITLE " + entry["tree"]("title"));
 
             /**
              * Try to read the canonical URL from the page
@@ -125,10 +139,18 @@ class UrlProcessor {
             }
 
             //console.log("This entry is complete " + entry.url + ", " + this.completedNum++);
-            this.postMessage({"kind": "writeURL", "url": entry.url, "origURL": entry.origURL, "error": false});
+            this.postMessage({"kind": "writeURL", 
+                              "url": entry.url, 
+                              "origURL": entry.origURL,
+                              "urlWithParams": entry.urlWithParams,
+                              "error": false});
         } catch(err) {
-            ////console.log(err);
+            //console.log(err);
+            if(typeof(err) === "object") {
+                err = err.toString();
+            }
             //console.log("Error on " + entry.url);
+            //console.log("\n");
             //console.log("\n\n" + err + "\n\n");
             if(!(entry.url in this.errors)) {
                 this.errors[entry.url] = 0;
@@ -137,8 +159,15 @@ class UrlProcessor {
 
             if(this.errors[entry.url] >= this.maxRetries) {
                 //console.log("Max retry limit for " + entry.url + " exceeded.");
+                //console.log("HERE IS THE ERROR WE ARE PASSING: " + err);
                 // TODO: post a complete message for this URL, with error
-                this.postMessage({"kind": "writeURL", "url": entry.url, "origURL": entry.origURL, "error": true});
+                //console.log("so, error did occur");
+                this.postMessage({"kind": "writeURL", 
+                                  "url": entry.url, 
+                                  "origURL": entry.origURL, 
+                                  "urlWithParams": entry.urlWithParams,
+                                  "error": true,
+                                  "errorMessage": err});
                 delete this.errors[entry.url];
             }
             else {
@@ -167,8 +196,9 @@ class UrlProcessor {
     }
 
     async stripParams(entry) {
-        ////console.log(entry.url);
-        ////console.log(entry.params);
+        //console.log("\n");
+        //console.log(JSON.stringify(entry.url));
+        //console.log(JSON.stringify(entry.params));
         if(Object.keys(entry.params).length === 0) {
             return entry;
         }
@@ -182,6 +212,7 @@ class UrlProcessor {
             newParams[paramName] = params[paramName];
         }
         let newURL = URL.format(parsedURL);
+        //console.log("Here is the new URL we are trying " + newURL);
         let newText = await this.getContent(newURL);
         
         let a = {"text": entry.text, "tree": entry.tree};
@@ -189,7 +220,7 @@ class UrlProcessor {
 
         // we removed one param - is the content the same?
         if(!this.isContentDifferent(a, b)) { // the content IS the same with the one removed param
-            ////console.log("REMOVING PARAM " + Object.keys(params)[0] + " did not result in a change");
+            //console.log("REMOVING PARAM " + Object.keys(params)[0] + " did not result in a change");
             // so we just drop that param
             entry["params"] = newParams;
             this.logUselessParam(Object.keys(params)[0], parsedURL.host);
@@ -198,7 +229,7 @@ class UrlProcessor {
             //console.log("REMOVING PARAM" + Object.keys(params)[0] + " CHANGED THE PAGE!!!");
             entry["params"] = newParams;
             parsedURL = URL.parse(entry.url, {parseQueryString: true});
-            let removedParamName = Object.keys()[0];
+            let removedParamName = Object.keys(params)[0];
             parsedURL.query[removedParamName] = params[removedParamName];
             entry["url"] = URL.format(parsedURL);
         }
@@ -244,22 +275,31 @@ class UrlProcessor {
             return new Promise((resolve, reject) => {
                 this.updateAccessLogs(url);
                 options["url"] = url;
-                options["headers"] = {"User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/73.0.3683.75 Safari/537.36"};
-                request(options, (err, resp, body) => {
+                options["headers"] = {"User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/73.0.3683.75 Safari/537.36",
+                                      'Connection': 'keep-alive', 'Accept-Encoding': 'gzip, deflate', 'Accept': '*/*'};
+                let r = request(options, (err, resp, body) => {
                     if(err) {
-                        reject(err);
+                        //console.log(typeof(err.toString()));
+                        //console.log(err.toString());
+                        reject(err.toString());
+                    }
+                    else if(resp.statusCode >= 400) {
+                        //console.log("WE HIT AN ERROR CODE");
+                        reject("Status code: " + resp.statusCode);
                     }
                     else {
                         //console.log("RESOLVING URL, yay!")
                         resolve([resp, body]);
                     }
                 });
+                //console.log("HERE ARE OUR HEADERS ");
+                //console.log(r.headers);
             });
         }
         else {
             //console.log("We must wait a bit because " + url + " has been accessed too recently.");
             let timeToDelay = Math.max(TIME_TO_WAIT - (micro.now() - timeOfLastAccess), 0);
-            //timeToDelay *= (1 + Math.random());
+            timeToDelay *= (1 + Math.random());
 
             //console.log("DELAYING " + timeToDelay / 1000 + " milliseconds");
             //await this.delay(timeToDelay / 1000);
@@ -282,6 +322,8 @@ class UrlProcessor {
 
         let s = new difflib.SequenceMatcher(null, a.text, b.text);
         let diff = s.quickRatio();
+
+        //console.log("A " + aTitle + " B " + bTitle);
 
         return ((diff < 0.98 && aTitle != bTitle) || diff < 0.05);
     }
