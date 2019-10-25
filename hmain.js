@@ -4,17 +4,20 @@ const os = require('os');
 const { Worker } = require('worker_threads');
 
 class Earl {
-    constructor(ifname, binSize) {
+    constructor(ifname, results_name, binSize) {
         this.urlIndex = 0;
         this.binSize = binSize; 
         this.accessLogs = {};
         this.assignmentCounts = [];
         this.urlsToWrite = [];
+        this.processedURLs = new Set([]);
+        this.results_name = results_name;
         this.go(ifname);
     }
 
     async go(ifname) {
         this.workers = this.makeWorkers();
+        await this.readProcessedURLs(this.results_name);
         this.urls = await this.readURLs(ifname);
         //console.log(this.urls);
         this.shuffle(this.urls);
@@ -84,7 +87,7 @@ class Earl {
             }
             urlStr += "\r\n";
         }
-        fs.appendFile("results.csv", urlStr, (err) => {
+        fs.appendFile(results_name, urlStr, (err) => {
             if(err) {
                 throw(err);
             }
@@ -98,13 +101,17 @@ class Earl {
         });
         
         let urls = [];
-    
+        
+        let duplicates = 0;
         let p = new Promise((resolve, reject) => {
-            readInterface.on('line', function(line) {
+            readInterface.on('line', (line) => {
                 let url = line.trim();
-                if(url[0] != "#") {
+                if(url[0] != "#" && !this.processedURLs.has(url)) {
                     ////console.log(url);
                     urls.push(url);
+                }
+                else if(this.processedURLs.has(url)) {
+                    duplicates++;
                 }
             });
 
@@ -118,7 +125,34 @@ class Earl {
             });
         });
         await p;
+        console.log("Found " + duplicates + " duplicate URLs");
+        this.processedURLs = null;
         return urls;
+    }
+
+    async readProcessedURLs(ifname) {
+        console.log("READING *OLD* URLs");
+        const readInterface = readline.createInterface({
+            input: fs.createReadStream(ifname),
+        });
+        
+        let p = new Promise((resolve, reject) => {
+            readInterface.on('line', (line) => {
+                let url = line.split(",")[1];
+                //console.log("READ URL " + url);
+                this.processedURLs.add(url);
+            });
+
+            readInterface.on('close', () => {
+                //console.log("done");
+                resolve();
+            });
+            
+            readInterface.on('error', (err) => {
+                reject(err);
+            });
+        });
+        await p;
     }
 
     initialAssignWorkers() {
@@ -151,4 +185,4 @@ class Earl {
     }
 }
 
-let e = new Earl("urls.tsv", 50);
+let e = new Earl("urls.tsv", "results.csv", 50);
