@@ -87,7 +87,7 @@ class Earl {
             }
             urlStr += "\r\n";
         }
-        fs.appendFile(results_name, urlStr, (err) => {
+        fs.appendFile(this.results_name, urlStr, (err) => {
             if(err) {
                 throw(err);
             }
