@@ -66,6 +66,6 @@ def repair(results_filename, input_filename):
     f.close()
 
     f = open("fixed.tsv", "w+")
-    for line in reader(new_results)
+    for line in reader(new_results):
         f.write("\t".join(line) + "\r\n")
     f.close()
