@@ -51,7 +51,7 @@ def repair(results_filename, input_filename):
         url = f.readline()
     f.close()
 
-    print("I found " + len(comma_urls) + " urls with commas.")
+    print("I found " + str(len(comma_urls)) + " urls with commas.")
 
     # Steps 2 and 3
     new_results = []
