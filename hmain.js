@@ -87,11 +87,15 @@ class Earl {
             }
             urlStr += "\r\n";
         }
-        fs.appendFile(this.results_name, urlStr, (err) => {
+        /*fs.appendFile(this.results_name, urlStr, (err) => {
             if(err) {
                 throw(err);
             }
-        });
+        });*/
+
+        var stream = fs.createWriteStream(this.results_name, {flags:'a'});
+        stream.write(urlStr);
+        stream.end();
     }
 
     async readURLs(ifname) {
