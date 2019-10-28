@@ -80,10 +80,10 @@ class Earl {
         this.urlsToWrite.length = 0;
         let urlStr = "";
         for(let i = 0; i < urlsCopy.length; i++) {
-            urlStr += urlsCopy[i].url + "," + urlsCopy[i].origURL + "," + urlsCopy[i].urlWithParams + "," + urlsCopy[i].error;
+            urlStr += urlsCopy[i].url + "\t" + urlsCopy[i].origURL + "\t" + urlsCopy[i].urlWithParams + "\t" + urlsCopy[i].error;
             if(urlsCopy[i].error) {
                 //console.log("There has been an error, we are writing "  + urlsCopy[i].errorMessage);
-                urlStr += "," + '"' + urlsCopy[i].errorMessage + '"';
+                urlStr += "\t" + '"' + urlsCopy[i].errorMessage + '"';
             }
             urlStr += "\r\n";
         }
@@ -142,7 +142,7 @@ class Earl {
         
         let p = new Promise((resolve, reject) => {
             readInterface.on('line', (line) => {
-                let url = line.split(",")[1];
+                let url = line.split("\t")[1];
                 //console.log("READ URL " + url);
                 this.processedURLs.add(url);
             });
@@ -189,4 +189,4 @@ class Earl {
     }
 }
 
-let e = new Earl("urls.tsv", "results.csv", 50);
+let e = new Earl("urls.tsv", "results.tsv", 50);
