@@ -62,7 +62,7 @@ def repair(results_filename, input_filename):
         if comma_url in comma_urls:
             print(comma_url + " is a comma URL")
         else:
-            new_results_file.append(line)
+            new_results.append(line)
     f.close()
 
     f = open("fixed.tsv", "w+")
