@@ -4,7 +4,7 @@ function runner() {
     var hydrater = child_process.spawn("node", ["hmain.js", "--max-old-space-size=12000"]);
 
     hydrater.stdout.on('data', function(data) {
-        console.log(data.toString()); 
+        console.log(data.toString().trim()); 
     });
 
     setTimeout(() => {
