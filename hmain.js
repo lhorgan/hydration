@@ -29,6 +29,8 @@ class Earl {
         let workers = [];
         //os.cpus().length
 
+        console.log("Utilizing " + os.cpus().length + " CPUs to make workers...");
+
         for(let i = 0; i < os.cpus().length; i++) {
             let worker = new Worker("./h.js", {});
             worker.on("message", (message) => {
