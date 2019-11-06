@@ -32,6 +32,13 @@ def split(filename, results_folder, file_num):
         f.close()
         i += 1
 
+def merge(results_file, input_file):
+    f = open(results_filename, "r")
+    line = f.readline();
+    
+    while line:
+        
+
 def repair(results_filename, input_filename):
     # Here's the program
     # 1: Find all the URLs in input that have a comma and split them at their first comma

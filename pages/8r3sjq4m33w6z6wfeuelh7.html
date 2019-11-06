@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html data-ng-app="MicrositeApp" ng-controller="MicrositeController as mainData"
+	  ng-class="{'widget-container': mainData.widgetIframe}">
+<head lang="en">
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title></title>
+	<link rel="shortcut icon" href="https://cdn.gainful.ly/public/images/monochrome-logo.png"/>
+	<meta property="og:title" content=""/>
+	<meta property="og:type" content=""/>
+	<meta property="og:image" content=""/>
+	<meta property="og:url" content=""/>
+	<meta property="og:description" content=""/>
+	<meta property="og:site_name" content="Gainfully"/>
+
+	<meta name="twitter:card" content="summary_large_image"/>
+	<meta name="twitter:site" content="@getgainfully"/>
+	<meta name="twitter:creator" content="@getgainfully"/>
+	<meta name="twitter:title" content=""/>
+	<meta name="twitter:description" content=""/>
+	<meta name="twitter:text:title" content=""/>
+	<meta name="twitter:text:description" content=""/>
+	<meta name="twitter:image:src" content=""/>
+	<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+<link href="https://cdn.gainful.ly/public/css/vendor.css?a0fed2abeb7599ba0507" rel="stylesheet"><link href="https://cdn.gainful.ly/public/css/microsite.css?a0fed2abeb7599ba0507" rel="stylesheet"></head>
+<body class="microsite-view hide-intercom" layout="row" ng-cloak>
+<base href="/">
+
+<md-sidenav class="md-sidenav-left md-whiteframe-z2 paddingleft8px paddingright8px"
+			md-component-id="Sidenav" id="InfiniteScrollHolder"
+			ng-if="mainData.components.sidenav.show()"
+			md-is-locked-open="$mdMedia('gt-sm')" ng-class="{'extended-sidenav': mainData.components.sidenav.extended}">
+	<md-content ng-controller="SidenavController as vm">
+
+		<div ng-if="vm.library_cards.length">
+			<md-list>
+				<md-list-item class="md-3-line" ng-repeat="card in vm.library_cards" ng-click="vm.loadCard(card.data)"
+							  ad-viewport-watch scroll-holder="InfiniteScrollHolder">
+					<div class="md-avatar" ng-style="card.getThumbnail('large') | setBackgroundImage:true"></div>
+					<div class="md-list-item-text" layout="row">
+						<div flex layout="column">
+							<h3 layout="column" layout-align="center">
+							<span>
+							{{ card.data.object.display_name }}
+							</span>
+							</h3>
+							<div class="border"></div>
+						</div>
+						<div class="ago">{{ ::card.ago | timeAgo:'mm/dd/yyyy' | adExtraAgo }}</div>
+					</div>
+				</md-list-item>
+			</md-list>
+		</div>
+
+		<p ng-if="vm.library_cards && vm.library_cards.length == 0">No recommended articles at this point.</p>
+
+		<ad-visible-handler ng-if="vm.permissions.loadMoreCards()" size="30" callback="vm.getLibraryCards()"
+							parent="InfiniteScrollHolder"
+							check-again-event="event-check-sidenav-cards"
+							message="Loading recommended articles"></ad-visible-handler>
+	</md-content>
+</md-sidenav>
+<div layout="column" role="main" flex>
+		<md-toolbar ng-if="mainData.components.toolbar.show()">
+			<div class="md-toolbar-tools">
+				<md-button ng-click="mainData.components.sidenav.toggle()"
+						   class="md-icon-button menu-icon menu-toggle-button" aria-label="Settings" hide-gt-sm>
+					<md-icon class="material-icons">menu</md-icon>
+				</md-button>
+				<h2 layout="row" hide-xs layout-align="center center">
+					<span class="text">{{ ::mainData.owner.display_name }}</span>
+				</h2>
+				<span flex></span>
+				<div class="microsite-share-holder">
+					<!-- SHARE SPEED DIAL -->
+					<md-fab-speed-dial md-open="mainData.components.navbarShare.opened"
+									   class="md-scale" md-direction="down">
+						<md-fab-trigger>
+							<md-button aria-label="menu" class="" hide-xs
+									   ng-click="mainData.components.toggleFab('navbarShare', true)">
+								<md-icon class="material-icons">share</md-icon>
+								Share
+							</md-button>
+							<md-button hide-gt-xs
+									   class="md-icon-button md-raised md-primary"
+									   aria-label="menu"
+									   ng-click="mainData.components.toggleFab('navbarShare', true)">
+								<md-icon class="material-icons">share</md-icon>
+							</md-button>
+						</md-fab-trigger>
+						<md-fab-actions>
+							<md-button class="twitter md-fab md-raised md-mini" aria-label="Share to Twitter"
+									   social-twitter status="Interesting">
+								<md-tooltip md-direction="left">Share to Twitter</md-tooltip>
+								<i class="mdi mdi-twitter"></i>
+							</md-button>
+							<md-button class="facebook md-fab md-raised md-mini" aria-label="Share to Facebook" social-facebook>
+								<md-tooltip md-direction="left">Share to Facebook</md-tooltip>
+								<i class="mdi mdi-facebook-box"></i>
+							</md-button>
+							<md-button class="linkedin md-fab md-raised md-mini" aria-label="Share to LinkedIn" social-linkedin="">
+								<md-tooltip md-direction="left">Share to LinkedIn</md-tooltip>
+								<i class="mdi mdi-linkedin-box"></i>
+							</md-button>
+							<md-button class="pinterest md-fab md-raised md-mini" aria-label="Share to Pinterst" social-pinterest="">
+								<md-tooltip md-direction="left">Share to Pinterest</md-tooltip>
+								<i class="mdi mdi-pinterest-box"></i>
+							</md-button>
+							<md-button class="google md-fab md-raised md-mini" aria-label="Share to Google+" social-gplus="">
+								<md-tooltip md-direction="left">Share to Google+</md-tooltip>
+								<i class="mdi mdi-google-plus"></i>
+							</md-button>
+						</md-fab-actions>
+					</md-fab-speed-dial>
+				</div>
+
+				<div class="microsite-contact-holder">
+					<!-- CONTACT SPEED DIAL -->
+					<md-fab-speed-dial ng-if="mainData.components.contactFab.show(true)"
+									   md-open="mainData.components.contactFab.opened" class="md-scale" md-direction="down">
+						<md-fab-trigger>
+							<md-button aria-label="menu" class="md-primary md-raised"
+									   ng-click="mainData.components.toggleFab('contactFab', true)">
+								Contact
+							</md-button>
+						</md-fab-trigger>
+						<md-fab-actions>
+							<md-button aria-label="Email" class="md-fab md-raised md-mini" ng-href="mailto:{{ mainData.owner.email }}">
+								<md-icon class="material-icons" aria-label="email {{ mainData.owner.display_name }}">message</md-icon>
+								<md-tooltip md-autohide="false" md-direction="left"
+											md-delay="500"
+											md-visible="mainData.components.tooltips.navbar_opened">Email {{ mainData.owner.display_name }}</md-tooltip>
+							</md-button>
+							<md-button aria-label="Phone" class="md-fab md-raised md-mini" ng-href="tel:{{ mainData.owner.phone }}"
+									   ng-if="mainData.owner.phone">
+								<md-icon class="material-icons" aria-label="call {{ mainData.owner.display_name }}">phone_iphone</md-icon>
+								<md-tooltip md-autohide="false" md-direction="left"
+											md-delay="500"
+											md-visible="mainData.components.tooltips.navbar_opened">Call {{ mainData.owner.display_name }}</md-tooltip>
+							</md-button>
+						</md-fab-actions>
+					</md-fab-speed-dial>
+				</div>
+			</div>
+		</md-toolbar>
+		<md-content class="main-content" md-scroll-y="" layout-padding="" layout="row">
+			<div ad-web-view-material-structure="70" layout-fill>
+				<ui-view layout="column" layout-fill>
+					<div layout="column" flex layout-align="center center" class="loading-screen">
+						<img src="https://cdn.gainful.ly/public/images/logo-bg-spinner.gif" width="80" alt="loader">
+						<div class="gn-font-size-larger margintop16px">{{$root.mainMessage}}</div>
+					</div>
+				</ui-view>
+				<!-- CONTACT FAB -->
+				<div class="fab-holder" ng-if="mainData.components.contactFab.show()" layout="column" layout-align="end">
+					<md-content class="card-md-content" layout="row" layout-align="end">
+						<md-fab-speed-dial md-open="mainData.components.contactFab.fabOpen" class="md-scale" md-direction="up"
+										   ng-class="{'over-others': mainData.components.contactFab.fabOpen}"
+										   ng-mouseenter="mainData.components.contactFab.fabOpen = true"
+										   ng-mouseleave="mainData.components.contactFab.fabOpen = false">
+							<md-fab-trigger>
+								<md-button aria-label="menu" class="md-fab md-raised"
+										   layout="column" layout-align="start">
+									<span ad-user-photo user="mainData.owner" class="logo80"></span>
+									<span ad-user-photo user="mainData.owner" class="logo50"></span>
+
+									<md-tooltip md-autohide="false" md-direction="left"
+												md-delay="500"
+												md-visible="mainData.components.tooltips.isOpen">
+										Thanks for stopping by!</md-tooltip>
+								</md-button>
+							</md-fab-trigger>
+							<md-fab-actions>
+								<md-button aria-label="Email" class="md-fab md-raised md-mini" ng-href="mailto:{{ mainData.owner.email }}">
+									<md-icon class="material-icons" aria-label="email {{ mainData.owner.display_name }}">message</md-icon>
+									<md-tooltip md-autohide="false" md-direction="left"
+												md-delay="500"
+												md-visible="mainData.components.tooltips.isOpen">Email {{ mainData.owner.display_name }}</md-tooltip>
+								</md-button>
+								<md-button aria-label="Phone" class="md-fab md-raised md-mini" ng-href="tel:{{ mainData.owner.phone }}"
+										   ng-if="mainData.owner.phone">
+									<md-icon class="material-icons" aria-label="call {{ mainData.owner.display_name }}">phone_iphone</md-icon>
+									<md-tooltip md-autohide="false" md-direction="left"
+												md-delay="500"
+												md-visible="mainData.components.tooltips.isOpen">Call {{ mainData.owner.display_name }}</md-tooltip>
+								</md-button>
+							</md-fab-actions>
+						</md-fab-speed-dial>
+					</md-content>
+				</div>
+			</div>
+		</md-content>
+	</div>
+<script src="https://cdn.gainful.ly/public/js/pdf-js-viewer/pdf.js"></script>
+<script src="https://cdn.gainful.ly/public/js/pdf-js-viewer/pdf.worker.js"></script>
+<script type="text/javascript" src="https://cdn.gainful.ly/public/js/vendor.bd64aded503b28c6290e.bundle.js?a0fed2abeb7599ba0507"></script><script type="text/javascript" src="https://cdn.gainful.ly/public/js/microsite.7cb5756f08c693cb6701.bundle.js?a0fed2abeb7599ba0507"></script></body>
+</html>

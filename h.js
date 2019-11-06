@@ -3,6 +3,7 @@ const request = require("request");
 const cheerio = require("cheerio");
 const URL = require('url');
 const difflib = require('difflib');
+const fs = require('fs');
 
 const TIME_TO_WAIT = 1000000;
 const TIMEOUT = 10000;
@@ -108,6 +109,15 @@ class UrlProcessor {
             //console.log("READING CONTENT FOR " + entry.url);
             entry["text"] = await this.getContent(entry.url).catch((err) => {
                 throw(err);
+            });
+
+            console.log("WRITNG A FILE");
+            fs.writeFile('pages/' + this.randomString() + ".html", entry["text"], (err) => {
+                //console.log(typeof(entry["text"]));
+                //console.log(entry["text"]);
+                if(err) {
+                    console.log(err);
+                }
             });
 
             //console.log("We have successfully fetched the content");
@@ -275,23 +285,32 @@ class UrlProcessor {
             return new Promise((resolve, reject) => {
                 this.updateAccessLogs(url);
                 options["url"] = url;
+                options["gzip"] = true;
                 options["headers"] = {"User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/73.0.3683.75 Safari/537.36",
-                                      'Connection': 'keep-alive', 'Accept-Encoding': 'gzip, deflate', 'Accept': '*/*'};
-                let r = request(options, (err, resp, body) => {
-                    if(err) {
-                        //console.log(typeof(err.toString()));
-                        //console.log(err.toString());
-                        reject(err.toString());
-                    }
-                    else if(resp.statusCode >= 400) {
-                        //console.log("WE HIT AN ERROR CODE");
-                        reject("Status code: " + resp.statusCode);
-                    }
-                    else {
-                        //console.log("RESOLVING URL, yay!")
-                        resolve([resp, body]);
-                    }
-                });
+                                      'Connection': 'keep-alive', /*'Accept-Encoding': 'gzip, deflate',*/ 'Accept': '*/*'};
+                try {
+                    let r = request(options, (err, resp, body) => {
+                        if(err) {
+                            //console.log(typeof(err.toString()));
+                            //console.log(err.toString());
+                            reject(err.toString());
+                        }
+                        else if(resp.statusCode >= 400) {
+                            //console.log("WE HIT AN ERROR CODE");
+                            reject("Status code: " + resp.statusCode);
+                        }
+                        else {
+                            //console.log("RESOLVING URL, yay!")
+                            //console.log(resp);
+                            //console.log(body.length);
+                            resolve([resp, body]);
+                        }
+                    });
+                }
+                catch(err) {
+                    console.log("REQUEST ERROR ON " + url);
+                    reject(err.toString());
+                }
                 //console.log("HERE ARE OUR HEADERS ");
                 //console.log(r.headers);
             });
@@ -311,7 +330,6 @@ class UrlProcessor {
     // url --> text of page at URL
     async getContent(url) {
         let [resp, body] = await this.hitURL(url, {timeout: TIMEOUT});
-
         return body;
     }
 

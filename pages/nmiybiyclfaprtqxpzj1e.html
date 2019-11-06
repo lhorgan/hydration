@@ -1,0 +1,379 @@
+
+<!DOCTYPE html>
+<!--[if lt IE 7 ]> <html lang="en" class="gw no-js ie lt-ie9 lt-ie8 lt-ie7 "> <![endif]-->
+<!--[if IE 7 ]> <html lang="en" class="gw no-js ie lt-ie9 lt-ie8 "> <![endif]-->
+<!--[if IE 8 ]> <html lang="en" class="gw no-js ie lt-ie9 "> <![endif]-->
+<!--[if IE 9 ]> <html lang="en" class="gw no-js ie lt-ie10 "> <![endif]-->
+<!--[if !(IE)]><!--> <html lang="en" class="gw test_running no-js "> <!--<![endif]-->
+<head>
+<meta charset="utf-8"/>
+<script>window.NREUM||(NREUM={});NREUM.info={"beacon":"bam.nr-data.net","errorBeacon":"bam.nr-data.net","licenseKey":"57a0e6af43","applicationID":"2175329","transactionName":"IQsNEkdeDV4HQUwRRw0WCgNGHhJaDUQ=","queueTime":0,"applicationTime":227,"agent":"","atts":"GUYWRA9KQ1ENXRcQXA4IBhR0UhVbDV1BWBERDAwRFx1DXg1UCgxgARYGA1sTWwNOEQIBUAcXEC5AQwVeBxFZQEALAw0TRW4OQD1fDAVaDEZPREVDCEQDUBohXAwXBghBdQhTDlwEMVsNEw1ED1cAXhFWT0BDEA0VB1ZIMV0OWgAbcA4NAA1QVSdADV4nC1IOCwRED1cAXhFWT0BBBxcME0dSBBBYETAWXBAdQUoXQwRBDUYRAVYrAEFcBAFXAlIEUVAGVUhBFVlEBhBYESYyckBIQQ9GYRRQDloAQAlSSEEWQFMNWwFSFwtcDEZZRHJDBFcMRAoQVkBIQRJaQQhREXIPDlwVAQdEDwBNEBZcEwtQES0NBVlEBVcGEVlTH0AUDBVcRQhdDBFZUB9AFBYEWVgSWjV3AhsRWFVPREZUAkYLXA1ACUAwDBYVYhVdEFoGERFORgYCXEUIXQxgFw1BGycME1tFQwhQC09ARw0UCgUEE1sQIV8GA11CNAwRUENBYg5SDUAfQAAKFUVdAEsyRgEOWgEFFw9aX0MIQHQRB1YMEwoUUBMcTw=="}</script>
+<script>(window.NREUM||(NREUM={})).loader_config={xpid:"VwQOV15QGwEBU1RRBQg=",licenseKey:"57a0e6af43",applicationID:"2175329"};window.NREUM||(NREUM={}),__nr_require=function(t,n,e){function r(e){if(!n[e]){var o=n[e]={exports:{}};t[e][0].call(o.exports,function(n){var o=t[e][1][n];return r(o||n)},o,o.exports)}return n[e].exports}if("function"==typeof __nr_require)return __nr_require;for(var o=0;o<e.length;o++)r(e[o]);return r}({1:[function(t,n,e){function r(t){try{s.console&&console.log(t)}catch(n){}}var o,i=t("ee"),a=t(15),s={};try{o=localStorage.getItem("__nr_flags").split(","),console&&"function"==typeof console.log&&(s.console=!0,o.indexOf("dev")!==-1&&(s.dev=!0),o.indexOf("nr_dev")!==-1&&(s.nrDev=!0))}catch(c){}s.nrDev&&i.on("internal-error",function(t){r(t.stack)}),s.dev&&i.on("fn-err",function(t,n,e){r(e.stack)}),s.dev&&(r("NR AGENT IN DEVELOPMENT MODE"),r("flags: "+a(s,function(t,n){return t}).join(", ")))},{}],2:[function(t,n,e){function r(t,n,e,r,s){try{p?p-=1:o(s||new UncaughtException(t,n,e),!0)}catch(u){try{i("ierr",[u,c.now(),!0])}catch(d){}}return"function"==typeof f&&f.apply(this,a(arguments))}function UncaughtException(t,n,e){this.message=t||"Uncaught error with no additional information",this.sourceURL=n,this.line=e}function o(t,n){var e=n?null:c.now();i("err",[t,e])}var i=t("handle"),a=t(16),s=t("ee"),c=t("loader"),u=t("gos"),f=window.onerror,d=!1,l="nr@seenError",p=0;c.features.err=!0,t(1),window.onerror=r;try{throw new Error}catch(h){"stack"in h&&(t(5),t(4),"addEventListener"in window&&t(3),c.xhrWrappable&&t(6),d=!0)}s.on("fn-start",function(t,n,e){d&&(p+=1)}),s.on("fn-err",function(t,n,e){d&&!e[l]&&(u(e,l,function(){return!0}),this.thrown=!0,o(e))}),s.on("fn-end",function(){d&&!this.thrown&&p>0&&(p-=1)}),s.on("internal-error",function(t){i("ierr",[t,c.now(),!0])})},{}],3:[function(t,n,e){function r(t){for(var n=t;n&&!n.hasOwnProperty(f);)n=Object.getPrototypeOf(n);n&&o(n)}function o(t){s.inPlace(t,[f,d],"-",i)}function i(t,n){return t[1]}var a=t("ee").get("events"),s=t(18)(a,!0),c=t("gos"),u=XMLHttpRequest,f="addEventListener",d="removeEventListener";n.exports=a,"getPrototypeOf"in Object?(r(document),r(window),r(u.prototype)):u.prototype.hasOwnProperty(f)&&(o(window),o(u.prototype)),a.on(f+"-start",function(t,n){var e=t[1],r=c(e,"nr@wrapped",function(){function t(){if("function"==typeof e.handleEvent)return e.handleEvent.apply(e,arguments)}var n={object:t,"function":e}[typeof e];return n?s(n,"fn-",null,n.name||"anonymous"):e});this.wrapped=t[1]=r}),a.on(d+"-start",function(t){t[1]=this.wrapped||t[1]})},{}],4:[function(t,n,e){var r=t("ee").get("raf"),o=t(18)(r),i="equestAnimationFrame";n.exports=r,o.inPlace(window,["r"+i,"mozR"+i,"webkitR"+i,"msR"+i],"raf-"),r.on("raf-start",function(t){t[0]=o(t[0],"fn-")})},{}],5:[function(t,n,e){function r(t,n,e){t[0]=a(t[0],"fn-",null,e)}function o(t,n,e){this.method=e,this.timerDuration=isNaN(t[1])?0:+t[1],t[0]=a(t[0],"fn-",this,e)}var i=t("ee").get("timer"),a=t(18)(i),s="setTimeout",c="setInterval",u="clearTimeout",f="-start",d="-";n.exports=i,a.inPlace(window,[s,"setImmediate"],s+d),a.inPlace(window,[c],c+d),a.inPlace(window,[u,"clearImmediate"],u+d),i.on(c+f,r),i.on(s+f,o)},{}],6:[function(t,n,e){function r(t,n){d.inPlace(n,["onreadystatechange"],"fn-",s)}function o(){var t=this,n=f.context(t);t.readyState>3&&!n.resolved&&(n.resolved=!0,f.emit("xhr-resolved",[],t)),d.inPlace(t,x,"fn-",s)}function i(t){g.push(t),h&&(b?b.then(a):v?v(a):(E=-E,R.data=E))}function a(){for(var t=0;t<g.length;t++)r([],g[t]);g.length&&(g=[])}function s(t,n){return n}function c(t,n){for(var e in t)n[e]=t[e];return n}t(3);var u=t("ee"),f=u.get("xhr"),d=t(18)(f),l=NREUM.o,p=l.XHR,h=l.MO,m=l.PR,v=l.SI,w="readystatechange",x=["onload","onerror","onabort","onloadstart","onloadend","onprogress","ontimeout"],g=[];n.exports=f;var y=window.XMLHttpRequest=function(t){var n=new p(t);try{f.emit("new-xhr",[n],n),n.addEventListener(w,o,!1)}catch(e){try{f.emit("internal-error",[e])}catch(r){}}return n};if(c(p,y),y.prototype=p.prototype,d.inPlace(y.prototype,["open","send"],"-xhr-",s),f.on("send-xhr-start",function(t,n){r(t,n),i(n)}),f.on("open-xhr-start",r),h){var b=m&&m.resolve();if(!v&&!m){var E=1,R=document.createTextNode(E);new h(a).observe(R,{characterData:!0})}}else u.on("fn-end",function(t){t[0]&&t[0].type===w||a()})},{}],7:[function(t,n,e){function r(){var t=window.NREUM,n=t.info.accountID||null,e=t.info.agentID||null,r=t.info.trustKey||null,i="btoa"in window&&"function"==typeof window.btoa;if(!n||!e||!i)return null;var a={v:[0,1],d:{ty:"Browser",ac:n,ap:e,id:o.generateCatId(),tr:o.generateCatId(),ti:Date.now()}};return r&&n!==r&&(a.d.tk=r),btoa(JSON.stringify(a))}var o=t(13);n.exports={generateTraceHeader:r}},{}],8:[function(t,n,e){function r(t){var n=this.params,e=this.metrics;if(!this.ended){this.ended=!0;for(var r=0;r<p;r++)t.removeEventListener(l[r],this.listener,!1);n.aborted||(e.duration=s.now()-this.startTime,this.loadCaptureCalled||4!==t.readyState?null==n.status&&(n.status=0):a(this,t),e.cbTime=this.cbTime,d.emit("xhr-done",[t],t),c("xhr",[n,e,this.startTime]))}}function o(t,n){var e=t.responseType;if("json"===e&&null!==n)return n;var r="arraybuffer"===e||"blob"===e||"json"===e?t.response:t.responseText;return v(r)}function i(t,n){var e=u(n),r=t.params;r.host=e.hostname+":"+e.port,r.pathname=e.pathname,t.sameOrigin=e.sameOrigin}function a(t,n){t.params.status=n.status;var e=o(n,t.lastSize);if(e&&(t.metrics.rxSize=e),t.sameOrigin){var r=n.getResponseHeader("X-NewRelic-App-Data");r&&(t.params.cat=r.split(", ").pop())}t.loadCaptureCalled=!0}var s=t("loader");if(s.xhrWrappable){var c=t("handle"),u=t(9),f=t(7).generateTraceHeader,d=t("ee"),l=["load","error","abort","timeout"],p=l.length,h=t("id"),m=t(12),v=t(11),w=window.XMLHttpRequest;s.features.xhr=!0,t(6),d.on("new-xhr",function(t){var n=this;n.totalCbs=0,n.called=0,n.cbTime=0,n.end=r,n.ended=!1,n.xhrGuids={},n.lastSize=null,n.loadCaptureCalled=!1,t.addEventListener("load",function(e){a(n,t)},!1),m&&(m>34||m<10)||window.opera||t.addEventListener("progress",function(t){n.lastSize=t.loaded},!1)}),d.on("open-xhr-start",function(t){this.params={method:t[0]},i(this,t[1]),this.metrics={}}),d.on("open-xhr-end",function(t,n){"loader_config"in NREUM&&"xpid"in NREUM.loader_config&&this.sameOrigin&&n.setRequestHeader("X-NewRelic-ID",NREUM.loader_config.xpid);var e=!1;if("init"in NREUM&&"distributed_tracing"in NREUM.init&&(e=!!NREUM.init.distributed_tracing.enabled),e&&this.sameOrigin){var r=f();r&&n.setRequestHeader("newrelic",r)}}),d.on("send-xhr-start",function(t,n){var e=this.metrics,r=t[0],o=this;if(e&&r){var i=v(r);i&&(e.txSize=i)}this.startTime=s.now(),this.listener=function(t){try{"abort"!==t.type||o.loadCaptureCalled||(o.params.aborted=!0),("load"!==t.type||o.called===o.totalCbs&&(o.onloadCalled||"function"!=typeof n.onload))&&o.end(n)}catch(e){try{d.emit("internal-error",[e])}catch(r){}}};for(var a=0;a<p;a++)n.addEventListener(l[a],this.listener,!1)}),d.on("xhr-cb-time",function(t,n,e){this.cbTime+=t,n?this.onloadCalled=!0:this.called+=1,this.called!==this.totalCbs||!this.onloadCalled&&"function"==typeof e.onload||this.end(e)}),d.on("xhr-load-added",function(t,n){var e=""+h(t)+!!n;this.xhrGuids&&!this.xhrGuids[e]&&(this.xhrGuids[e]=!0,this.totalCbs+=1)}),d.on("xhr-load-removed",function(t,n){var e=""+h(t)+!!n;this.xhrGuids&&this.xhrGuids[e]&&(delete this.xhrGuids[e],this.totalCbs-=1)}),d.on("addEventListener-end",function(t,n){n instanceof w&&"load"===t[0]&&d.emit("xhr-load-added",[t[1],t[2]],n)}),d.on("removeEventListener-end",function(t,n){n instanceof w&&"load"===t[0]&&d.emit("xhr-load-removed",[t[1],t[2]],n)}),d.on("fn-start",function(t,n,e){n instanceof w&&("onload"===e&&(this.onload=!0),("load"===(t[0]&&t[0].type)||this.onload)&&(this.xhrCbStart=s.now()))}),d.on("fn-end",function(t,n){this.xhrCbStart&&d.emit("xhr-cb-time",[s.now()-this.xhrCbStart,this.onload,n],n)})}},{}],9:[function(t,n,e){n.exports=function(t){var n=document.createElement("a"),e=window.location,r={};n.href=t,r.port=n.port;var o=n.href.split("://");!r.port&&o[1]&&(r.port=o[1].split("/")[0].split("@").pop().split(":")[1]),r.port&&"0"!==r.port||(r.port="https"===o[0]?"443":"80"),r.hostname=n.hostname||e.hostname,r.pathname=n.pathname,r.protocol=o[0],"/"!==r.pathname.charAt(0)&&(r.pathname="/"+r.pathname);var i=!n.protocol||":"===n.protocol||n.protocol===e.protocol,a=n.hostname===document.domain&&n.port===e.port;return r.sameOrigin=i&&(!n.hostname||a),r}},{}],10:[function(t,n,e){function r(){}function o(t,n,e){return function(){return i(t,[u.now()].concat(s(arguments)),n?null:this,e),n?void 0:this}}var i=t("handle"),a=t(15),s=t(16),c=t("ee").get("tracer"),u=t("loader"),f=NREUM;"undefined"==typeof window.newrelic&&(newrelic=f);var d=["setPageViewName","setCustomAttribute","setErrorHandler","finished","addToTrace","inlineHit","addRelease"],l="api-",p=l+"ixn-";a(d,function(t,n){f[n]=o(l+n,!0,"api")}),f.addPageAction=o(l+"addPageAction",!0),f.setCurrentRouteName=o(l+"routeName",!0),n.exports=newrelic,f.interaction=function(){return(new r).get()};var h=r.prototype={createTracer:function(t,n){var e={},r=this,o="function"==typeof n;return i(p+"tracer",[u.now(),t,e],r),function(){if(c.emit((o?"":"no-")+"fn-start",[u.now(),r,o],e),o)try{return n.apply(this,arguments)}catch(t){throw c.emit("fn-err",[arguments,this,t],e),t}finally{c.emit("fn-end",[u.now()],e)}}}};a("actionText,setName,setAttribute,save,ignore,onEnd,getContext,end,get".split(","),function(t,n){h[n]=o(p+n)}),newrelic.noticeError=function(t,n){"string"==typeof t&&(t=new Error(t)),i("err",[t,u.now(),!1,n])}},{}],11:[function(t,n,e){n.exports=function(t){if("string"==typeof t&&t.length)return t.length;if("object"==typeof t){if("undefined"!=typeof ArrayBuffer&&t instanceof ArrayBuffer&&t.byteLength)return t.byteLength;if("undefined"!=typeof Blob&&t instanceof Blob&&t.size)return t.size;if(!("undefined"!=typeof FormData&&t instanceof FormData))try{return JSON.stringify(t).length}catch(n){return}}}},{}],12:[function(t,n,e){var r=0,o=navigator.userAgent.match(/Firefox[\/\s](\d+\.\d+)/);o&&(r=+o[1]),n.exports=r},{}],13:[function(t,n,e){function r(){function t(){return n?15&n[e++]:16*Math.random()|0}var n=null,e=0,r=window.crypto||window.msCrypto;r&&r.getRandomValues&&(n=r.getRandomValues(new Uint8Array(31)));for(var o,i="xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx",a="",s=0;s<i.length;s++)o=i[s],"x"===o?a+=t().toString(16):"y"===o?(o=3&t()|8,a+=o.toString(16)):a+=o;return a}function o(){function t(){return n?15&n[e++]:16*Math.random()|0}var n=null,e=0,r=window.crypto||window.msCrypto;r&&r.getRandomValues&&Uint8Array&&(n=r.getRandomValues(new Uint8Array(31)));for(var o=[],i=0;i<16;i++)o.push(t().toString(16));return o.join("")}n.exports={generateUuid:r,generateCatId:o}},{}],14:[function(t,n,e){function r(t,n){if(!o)return!1;if(t!==o)return!1;if(!n)return!0;if(!i)return!1;for(var e=i.split("."),r=n.split("."),a=0;a<r.length;a++)if(r[a]!==e[a])return!1;return!0}var o=null,i=null,a=/Version\/(\S+)\s+Safari/;if(navigator.userAgent){var s=navigator.userAgent,c=s.match(a);c&&s.indexOf("Chrome")===-1&&s.indexOf("Chromium")===-1&&(o="Safari",i=c[1])}n.exports={agent:o,version:i,match:r}},{}],15:[function(t,n,e){function r(t,n){var e=[],r="",i=0;for(r in t)o.call(t,r)&&(e[i]=n(r,t[r]),i+=1);return e}var o=Object.prototype.hasOwnProperty;n.exports=r},{}],16:[function(t,n,e){function r(t,n,e){n||(n=0),"undefined"==typeof e&&(e=t?t.length:0);for(var r=-1,o=e-n||0,i=Array(o<0?0:o);++r<o;)i[r]=t[n+r];return i}n.exports=r},{}],17:[function(t,n,e){n.exports={exists:"undefined"!=typeof window.performance&&window.performance.timing&&"undefined"!=typeof window.performance.timing.navigationStart}},{}],18:[function(t,n,e){function r(t){return!(t&&t instanceof Function&&t.apply&&!t[a])}var o=t("ee"),i=t(16),a="nr@original",s=Object.prototype.hasOwnProperty,c=!1;n.exports=function(t,n){function e(t,n,e,o){function nrWrapper(){var r,a,s,c;try{a=this,r=i(arguments),s="function"==typeof e?e(r,a):e||{}}catch(u){l([u,"",[r,a,o],s])}f(n+"start",[r,a,o],s);try{return c=t.apply(a,r)}catch(d){throw f(n+"err",[r,a,d],s),d}finally{f(n+"end",[r,a,c],s)}}return r(t)?t:(n||(n=""),nrWrapper[a]=t,d(t,nrWrapper),nrWrapper)}function u(t,n,o,i){o||(o="");var a,s,c,u="-"===o.charAt(0);for(c=0;c<n.length;c++)s=n[c],a=t[s],r(a)||(t[s]=e(a,u?s+o:o,i,s))}function f(e,r,o){if(!c||n){var i=c;c=!0;try{t.emit(e,r,o,n)}catch(a){l([a,e,r,o])}c=i}}function d(t,n){if(Object.defineProperty&&Object.keys)try{var e=Object.keys(t);return e.forEach(function(e){Object.defineProperty(n,e,{get:function(){return t[e]},set:function(n){return t[e]=n,n}})}),n}catch(r){l([r])}for(var o in t)s.call(t,o)&&(n[o]=t[o]);return n}function l(n){try{t.emit("internal-error",n)}catch(e){}}return t||(t=o),e.inPlace=u,e.flag=a,e}},{}],ee:[function(t,n,e){function r(){}function o(t){function n(t){return t&&t instanceof r?t:t?c(t,s,i):i()}function e(e,r,o,i){if(!l.aborted||i){t&&t(e,r,o);for(var a=n(o),s=m(e),c=s.length,u=0;u<c;u++)s[u].apply(a,r);var d=f[g[e]];return d&&d.push([y,e,r,a]),a}}function p(t,n){x[t]=m(t).concat(n)}function h(t,n){var e=x[t];if(e)for(var r=0;r<e.length;r++)e[r]===n&&e.splice(r,1)}function m(t){return x[t]||[]}function v(t){return d[t]=d[t]||o(e)}function w(t,n){u(t,function(t,e){n=n||"feature",g[e]=n,n in f||(f[n]=[])})}var x={},g={},y={on:p,addEventListener:p,removeEventListener:h,emit:e,get:v,listeners:m,context:n,buffer:w,abort:a,aborted:!1};return y}function i(){return new r}function a(){(f.api||f.feature)&&(l.aborted=!0,f=l.backlog={})}var s="nr@context",c=t("gos"),u=t(15),f={},d={},l=n.exports=o();l.backlog=f},{}],gos:[function(t,n,e){function r(t,n,e){if(o.call(t,n))return t[n];var r=e();if(Object.defineProperty&&Object.keys)try{return Object.defineProperty(t,n,{value:r,writable:!0,enumerable:!1}),r}catch(i){}return t[n]=r,r}var o=Object.prototype.hasOwnProperty;n.exports=r},{}],handle:[function(t,n,e){function r(t,n,e,r){o.buffer([t],r),o.emit(t,n,e)}var o=t("ee").get("handle");n.exports=r,r.ee=o},{}],id:[function(t,n,e){function r(t){var n=typeof t;return!t||"object"!==n&&"function"!==n?-1:t===window?0:a(t,i,function(){return o++})}var o=1,i="nr@id",a=t("gos");n.exports=r},{}],loader:[function(t,n,e){function r(){if(!E++){var t=b.info=NREUM.info,n=p.getElementsByTagName("script")[0];if(setTimeout(f.abort,3e4),!(t&&t.licenseKey&&t.applicationID&&n))return f.abort();u(g,function(n,e){t[n]||(t[n]=e)}),c("mark",["onload",a()+b.offset],null,"api");var e=p.createElement("script");e.src="https://"+t.agent,n.parentNode.insertBefore(e,n)}}function o(){"complete"===p.readyState&&i()}function i(){c("mark",["domContent",a()+b.offset],null,"api")}function a(){return R.exists&&performance.now?Math.round(performance.now()):(s=Math.max((new Date).getTime(),s))-b.offset}var s=(new Date).getTime(),c=t("handle"),u=t(15),f=t("ee"),d=t(14),l=window,p=l.document,h="addEventListener",m="attachEvent",v=l.XMLHttpRequest,w=v&&v.prototype;NREUM.o={ST:setTimeout,SI:l.setImmediate,CT:clearTimeout,XHR:v,REQ:l.Request,EV:l.Event,PR:l.Promise,MO:l.MutationObserver};var x=""+location,g={beacon:"bam.nr-data.net",errorBeacon:"bam.nr-data.net",agent:"js-agent.newrelic.com/nr-1130.min.js"},y=v&&w&&w[h]&&!/CriOS/.test(navigator.userAgent),b=n.exports={offset:s,now:a,origin:x,features:{},xhrWrappable:y,userAgent:d};t(10),p[h]?(p[h]("DOMContentLoaded",i,!1),l[h]("load",r,!1)):(p[m]("onreadystatechange",o),l[m]("onload",r)),c("mark",["firstbyte",s],null,"api");var E=0,R=t(17)},{}]},{},["loader",2,8]);</script>
+<title>EPA: Pruitt played role in climate webpages&#39; disappearance -- Monday, January 29, 2018 -- www.eenews.net
+E&amp;E News -- Start a free trial</title>
+
+<meta name="csrf-param" content="authenticity_token" />
+<meta name="csrf-token" content="bqnRUGwe/t1YGy0VpOSd5JEkdotdxDvcDy33DAGQoQP/eKahannHFfV8Co6JjsXQvV/YX0JEHU02umj+75Jiqw==" />
+<meta name="HandheldFriendly" content="True"/>
+<meta name="MobileOptimized" content="320"/>
+<meta name="viewport" content="width=device-width"/>
+<meta name="description" content="A slew of emails obtained by the Environmental Defense Fund outline U.S. EPA Administrator Scott Pruitt&#39;s hand in removing climate information from the agency&#39;s website."/>
+<meta name="keywords" content="EPA"/>
+
+<!-- favicon_2017 -->
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png?v=alj9Bpy3y9">
+<link rel="icon" type="image/png" href="/favicon-32x32.png?v=alj9Bpy3y9" sizes="32x32">
+<link rel="icon" type="image/png" href="/android-chrome-192x192.png?v=alj9Bpy3y9" sizes="192x192">
+<link rel="icon" type="image/png" href="/favicon-16x16.png?v=alj9Bpy3y9" sizes="16x16">
+<link rel="manifest" href="/manifest.json?v=alj9Bpy3y9">
+<link rel="mask-icon" href="/safari-pinned-tab.svg?v=alj9Bpy3y9" color="#003366">
+<link rel="shortcut icon" href="/favicon.ico?v=alj9Bpy3y9">
+<meta name="apple-mobile-web-app-title" content="E&amp;E News">
+<meta name="application-name" content="E&amp;E News">
+<meta name="msapplication-TileColor" content="#003366">
+<meta name="msapplication-TileImage" content="/mstile-144x144.png?v=alj9Bpy3y9">
+<meta name="theme-color" content="#003366">
+<!--end favicon_2017 -->
+
+  <meta property="og:title" content="EPA: Pruitt played role in climate webpages&#39; disappearance" />
+  <meta property="og:description" content="A slew of emails obtained by the Environmental Defense Fund outline U.S. EPA Administrator Scott Pruitt&#39;s hand in removing climate information from the agency&#39;s website." />
+  <meta property="og:url" content="https://www.eenews.net/stories/1060072257" />
+  <meta property="fb:app_id" content="1670327216365411" />
+  <meta property="og:image" content="https://www.eenews.net/image_assets/2018/01/image_asset_28023.jpg?1517253424" />
+  <meta name="twitter:image" content="https://www.eenews.net/image_assets/2018/01/image_asset_28023.jpg?1517253424" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:site" content="@EENewsUpdates" />
+    <meta name="twitter:image:alt" content="EPA Administrator Scott Pruitt. Photo credit: @EPAScottPruitt/Twitter" />
+    <meta itemprop="author" content="Arianna Skibell">
+
+
+<link rel="stylesheet" media="all" href="/packs/css/application-a2e121a7.css" />
+
+
+
+
+
+<!--[if lt IE 9 ]>
+<script src="/application_assets/jquery1.8.3-a5a3d22752c67fa45d17b63100fb3411c9498812430af9efe66aaa714cda8853.js"></script>
+<!--<![endif]-->
+<script src="/application_assets/application-be8e32f8da72d7f2444605e1e706086b0111f58b8b4009ec3716fe862127a498.js"></script>
+<script src="/packs/js/site-3ea29507b37d31bf8f92.js"></script>
+
+
+<link rel="alternate" type="application/rss+xml" title="Greenwire" href="https://www.eenews.net/gw/rss.xml" />
+<script type='text/javascript'>
+var googletag = googletag || {};
+googletag.cmd = googletag.cmd || [];
+(function() {
+  var gads = document.createElement('script');
+  gads.async = true;
+  gads.type = 'text/javascript';
+  var useSSL = 'https:' == document.location.protocol;
+  gads.src = (useSSL ? 'https:' : 'http:') +
+    '//www.googletagservices.com/tag/js/gpt.js';
+  var node = document.getElementsByTagName('script')[0];
+  node.parentNode.insertBefore(gads, node);
+})();
+new EENews.dfpPlacement({
+  unit: 'leaderboard',
+  code: 'gw-ldrbrd-hdr',
+  id: 'hdr_leaderboardStory_1060072257',
+  obj: 'Story',
+  })
+
+googletag.cmd.push(function() {
+  googletag.pubads().enableSingleRequest();
+  googletag.disablePublisherConsole();
+  googletag.pubads().setTargeting('tags', ["clean power plan", "national"]);
+googletag.pubads().setTargeting('section', 'Top Stories');
+googletag.pubads().setTargeting('topics', ["Clean Power Plan"]);
+  googletag.enableServices();
+});
+</script>
+</head>
+
+
+<body class="">
+
+<header role="banner" class="banner">
+
+<section class="ad leaderboard" style="display:none">
+  <p class="label">Advertisement</p>
+  <div class="ad_container" id="hdr_leaderboardStory_1060072257">
+      <script type='text/javascript'>
+        googletag.cmd.push(function() { googletag.display('hdr_leaderboardStory_1060072257')})
+      </script>
+</div></section>
+
+<nav class="main">
+<ul class="secondary_nav">
+<li><a href="/">E&amp;E Home</a></li><li><a href="/eep/learn_more/">About</a></li><li><a href="/eep/learn_more/staff_directory">Contact</a></li><li>	<a class="highlight" href="/trial?t=https%3A%2F%2Fwww.eenews.net%2Fgreenwire%2F2018%2F01%2F29%2Fstories%2F1060072257">Start a Trial</a></li><li><a class="highlight" href="/subscribe">Subscribe</a></li>
+</ul>
+<ul>
+<li class="tab ew"><a href="/ew">Energywire</a></li><li class="tab cw"><a href="/cw">Climatewire</a></li><li class="tab eed"><a href="/eed">E&E&nbsp;Daily</a></li><li class="tab current gw"><a href="/gw">Greenwire</a></li><li class="tab pm"><a href="/pm">E&E&nbsp;News&nbsp;PM</a></li>
+</ul>
+<ul>
+<li class="tab special_reports"><a href="/special_reports">Reports</a></li>
+</ul>
+</nav>
+<section class="mast">
+  <h1><a href="/gw"><span class="gw_header sprite " title="Greenwire"><span>Greenwire</span></span></a></h1>
+  <h2 class="tagline">The Leader in Energy and Environment News</h2>
+</section>
+</header>
+<section class="publication site_container" data-email-modal="{&quot;label&quot;:&quot;story&quot;,&quot;url&quot;:&quot;/greenwire/stories/1060072257/email_send&quot;}" id="publication_2">
+<header class="promo">
+
+<nav class="edition">
+  <ul>
+  <li class="tab "><a href="/gw/2019/11/06">Wed., Nov. 6</a></li><li class="tab "><a href="/gw/2019/11/05">Tue., Nov. 5</a></li><li class="tab "><a href="/gw/2019/11/04">Mon., Nov. 4</a></li><li class="tab "><a href="/gw/2019/11/01">Fri., Nov. 1</a></li><li class="tab current"><a href="/gw/archive">Edition Archive</a></li>
+  </ul>
+  <form action="/search/stories"  method="get">
+  <label for="keyword"><a title="Search Stories and Videos" href="/search">Search:</a></label>
+  <input type="search" name="keyword" id="keyword" class="search" onFocus="this.select()" placeholder="enter keyword" />
+  <input type="submit" name="commit" value="go!" data-disable-with="go!" />
+  </form>
+</nav>
+<nav class="breadcrumbs">      <a href="/gw/2018/01/29">Back to table of contents.</a>
+
+</nav>
+</header>
+
+
+
+
+
+
+
+  <article class="story full span18 offset3 margin_collapse" id="story_1060072257">
+  <header class="headline_block">
+    <h2 class="slug">EPA</h2>
+
+    <h1 class="headline ">Pruitt played role in climate webpages' disappearance</h1>
+
+  <section class="byline">
+    <p class="authors">Arianna Skibell, E&E News reporter</p>
+    <time datetime="2018-01-29 13:09:20 -0500">Published: Monday, January 29, 2018</time>
+  </section>
+
+  
+</header>
+  <section class="login">
+    <section class="excerpt">
+       <p>A slew of emails obtained by the Environmental Defense Fund outline U.S. EPA Administrator Scott Pruitt's hand in removing climate information from the agency's website.</p>
+    </section>
+</section></article>
+<div class="embedded_form">
+  
+<div class="show_if_no_cookies">
+  <div class="site_access_container span20 offset2 no_gutter margin_collapse">
+  <div class="site_access_content span9 offset1 no_gutter">
+    <h2 class="top_1 bottom_1_half"><strong>Cookies must be enabled in order to access E&amp;E News.</strong></h2>
+    <h2 class="bottom_1_half">Please adjust your browser settings to allow cookies from www.eenews.net and refresh this page.</h2>
+    <h2>Need Assistance? Call: 202-628-6500 or email us at <a href='mailto:pubs@eenews.net?subject=Assistance with cookies'>pubs@eenews.net</a></h2>
+  </div>
+  <div class="span7 offset2 no_gutter">
+  <div class="trial_img_iphone">
+    <div class="clock">
+       2:06 PM
+    </div>
+    <div class="iphone_content design_a">
+        <div class="homepage spotlight">
+            <section class="layout_module_content" id="layout_module_content_101327">
+              <article class="story " id="story_1061472111">
+
+    
+
+    <a href="/eedaily/stories/1061472111">
+      <aside class="image_asset_layout" id="image_asset_layout_64719">
+        <div class="crop">
+          <img alt="Katharine MacGregor. Photo credit: Francis Chung/E&amp;E News" src="https://www.eenews.net/image_assets/2019/11/image_asset_66345.jpg" />
+        </div>
+        <p class="caption"><span class="credit">Francis Chung/E&E News</span></p>
+</aside></a>
+  <div class="text_container">
+    <a href="/eedaily/stories/1061472111">
+      <h2 class="slug">INTERIOR</h2>
+      <h1 class="headline">Deputy secretary nominee deflects Democrats' swipes </h1>
+</a>
+      <section class="excerpt"><p>Katharine MacGregor skated through her confirmation hearing yesterday for the position of Interior deputy secretary, scoring the early public support of at least one senior Democrat.</p></section>
+
+    <section class="homepage byline">
+      <p>
+        <span class="authors">By <a href="/staff/Michael_Doyle">Michael Doyle</a> in <a href="eed" class="publication eed">E&E Daily</a></span>
+        <time datetime="2019-11-06 07:12:57 -0500">7:12 AM EST</time>
+</p>    </section>
+  </div>
+</article>
+</section>        </div>
+        <div class="homepage featured">
+            <section class="layout_module_content" id="layout_module_content_101331">
+              <article class="story " id="story_1061473457">
+
+    
+
+    <a href="/stories/1061473457">
+      <aside class="image_asset_layout" id="image_asset_layout_64711">
+        <div class="crop">
+          <img alt="Rick Perry and Gordon Sondland. Photo credit: @SecretaryPerry/Twitter" src="https://www.eenews.net/image_assets/2019/11/image_asset_66397.jpg" />
+        </div>
+        <p class="caption"><span class="credit">@SecretaryPerry/Twitter</span></p>
+</aside></a>
+  <div class="text_container">
+    <a href="/stories/1061473457">
+      <h2 class="slug">IMPEACHMENT INQUIRY</h2>
+      <h1 class="headline">Documents reveal Perry's role in Trump's Ukraine strategy </h1>
+</a>
+      <section class="excerpt"><p>DOE chief Rick Perry played a lead role in efforts to operate outside normal diplomatic channels to coordinate White House policy on Ukraine, House impeachment inquiry documents reveal.</p></section>
+
+    <section class="homepage byline">
+      <p>
+        <span class="authors">By <a href="/staff/George_Cahlink">George Cahlink</a> and <a href="/staff/Lesley_Clark">Lesley Clark</a> in <a href="ew" class="publication ew">Energywire</a></span>
+        <time datetime="2019-11-06 07:19:52 -0500">7:19 AM EST</time>
+</p>    </section>
+  </div>
+</article>
+</section>        </div>
+    </div>
+  </div>
+</div>
+
+</div>
+
+</div>
+
+<div class="hide_if_no_cookies">
+
+    
+
+
+    <div class="site_access_container span20 offset2 no_gutter margin_collapse">
+    <div class="site_access_content span9 offset1 no_gutter">
+      <h2>Want access to the top energy and environment news?</h2>
+      <h2 class="bottom_1_half"><strong>Sign up for a free trial!</strong></h2>
+
+        <h3 class="bottom_half_em">Enter your email to register or log in.</h3>
+
+
+        <div class="trial_form bottom_half_em">
+          <form action="/registered_users" accept-charset="UTF-8" method="post"><input name="utf8" type="hidden" value="&#x2713;" /><input type="hidden" name="authenticity_token" value="SBfR66s2CZNHEIZtEDwcAWjj4/NEZC/nNfHIN87NKMX4wBFD3EqybjORtE9H4hH/kWzJDDY8ZCGV2NkDSHE+ug==" />
+          <input type="text" name="email" id="email" autofocus="autofocus" placeholder="enter email address" class="trial_form_field" autocomplete="work email" />
+          <input type="hidden" name="r" id="r" value="https://www.eenews.net/greenwire/2018/01/29/stories/1060072257" />
+          <input type="hidden" name="t" id="t" value="https://www.eenews.net/greenwire/2018/01/29/stories/1060072257" />
+          <input type="submit" name="commit" value="Next" class="access_button" data-disable-with="Next" />
+</form>        </div>
+
+        <p class="disclaimer">
+  By signing up, you agree to receive E&amp;E News email updates and offers. You also grant your consent to our data collection practices. We encourage you to review our <a target="_blank" href="/eep/learn_more/privacy_policy">Privacy and Data Practices Policy</a>.
+</p>
+
+
+
+        <p class="footnote">Already a subscriber? <a href="https://www.eenews.net/greenwire/2018/01/29/stories/1060072257?show_login=1&amp;t=https%3A%2F%2Fwww.eenews.net%2Fgreenwire%2F2018%2F01%2F29%2Fstories%2F1060072257">Log in</a>
+</p>
+      </div>
+      <div class="span7 offset2 no_gutter">
+  <div class="trial_img_iphone">
+    <div class="clock">
+       2:06 PM
+    </div>
+    <div class="iphone_content design_a">
+        <div class="homepage spotlight">
+            <section class="layout_module_content" id="layout_module_content_101327">
+              <article class="story " id="story_1061472111">
+
+    
+
+    <a href="/eedaily/stories/1061472111">
+      <aside class="image_asset_layout" id="image_asset_layout_64719">
+        <div class="crop">
+          <img alt="Katharine MacGregor. Photo credit: Francis Chung/E&amp;E News" src="https://www.eenews.net/image_assets/2019/11/image_asset_66345.jpg" />
+        </div>
+        <p class="caption"><span class="credit">Francis Chung/E&E News</span></p>
+</aside></a>
+  <div class="text_container">
+    <a href="/eedaily/stories/1061472111">
+      <h2 class="slug">INTERIOR</h2>
+      <h1 class="headline">Deputy secretary nominee deflects Democrats' swipes </h1>
+</a>
+      <section class="excerpt"><p>Katharine MacGregor skated through her confirmation hearing yesterday for the position of Interior deputy secretary, scoring the early public support of at least one senior Democrat.</p></section>
+
+    <section class="homepage byline">
+      <p>
+        <span class="authors">By <a href="/staff/Michael_Doyle">Michael Doyle</a> in <a href="eed" class="publication eed">E&E Daily</a></span>
+        <time datetime="2019-11-06 07:12:57 -0500">7:12 AM EST</time>
+</p>    </section>
+  </div>
+</article>
+</section>        </div>
+        <div class="homepage featured">
+            <section class="layout_module_content" id="layout_module_content_101331">
+              <article class="story " id="story_1061473457">
+
+    
+
+    <a href="/stories/1061473457">
+      <aside class="image_asset_layout" id="image_asset_layout_64711">
+        <div class="crop">
+          <img alt="Rick Perry and Gordon Sondland. Photo credit: @SecretaryPerry/Twitter" src="https://www.eenews.net/image_assets/2019/11/image_asset_66397.jpg" />
+        </div>
+        <p class="caption"><span class="credit">@SecretaryPerry/Twitter</span></p>
+</aside></a>
+  <div class="text_container">
+    <a href="/stories/1061473457">
+      <h2 class="slug">IMPEACHMENT INQUIRY</h2>
+      <h1 class="headline">Documents reveal Perry's role in Trump's Ukraine strategy </h1>
+</a>
+      <section class="excerpt"><p>DOE chief Rick Perry played a lead role in efforts to operate outside normal diplomatic channels to coordinate White House policy on Ukraine, House impeachment inquiry documents reveal.</p></section>
+
+    <section class="homepage byline">
+      <p>
+        <span class="authors">By <a href="/staff/George_Cahlink">George Cahlink</a> and <a href="/staff/Lesley_Clark">Lesley Clark</a> in <a href="ew" class="publication ew">Energywire</a></span>
+        <time datetime="2019-11-06 07:19:52 -0500">7:19 AM EST</time>
+</p>    </section>
+  </div>
+</article>
+</section>        </div>
+    </div>
+  </div>
+</div>
+
+    </div>
+
+</div>
+
+</div>
+
+
+
+
+
+</section><footer>
+<nav>
+<ul class="secondary_nav">
+<li><a href="/">E&amp;E&nbsp;Home</a></li><li><a href="/eep/learn_more">About</a></li><li><a href="/get_access?site_link=1">Get Access</a></li><li> <a href="/trial?t=https%3A%2F%2Fwww.eenews.net%2Fgreenwire%2F2018%2F01%2F29%2Fstories%2F1060072257">Start&nbsp;a&nbsp;Trial</a></li><li><a href="/email_alerts/">Get Email Alerts</a></li><li><a href="/eep/advertise">Advertise</a></li><li><a href="/eep/learn_more/staff_directory">Staff&nbsp;Directory</a></li><li><a href="/special_reports">Reports</a></li><li><a href="https://www.eenews.net/gw/rss.xml">RSS</a></li>
+</ul>
+<ul class="brands">
+<li class="eep"><a href="/eep"><span class="eep_footer sprite " title="E&amp;E News"><span>E&amp;E News</span></span></a></li><li class="ew"><a href="/ew"><span class="ew_footer sprite " title="Energywire"><span>Energywire</span></span></a></li><li class="cw"><a href="/cw"><span class="cw_footer sprite " title="Climatewire"><span>Climatewire</span></span></a></li><li class="eed"><a href="/eed"><span class="eed_footer sprite " title="E&amp;E Daily"><span>E&amp;E Daily</span></span></a></li><li class="gw"><a href="/gw"><span class="gw_footer sprite " title="Greenwire"><span>Greenwire</span></span></a></li><li class="pm"><a href="/pm"><span class="pm_footer sprite " title="E&amp;E News PM"><span>E&amp;E News PM</span></span></a></li>
+</ul>
+</nav>
+<div class="copy_tag">
+<p class="tagline">The essential news for energy &amp; environment professionals</p>
+<p class="copyright">&copy; 1996-2019 Environment &amp; Energy Publishing, LLC&nbsp;&nbsp;
+  <span>
+    <a href="/eep/learn_more/privacy_policy">Privacy and Data Practices Policy</a>&nbsp;&nbsp;
+    <a href="/eep/learn_more/site_map">Site Map</a>&nbsp;&nbsp;
+    <a href="/eep/learn_more/staff_directory">Contact&nbsp;Us</a>
+  </span>
+</p>
+</div>
+</footer>
+</div>
+
+
+<script type="text/javascript">
+    new EENews.Beacon('/2/Story/17775/click_to_display_login/1060072257/ident');
+</script>
+
+</body>
+</html>

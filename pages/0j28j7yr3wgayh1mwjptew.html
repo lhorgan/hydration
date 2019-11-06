@@ -1,0 +1,957 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta http-equiv="content-type" content="text/html; charset=UTF-8"><script type="text/javascript">window.NREUM||(NREUM={}),__nr_require=function(e,n,t){function r(t){if(!n[t]){var o=n[t]={exports:{}};e[t][0].call(o.exports,function(n){var o=e[t][1][n];return r(o||n)},o,o.exports)}return n[t].exports}if("function"==typeof __nr_require)return __nr_require;for(var o=0;o<t.length;o++)r(t[o]);return r}({1:[function(e,n,t){function r(){}function o(e,n,t){return function(){return i(e,[c.now()].concat(u(arguments)),n?null:this,t),n?void 0:this}}var i=e("handle"),a=e(3),u=e(4),f=e("ee").get("tracer"),c=e("loader"),s=NREUM;"undefined"==typeof window.newrelic&&(newrelic=s);var p=["setPageViewName","setCustomAttribute","setErrorHandler","finished","addToTrace","inlineHit","addRelease"],d="api-",l=d+"ixn-";a(p,function(e,n){s[n]=o(d+n,!0,"api")}),s.addPageAction=o(d+"addPageAction",!0),s.setCurrentRouteName=o(d+"routeName",!0),n.exports=newrelic,s.interaction=function(){return(new r).get()};var m=r.prototype={createTracer:function(e,n){var t={},r=this,o="function"==typeof n;return i(l+"tracer",[c.now(),e,t],r),function(){if(f.emit((o?"":"no-")+"fn-start",[c.now(),r,o],t),o)try{return n.apply(this,arguments)}catch(e){throw f.emit("fn-err",[arguments,this,e],t),e}finally{f.emit("fn-end",[c.now()],t)}}}};a("actionText,setName,setAttribute,save,ignore,onEnd,getContext,end,get".split(","),function(e,n){m[n]=o(l+n)}),newrelic.noticeError=function(e,n){"string"==typeof e&&(e=new Error(e)),i("err",[e,c.now(),!1,n])}},{}],2:[function(e,n,t){function r(e,n){if(!o)return!1;if(e!==o)return!1;if(!n)return!0;if(!i)return!1;for(var t=i.split("."),r=n.split("."),a=0;a<r.length;a++)if(r[a]!==t[a])return!1;return!0}var o=null,i=null,a=/Version\/(\S+)\s+Safari/;if(navigator.userAgent){var u=navigator.userAgent,f=u.match(a);f&&u.indexOf("Chrome")===-1&&u.indexOf("Chromium")===-1&&(o="Safari",i=f[1])}n.exports={agent:o,version:i,match:r}},{}],3:[function(e,n,t){function r(e,n){var t=[],r="",i=0;for(r in e)o.call(e,r)&&(t[i]=n(r,e[r]),i+=1);return t}var o=Object.prototype.hasOwnProperty;n.exports=r},{}],4:[function(e,n,t){function r(e,n,t){n||(n=0),"undefined"==typeof t&&(t=e?e.length:0);for(var r=-1,o=t-n||0,i=Array(o<0?0:o);++r<o;)i[r]=e[n+r];return i}n.exports=r},{}],5:[function(e,n,t){n.exports={exists:"undefined"!=typeof window.performance&&window.performance.timing&&"undefined"!=typeof window.performance.timing.navigationStart}},{}],ee:[function(e,n,t){function r(){}function o(e){function n(e){return e&&e instanceof r?e:e?f(e,u,i):i()}function t(t,r,o,i){if(!d.aborted||i){e&&e(t,r,o);for(var a=n(o),u=v(t),f=u.length,c=0;c<f;c++)u[c].apply(a,r);var p=s[y[t]];return p&&p.push([b,t,r,a]),a}}function l(e,n){h[e]=v(e).concat(n)}function m(e,n){var t=h[e];if(t)for(var r=0;r<t.length;r++)t[r]===n&&t.splice(r,1)}function v(e){return h[e]||[]}function g(e){return p[e]=p[e]||o(t)}function w(e,n){c(e,function(e,t){n=n||"feature",y[t]=n,n in s||(s[n]=[])})}var h={},y={},b={on:l,addEventListener:l,removeEventListener:m,emit:t,get:g,listeners:v,context:n,buffer:w,abort:a,aborted:!1};return b}function i(){return new r}function a(){(s.api||s.feature)&&(d.aborted=!0,s=d.backlog={})}var u="nr@context",f=e("gos"),c=e(3),s={},p={},d=n.exports=o();d.backlog=s},{}],gos:[function(e,n,t){function r(e,n,t){if(o.call(e,n))return e[n];var r=t();if(Object.defineProperty&&Object.keys)try{return Object.defineProperty(e,n,{value:r,writable:!0,enumerable:!1}),r}catch(i){}return e[n]=r,r}var o=Object.prototype.hasOwnProperty;n.exports=r},{}],handle:[function(e,n,t){function r(e,n,t,r){o.buffer([e],r),o.emit(e,n,t)}var o=e("ee").get("handle");n.exports=r,r.ee=o},{}],id:[function(e,n,t){function r(e){var n=typeof e;return!e||"object"!==n&&"function"!==n?-1:e===window?0:a(e,i,function(){return o++})}var o=1,i="nr@id",a=e("gos");n.exports=r},{}],loader:[function(e,n,t){function r(){if(!E++){var e=x.info=NREUM.info,n=l.getElementsByTagName("script")[0];if(setTimeout(s.abort,3e4),!(e&&e.licenseKey&&e.applicationID&&n))return s.abort();c(y,function(n,t){e[n]||(e[n]=t)}),f("mark",["onload",a()+x.offset],null,"api");var t=l.createElement("script");t.src="https://"+e.agent,n.parentNode.insertBefore(t,n)}}function o(){"complete"===l.readyState&&i()}function i(){f("mark",["domContent",a()+x.offset],null,"api")}function a(){return O.exists&&performance.now?Math.round(performance.now()):(u=Math.max((new Date).getTime(),u))-x.offset}var u=(new Date).getTime(),f=e("handle"),c=e(3),s=e("ee"),p=e(2),d=window,l=d.document,m="addEventListener",v="attachEvent",g=d.XMLHttpRequest,w=g&&g.prototype;NREUM.o={ST:setTimeout,SI:d.setImmediate,CT:clearTimeout,XHR:g,REQ:d.Request,EV:d.Event,PR:d.Promise,MO:d.MutationObserver};var h=""+location,y={beacon:"bam.nr-data.net",errorBeacon:"bam.nr-data.net",agent:"js-agent.newrelic.com/nr-1130.min.js"},b=g&&w&&w[m]&&!/CriOS/.test(navigator.userAgent),x=n.exports={offset:u,now:a,origin:h,features:{},xhrWrappable:b,userAgent:p};e(1),l[m]?(l[m]("DOMContentLoaded",i,!1),d[m]("load",r,!1)):(l[v]("onreadystatechange",o),d[v]("onload",r)),f("mark",["firstbyte",u],null,"api");var E=0,O=e(5)},{}]},{},["loader"]);</script>
+		<title>Flagstaff city leaders vote to not do business with border-wall contractors</title>
+	<meta name="keywords" content="Phoenix and Arizona Breaking News And News Headlines - Home, Home,92.3 KTAR">
+		<meta name="author" content="">
+
+	<meta name="verify-v1" content="XrJiQDsWmPaoqGKN0EHKs7ult0rBB0W9zj4cWkAPRVI=" />
+
+	<meta name="viewport" content="width=device-width, maximum-scale=1.0">
+	<meta name="apple-itunes-app" content="app-id=719630055">
+	<meta property="fb:pages" content="42794977621" />
+	<meta name="google-play-app" content="app-id=com.jacobsmedia.KTAR">
+	<link rel="stylesheet" href="https://ktar.com/wp-content/themes/ktar/assets/jquery-smartbanner/jquery.smartbanner.css" type="text/css" media="screen">
+
+			<script type="text/javascript">
+		var ajaxurl = 'https://ktar.com/wp-admin/admin-ajax.php';
+		</script>
+		
+<!-- This site is optimized with the Yoast SEO plugin v11.5 - https://yoast.com/wordpress/plugins/seo/ -->
+<meta name="description" content="The Flagstaff City Council passed a resolution to oppose a wall on the border and to not invest with companies that design, finance and construct the wall."/>
+<link rel="canonical" href="https://ktar.com/story/1907251/flagstaff-city-leaders-vote-to-not-do-business-with-border-wall-contractors/" />
+<meta property="og:locale" content="en_US" />
+<meta property="og:type" content="article" />
+<meta property="og:title" content="Flagstaff city leaders vote to not do business with border-wall contractors" />
+<meta property="og:description" content="The Flagstaff City Council passed a resolution to oppose a wall on the border and to not invest with companies that design, finance and construct the wall." />
+<meta property="og:url" content="https://ktar.com/story/1907251/flagstaff-city-leaders-vote-to-not-do-business-with-border-wall-contractors/" />
+<meta property="og:site_name" content="KTAR.com" />
+<meta property="article:publisher" content="https://www.facebook.com/KTARNews" />
+<meta property="article:tag" content="border wall" />
+<meta property="article:tag" content="Business" />
+<meta property="article:tag" content="City Council resolution" />
+<meta property="article:tag" content="Flagstaff" />
+<meta property="article:tag" content="immigration" />
+<meta property="article:tag" content="municipal government" />
+<meta property="article:tag" content="Politics" />
+<meta property="article:tag" content="President Donald Trump" />
+<meta property="article:tag" content="tempe" />
+<meta property="article:tag" content="Tucson" />
+<meta property="article:tag" content="wall opposition" />
+<meta property="article:tag" content="White House" />
+<meta property="article:section" content="Arizona News" />
+<meta property="article:published_time" content="2018-01-17T16:31:08+00:00" />
+<meta property="article:modified_time" content="2018-01-19T17:25:54+00:00" />
+<meta property="og:updated_time" content="2018-01-19T17:25:54+00:00" />
+<meta property="og:image" content="https://ktar.com/wp-content/uploads/2018/01/border-wall-ap.jpg" />
+<meta property="og:image:secure_url" content="https://ktar.com/wp-content/uploads/2018/01/border-wall-ap.jpg" />
+<meta property="og:image:width" content="620" />
+<meta property="og:image:height" content="370" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:description" content="The Flagstaff City Council passed a resolution to oppose a wall on the border and to not invest with companies that design, finance and construct the wall." />
+<meta name="twitter:title" content="Flagstaff city leaders vote to not do business with border-wall contractors" />
+<meta name="twitter:site" content="@ktar923" />
+<meta name="twitter:image" content="https://ktar.com/wp-content/uploads/2018/01/border-wall-ap.jpg" />
+<meta name="twitter:creator" content="@Crossfire923" />
+<script type='application/ld+json' class='yoast-schema-graph yoast-schema-graph--main'>{"@context":"https://schema.org","@graph":[{"@type":"Organization","@id":"https://ktar.com/#organization","name":"","url":"https://ktar.com/","sameAs":["https://www.facebook.com/KTARNews","https://twitter.com/ktar923"]},{"@type":"WebSite","@id":"https://ktar.com/#website","url":"https://ktar.com/","name":"KTAR.com","publisher":{"@id":"https://ktar.com/#organization"},"potentialAction":{"@type":"SearchAction","target":"https://ktar.com/?s={search_term_string}","query-input":"required name=search_term_string"}},{"@type":"ImageObject","@id":"https://ktar.com/story/1907251/flagstaff-city-leaders-vote-to-not-do-business-with-border-wall-contractors/#primaryimage","url":"https://ktar.com/wp-content/uploads/2018/01/border-wall-ap.jpg","width":"620","height":"370"},{"@type":"WebPage","@id":"https://ktar.com/story/1907251/flagstaff-city-leaders-vote-to-not-do-business-with-border-wall-contractors/#webpage","url":"https://ktar.com/story/1907251/flagstaff-city-leaders-vote-to-not-do-business-with-border-wall-contractors/","inLanguage":"en-US","name":"Flagstaff city leaders vote to not do business with border-wall contractors","isPartOf":{"@id":"https://ktar.com/#website"},"primaryImageOfPage":{"@id":"https://ktar.com/story/1907251/flagstaff-city-leaders-vote-to-not-do-business-with-border-wall-contractors/#primaryimage"},"datePublished":"2018-01-17T16:31:08+00:00","dateModified":"2018-01-19T17:25:54+00:00","description":"The Flagstaff City Council passed a resolution to oppose a wall on the border and to not invest with companies that design, finance and construct the wall."},{"@type":"NewsArticle","@id":"https://ktar.com/story/1907251/flagstaff-city-leaders-vote-to-not-do-business-with-border-wall-contractors/#article","isPartOf":{"@id":"https://ktar.com/story/1907251/flagstaff-city-leaders-vote-to-not-do-business-with-border-wall-contractors/#webpage"},"author":{"@id":"https://ktar.com/story/author/jim-cross/#author"},"headline":"Flagstaff city leaders vote to not invest with border-wall contractors","datePublished":"2018-01-17T16:31:08+00:00","dateModified":"2018-01-19T17:25:54+00:00","commentCount":0,"mainEntityOfPage":{"@id":"https://ktar.com/story/1907251/flagstaff-city-leaders-vote-to-not-do-business-with-border-wall-contractors/#webpage"},"publisher":{"@id":"https://ktar.com/#organization"},"image":{"@id":"https://ktar.com/story/1907251/flagstaff-city-leaders-vote-to-not-do-business-with-border-wall-contractors/#primaryimage"},"keywords":"border wall,Business,City Council resolution,Flagstaff,immigration,municipal government,Politics,President Donald Trump,tempe,Tucson,wall opposition,White House","articleSection":"Arizona News","copyrightYear":"2018","copyrightHolder":{"@id":"https://ktar.com#organization"}},{"@type":["Person"],"@id":"https://ktar.com/story/author/jim-cross/#author","name":"Jim Cross","image":{"@type":"ImageObject","@id":"https://ktar.com/#authorlogo","url":"https://secure.gravatar.com/avatar/e704226ab64fc5df8958b4c5b7d9c8c6?s=96&d=mm&r=g","caption":"Jim Cross"},"description":"Position: Senior News Reporter. Started with KTAR July 4, 1999.\r\n\r\nFavorite spots in Arizona: Pinetop-Lakeside, Alpine, Greer.\r\n\r\nHave covered some of the biggest stories in Arizona including nine of the top 10 largest wildfires in state history. The Wallow Fire in 2011 became the largest fire in state history. Rodeo-Chediski Fire in June 2002, which is the second largest fire in Arizona. Covered the Yarnell Hill Tragedy in June 2013 that left 19 Granite Mountain Hotshots dead. \r\n\r\nFavorite movies: True Grit, both 1969 John Wayne classic and the remake with Jeff Bridges and Lonesome Dove.\r\n\r\nSports Teams: Washington State University Cougars, Texas Longhorns, The University of Montana Grizzlies.","sameAs":["https://twitter.com/Crossfire923"]}]}</script>
+<!-- / Yoast SEO plugin. -->
+
+<link rel="amphtml" href="https://ktar.com/story/1907251/flagstaff-city-leaders-vote-to-not-do-business-with-border-wall-contractors/amp/" /><meta name="generator" content="AMP for WP 0.9.97.63"/><link rel='dns-prefetch' href='//ajax.googleapis.com' />
+<link rel='dns-prefetch' href='//cdnjs.cloudflare.com' />
+<link rel='dns-prefetch' href='//d26fhcku9pa5f4.cloudfront.net' />
+<link rel='dns-prefetch' href='//fonts.googleapis.com' />
+<link rel='dns-prefetch' href='//netdna.bootstrapcdn.com' />
+<link rel='dns-prefetch' href='//code.jquery.com' />
+<link rel='dns-prefetch' href='//s.w.org' />
+<link rel="alternate" type="application/rss+xml" title="KTAR.com &raquo; Flagstaff city leaders vote to not invest with border-wall contractors Comments Feed" href="https://ktar.com/story/1907251/flagstaff-city-leaders-vote-to-not-do-business-with-border-wall-contractors/feed/" />
+<link rel='stylesheet' id='smw-plugin-style-css'  href='https://ktar.com/wp-content/plugins/premium-stock-market-widgets/css/style.css?ver=1.8.9' type='text/css' media='all' />
+<link rel='stylesheet' id='smw-font-awesome-css'  href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css?ver=1.8.9' type='text/css' media='all' />
+<link rel='stylesheet' id='wp-block-library-css'  href='https://ktar.com/wp-includes/css/dist/block-library/style.min.css?ver=5.2.2' type='text/css' media='all' />
+<link rel='stylesheet' id='wp-polls-css'  href='https://ktar.com/wp-content/plugins/wp-polls/polls-css.css?ver=1.0' type='text/css' media='all' />
+<style id='wp-polls-inline-css' type='text/css'>
+.wp-polls .pollbar {
+	margin: 1px;
+	font-size: 16px;
+	line-height: 18px;
+	height: 18px;
+	background: #DC1A22;
+	border: 1px solid #DC1A22;
+}
+
+</style>
+<link rel='stylesheet' id='3.0-statsshs-css'  href='https://d26fhcku9pa5f4.cloudfront.net/shsdefault.css?ver=20191017' type='text/css' media='all' />
+<link rel='stylesheet' id='3.0-statsmulti-css'  href='https://d26fhcku9pa5f4.cloudfront.net/multidefault.css?ver=20191017' type='text/css' media='all' />
+<link rel='stylesheet' id='3.0-main-css'  href='https://d26fhcku9pa5f4.cloudfront.net/web3-main.css?ver=20191017' type='text/css' media='all' />
+<link rel='stylesheet' id='3.0-ktar-css'  href='https://ktar.com/wp-content/themes/ktar/assets/css/ktar.css?ver=20180511' type='text/css' media='all' />
+<link rel='stylesheet' id='3.0-nonhomepage-style-css'  href='https://d26fhcku9pa5f4.cloudfront.net/nonhome.css?ver=20191017' type='text/css' media='all' />
+<link rel='stylesheet' id='3.0-nonhomepage-style-override-css'  href='https://ktar.com/wp-content/themes/ktar/assets/css/nonhome.css?ver=20170405' type='text/css' media='all' />
+<link rel='stylesheet' id='3.0-dark-css'  href='https://d26fhcku9pa5f4.cloudfront.net/dark.css?ver=20191017' type='text/css' media='all' />
+<link rel='stylesheet' id='unity-roboto-slab-css'  href='https://fonts.googleapis.com/css?family=Roboto+Slab%3A400%2C900&#038;ver=5.2.2' type='text/css' media='all' />
+<link rel='stylesheet' id='font-awesome-css'  href='https://netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css?ver=4.0.3' type='text/css' media='all' />
+<link rel='stylesheet' id='events-css'  href='https://ktar.com/wp-content/plugins/tweak-events/assets/css/events.css?ver=1.0' type='text/css' media='all' />
+<link rel='stylesheet' id='jquery-ui-smoothness-css'  href='https://code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css?ver=1.0' type='text/css' media='all' />
+<link rel='stylesheet' id='weather-css-css'  href='https://ktar.com/wp-content/plugins/weather-widgets/assets/css/weather-icons.min.css?ver=1.0' type='text/css' media='all' />
+<script type='text/javascript' src='https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js?ver=1.11.0'></script>
+<script type='text/javascript'>
+/* <![CDATA[ */
+var smwGlobals = {"debug":"1","code":"smw","ajaxUrl":"https:\/\/ktar.com\/wp-content\/plugins\/premium-stock-market-widgets\/ajax.php","ajaxMethod":"POST","pluginUrl":"https:\/\/ktar.com\/wp-content\/plugins\/premium-stock-market-widgets\/","dependencies":{"marquee":"https:\/\/ktar.com\/wp-content\/plugins\/premium-stock-market-widgets\/vendor\/jquery.marquee\/jquery.marquee.min.js","tablesort":"https:\/\/ktar.com\/wp-content\/plugins\/premium-stock-market-widgets\/vendor\/jquery.tablesort\/jquery.tablesort.min.js","sparkline":"https:\/\/ktar.com\/wp-content\/plugins\/premium-stock-market-widgets\/vendor\/jquery.sparkline\/jquery.sparkline.min.js","chart":"https:\/\/ktar.com\/wp-content\/plugins\/premium-stock-market-widgets\/vendor\/chart.js\/Chart.min.js"}};
+/* ]]> */
+</script>
+<script type='text/javascript' src='https://ktar.com/wp-content/plugins/premium-stock-market-widgets/js/app.js?ver=1.8.9'></script>
+<script type='text/javascript' src='https://ajax.googleapis.com/ajax/libs/jqueryui/1.10.4/jquery-ui.min.js?ver=1.10.4'></script>
+<script type='text/javascript' src='https://ktar.com/wp-content/themes/ktar/assets/js/jquery.functions.js?ver=4.4.14'></script>
+<script type='text/javascript' src='https://ktar.com/wp-content/themes/ktar/assets/js/blockadblock.js?ver=1.0'></script>
+<link rel='https://api.w.org/' href='https://ktar.com/wp-json/' />
+<link rel="EditURI" type="application/rsd+xml" title="RSD" href="https://ktar.com/xmlrpc.php?rsd" />
+<link rel="wlwmanifest" type="application/wlwmanifest+xml" href="https://ktar.com/wp-includes/wlwmanifest.xml" /> 
+<link rel='shortlink' href='https://ktar.com/?p=1907251' />
+<link rel="alternate" type="application/json+oembed" href="https://ktar.com/wp-json/oembed/1.0/embed?url=https%3A%2F%2Fktar.com%2Fstory%2F1907251%2Fflagstaff-city-leaders-vote-to-not-do-business-with-border-wall-contractors%2F" />
+<link rel="alternate" type="text/xml+oembed" href="https://ktar.com/wp-json/oembed/1.0/embed?url=https%3A%2F%2Fktar.com%2Fstory%2F1907251%2Fflagstaff-city-leaders-vote-to-not-do-business-with-border-wall-contractors%2F&#038;format=xml" />
+	<!-- Include google_services.js -->
+<script type='text/javascript'>
+var googletag = googletag || {};
+googletag.cmd = googletag.cmd || [];
+(function() {
+var gads = document.createElement('script');
+gads.async = true;
+gads.type = 'text/javascript';
+var useSSL = 'https:' == document.location.protocol;
+gads.src = (useSSL ? 'https:' : 'http:') +
+'//www.googletagservices.com/tag/js/gpt.js';
+var node = document.getElementsByTagName('script')[0];
+node.parentNode.insertBefore(gads, node);
+})();
+</script>
+
+	<!-- Google Tag Manager -->
+	<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+	new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+	j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+	'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+	})(window,document,'script','dataLayer','GTM-MJT8PCK');</script>
+	<!-- End Google Tag Manager -->
+
+	<!--[if lt IE 9]>
+	<script src="https://ktar.com/wp-content/themes/ktar/assets/js/html5shiv.js"></script>
+	<script type="text/javascript" src="https://ktar.com/wp-content/themes/ktar/assets/js/selectivizr.js"></script>
+	<![endif]-->
+<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<script>
+  (adsbygoogle = window.adsbygoogle || []).push({
+    google_ad_client: "ca-pub-5965569640055032",
+    enable_page_level_ads: true
+  });
+</script>
+</head>
+<body>
+<!-- Google Tag Manager (noscript) -->
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-MJT8PCK"
+height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<!-- End Google Tag Manager (noscript) -->
+
+<!-- Bonneville Phoenix KMVP 92.3 FM Container tag; Do not remove or alter code in any way.
+
+        Placement: Place on all site pages immediately after the opening <body> tag.
+
+        Generated: 1/5/2016 -->
+
+        <!-- Google Tag Manager -->
+        <noscript><iframe src="//www.googletagmanager.com/ns.html?id=GTM-PMHZCQ"
+        height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+        <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+        new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+        j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+        '//www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+        })(window,document,'script','dataLayer','GTM-PMHZCQ');</script>
+        <!-- End Google Tag Manager -->
+        <script>
+
+        var versaTag = {};
+        versaTag.id = "5532";
+        versaTag.sync = 0;
+        versaTag.dispType = "js";
+        versaTag.ptcl = "HTTPS";
+        versaTag.bsUrl = "bs.serving-sys.com/BurstingPipe";
+        //VersaTag activity parameters include all conversion parameters including custom parameters and Predefined parameters. Syntax: "ParamName1":"ParamValue1", "ParamName2":"ParamValue2". ParamValue can be empty.
+        versaTag.activityParams = {
+        //Predefined parameters:
+        "OrderID":"","Session":"","Value":"","productid":"","productinfo":"","Quantity":""
+        //Custom parameters:
+        };
+        //Static retargeting tags parameters. Syntax: "TagID1":"ParamValue1", "TagID2":"ParamValue2". ParamValue can be empty.
+        versaTag.retargetParams = {};
+        //Dynamic retargeting tags parameters. Syntax: "TagID1":"ParamValue1", "TagID2":"ParamValue2". ParamValue can be empty.
+        versaTag.dynamicRetargetParams = {};
+        // Third party tags conditional parameters and mapping rule parameters. Syntax: "CondParam1":"ParamValue1", "CondParam2":"ParamValue2". ParamValue can be empty.
+        versaTag.conditionalParams = {};
+        </script>
+        <script id="ebOneTagUrlId" src="https://secure-ds.serving-sys.com/SemiCachedScripts/ebOneTag.js"></script>
+        <noscript>
+        <iframe src="https://bs.serving-sys.com/BurstingPipe?
+        cn=ot&amp;
+        onetagid=5532&amp;
+        ns=1&amp;
+        activityValues=$=[Value]&amp;OrderID=[OrderID]&amp;Session=[Session]&amp;ProductID=[ProductID]&amp;ProductInfo=[ProductInfo]&amp;Quantity=[Quantity]$$&amp;
+        retargetingValues=$$$$&amp;
+        dynamicRetargetingValues=$$$$&amp;
+        acp=$$$$&amp;"
+        style="display:none;width:0px;height:0px"></iframe>
+        </noscript>
+        
+
+<div id="menu" class="screencover">
+	<div class="menuicon">
+		<a href="#" class="close_menu">x</a>
+	</div>
+	<ul>
+		<li class="section">KTAR News</li>
+			<li><a href="/">Home</a></li>
+			<li><a href="/?s=1"><i class="fa fa-search"></i> Search</a></li>
+			<li><a href="/topstories">Top Stories</a></li>
+			<li><a href="http://rewards.ktar.com/">Rewards</a></li>
+			<li><a href="/listen-live">Listen Live</a></li>
+			<li><a href="/podcasts">Podcasts</a></li>
+
+		<li class="section">News</li>
+			<li><a href="/arizonanews">Arizona News</a></li>
+			<li><a href="http://arizonasports.com">Arizona Sports</a></li>
+			<li><a href="/business">Arizona Business</a></li>
+			<li><a href="/immigration">Arizona Immigration</a></li>
+			<li><a href="/arizonavotes">Arizona Votes</a></li>
+			<li><a href="/tech">Arizona Technology</a></li>
+			<li><a href="/education">Arizona Education</a></li>
+			<li><a href="/category/eyes-on-parenting/">Eyes On Parenting</a></li>
+			<li><a href="/health">Arizona Health</a></li>
+			<li><a href="/wildfires">Arizona Wildfires</a></li>
+			<li><a href="/national-news">National</a></li>
+			<li><a href="/traffic">Arizona Traffic</a></li>
+			<li><a href="/weather">Arizona Weather</a></li>
+
+		<li class="section">Shows</li>
+			<li><a href="/arizonasmorningnews">Arizona's Morning News</a></li>
+			<li><a href="/bruceandpamela">Bruce St James &amp; Pamela Hughes</a></li>
+			<li><a href="/category/dave-ramsey/">The Dave Ramsey Show</a></li>
+			<li><a href="/gaydos-in-the-afternoon/">Gaydos In The Afternoon</a></li>
+			<li><a href="/category/the-chad-benson-show/">The Chad Benson Show</a></li>
+			<li><a href="/on-air-schedule/">Complete Lineup</a></li>
+
+        <li class="section">Blogs</li>
+			<li><a href="/the-lasso">The Lasso</a></li>
+			<li><a href="/silent-witness">Silent Witness</a></li>
+			<li><a href="/rosie-on-the-house">Rosie on the House</a></li>
+			<li><a href="/chew-on-this">Chew On This</a></li>
+			<li><a href="/monica-lindstrom">Monica Lindstrom</a></li>
+			<li><a href="/data-doctors">Data Doctors</a></li>
+			<li><a href="/category/dr-sky-blog">Dr. Sky</a></li>
+
+		<li class="section">KTAR News On 92.3FM</li>
+			<li><a href="/on-air-schedule">On-Air Schedule</a></li>
+			<li><a href="https://bonneville.com/everyday-strong/" target="_blank">EveryDay Strong</a></li>
+			<li><a href="/ktar-contests/">Rewards</a></li>
+			<li><a href="/ktar-contests/">Contests</a></li>
+			<li><a href="/events/featured">Events</a></li>
+			<li><a href="/newsletters/">Newsletter</a></li>
+			<li><a href="/text-alerts">Text Alerts</a></li>
+			<li><a href="/the-ktar-newstalk-app">KTAR Apps</a></li>
+			<li><a href="javascript:void()" onclick="popWindow('http://www.facebook.com/KTARNews')">Facebook</a></li>
+			<li><a href="javascript:void()" onclick="popWindow('https://twitter.com/KTAR923')">Twitter</a></li>
+			<li><a href="javascript:void()" onclick="popWindow('http://instagram.com/ktarnews')">Instagram</a></li>
+    </ul>
+</div>
+	<div id="share" class="screencover">
+	<div class="menuicon">
+		<a href="#" class="close_share">x</a>
+	</div>
+	<div class="colheader">
+		Share this story...
+	</div>
+
+    
+						<img width="620" height="370" src="https://ktar.com/wp-content/uploads/2018/01/border-wall-ap-620x370.jpg" class="wide-share wp-post-image" alt="" srcset="https://ktar.com/wp-content/uploads/2018/01/border-wall-ap.jpg 620w, https://ktar.com/wp-content/uploads/2018/01/border-wall-ap-300x179.jpg 300w, https://ktar.com/wp-content/uploads/2018/01/border-wall-ap-120x72.jpg 120w, https://ktar.com/wp-content/uploads/2018/01/border-wall-ap-294x175.jpg 294w, https://ktar.com/wp-content/uploads/2018/01/border-wall-ap-250x149.jpg 250w" sizes="(max-width: 620px) 100vw, 620px" />			    
+
+		<ul>
+		<li><div>Flagstaff city leaders vote to not invest with border-wall contractors</div></li>
+		<li><a href="javascript:void();" onClick="popShare('http://www.facebook.com/sharer.php?u=https%3A%2F%2Fktar.com%2Fstory%2F1907251%2Fflagstaff-city-leaders-vote-to-not-do-business-with-border-wall-contractors%2F&t=https://ktar.com | https%3A%2F%2Fktar.com%2Fstory%2F1907251%2Fflagstaff-city-leaders-vote-to-not-do-business-with-border-wall-contractors%2F')">Facebook</a></li>
+		<li><a href="javascript:void();" onClick="popShare('http://twitter.com/share?text=Flagstaff city leaders vote to not invest with border-wall contractors&url=https://ktar.com/story/1907251/flagstaff-city-leaders-vote-to-not-do-business-with-border-wall-contractors/')">Twitter</a></li>
+		<li><a href="javascript:void();" onClick="popShare('http://www.linkedin.com/shareArticle?mini=true&amp;url=https%3A%2F%2Fktar.com%2Fstory%2F1907251%2Fflagstaff-city-leaders-vote-to-not-do-business-with-border-wall-contractors%2F&amp;title=Flagstaff city leaders vote to not invest with border-wall contractors&amp;summary=')">LinkedIn</a></li>
+		<li><a href="/email-story/?Subject=The+following+article+has+been+shared+with+you%3A%0A%0AFlagstaff+city+leaders+vote+to+not+invest+with+border-wall+contractors%0A%0AClick+the+following+link+to+view%3A+https%3A%2F%2Fktar.com%2Fstory%2F1907251%2Fflagstaff-city-leaders-vote-to-not-do-business-with-border-wall-contractors%2F">Email Story</a></li>
+	</ul>
+
+
+</div>
+
+
+<div id="wrapper">
+
+	<!--OVERLAY WHEN NAVIGATION IS OPEN-->
+	<div id="overlay_back"></div>
+	<!--OVERLAY WHEN NAVIGATION IS OPEN-->
+
+	<header>
+		<!--HEADER-->
+		<div class="headerwrapper primary">
+
+			<div id="topnav">
+				<div id="topnav_body">
+					<ul class="left">
+						<li><a href="https://www.facebook.com/KTARNews" target="_blank"><div class="fa fa-facebook-square fonticon"></div> FACEBOOK</a></li>
+						<li><a href="https://twitter.com/ktar923" target="_blank"><div class="fa fa-twitter-square fonticon"></div> TWITTER</a></li>
+						<li><a href="/newsletters/"><div class="fa fa-envelope fonticon"></div> EMAIL ALERTS</a></li>
+						<li><a href="/the-ktar-newstalk-app/"><div class="fa fa-mobile fonticon"></div> GET THE APP</a></li>
+
+					</ul>
+
+					<ul class="right">
+																		<li><span class="news-nav-icon"></span><a style="border-bottom: 1px solid #DC1928;" href="http://ktar.com/">KTAR News</a></li>
+						<li><span class="sports-nav-icon"></span><a href="http://arizonasports.com">Arizona Sports</a></li>
+					</ul>
+				</div>
+			</div>
+
+
+			<div class="header">
+				<div class="menuicon primary">
+					<a href="#" class="menu_link"><i class="fa fa-bars" aria-hidden="true"></i></a>
+				</div>
+									<div class="shareicon primary">
+						<a href="#" class="share_link"><i class="fa fa-share" aria-hidden="true"></i></a>
+					</div>
+								<ul class="upper">
+					<li><a href="/top-stories" class="border">Top Stories</a></li>
+					<li><a href="/listen-live" class="border"><i class="fa fa-circle" aria-hidden="true"></i> Listen Live</a></li>
+					<li><a href="/category/podcasts" class="border">Podcasts</a></li>
+					<li><a href="http://rewards.ktar.com" class="border">Rewards</a></li>
+
+					<li class="farright secondary"><a href="#" class="menu_link borderlight">Menu <i class="fa fa-bars" aria-hidden="true"></i></a></li>
+				</ul>
+				<a href="/"><img src="https://ktar.com/wp-content/themes/ktar/assets/logo/ktar_horz_923_neg.svg"></a>
+
+			</div>
+		</div>
+
+	</header>
+	<!--HEADER-->
+	<div id="mobilespacer"></div>
+	<div id="deskspacer"></div>
+<div class="farleftcolumn">
+    <div class="colheader">Latest News</div>
+    
+    <ul class="morestories">
+                            <li >
+                <a href="https://ktar.com/story/2833238/heres-what-we-know-about-the-killings-of-9-americans-in-mexico/" onclick="_gaq.push(['_trackEvent','Latest News Nav','https://ktar.com/story/2833238/heres-what-we-know-about-the-killings-of-9-americans-in-mexico/','Latest News 1']);" class="thumb">
+                    <img width="60" height="60" src="https://ktar.com/wp-content/uploads/2019/11/lebaron-mexico-getty-60x60.jpg" class="thumb wp-post-image" alt="" srcset="https://ktar.com/wp-content/uploads/2019/11/lebaron-mexico-getty-60x60.jpg 60w, https://ktar.com/wp-content/uploads/2019/11/lebaron-mexico-getty-150x150.jpg 150w" sizes="(max-width: 60px) 100vw, 60px" />                </a>
+                <a href="https://ktar.com/story/2833238/heres-what-we-know-about-the-killings-of-9-americans-in-mexico/" onclick="_gaq.push(['_trackEvent','Latest News Nav','https://ktar.com/story/2833238/heres-what-we-know-about-the-killings-of-9-americans-in-mexico/','Latest News 1']);">
+                    <span>KTAR.com<br></span>
+                    Here's what we know about the killings of 9 Americans in Mexico                </a>
+            </li>
+                    <li >
+                <a href="https://ktar.com/story/2833294/house-dems-announce-public-impeachment-hearings-next-week/" onclick="_gaq.push(['_trackEvent','Latest News Nav','https://ktar.com/story/2833294/house-dems-announce-public-impeachment-hearings-next-week/','Latest News 1']);" class="thumb">
+                    <img width="60" height="60" src="https://ktar.com/wp-content/uploads/2019/11/ap_73f1a7d608c24fa893db43e79a4e9b76-60x60.jpg" class="thumb wp-post-image" alt="" srcset="https://ktar.com/wp-content/uploads/2019/11/ap_73f1a7d608c24fa893db43e79a4e9b76-60x60.jpg 60w, https://ktar.com/wp-content/uploads/2019/11/ap_73f1a7d608c24fa893db43e79a4e9b76-150x150.jpg 150w" sizes="(max-width: 60px) 100vw, 60px" />                </a>
+                <a href="https://ktar.com/story/2833294/house-dems-announce-public-impeachment-hearings-next-week/" onclick="_gaq.push(['_trackEvent','Latest News Nav','https://ktar.com/story/2833294/house-dems-announce-public-impeachment-hearings-next-week/','Latest News 1']);">
+                    <span>Associated Press<br></span>
+                    House Dems announce public impeachment hearings next week                </a>
+            </li>
+                    <li >
+                <a href="https://ktar.com/story/2833189/head-coach-of-phoenix-high-school-involved-in-football-scandal-resigns/" onclick="_gaq.push(['_trackEvent','Latest News Nav','https://ktar.com/story/2833189/head-coach-of-phoenix-high-school-involved-in-football-scandal-resigns/','Latest News 1']);" class="thumb">
+                    <img width="60" height="60" src="https://ktar.com/wp-content/uploads/2019/11/mountain-point-coach-cronkite-60x60.jpg" class="thumb wp-post-image" alt="" srcset="https://ktar.com/wp-content/uploads/2019/11/mountain-point-coach-cronkite-60x60.jpg 60w, https://ktar.com/wp-content/uploads/2019/11/mountain-point-coach-cronkite-150x150.jpg 150w" sizes="(max-width: 60px) 100vw, 60px" />                </a>
+                <a href="https://ktar.com/story/2833189/head-coach-of-phoenix-high-school-involved-in-football-scandal-resigns/" onclick="_gaq.push(['_trackEvent','Latest News Nav','https://ktar.com/story/2833189/head-coach-of-phoenix-high-school-involved-in-football-scandal-resigns/','Latest News 1']);">
+                    <span>KTAR.com<br></span>
+                    Head coach of Phoenix high school involved in football scandal resigns                </a>
+            </li>
+                    <li >
+                <a href="https://ktar.com/story/2833153/apple-launches-new-privacy-website-but-policies-unchanged/" onclick="_gaq.push(['_trackEvent','Latest News Nav','https://ktar.com/story/2833153/apple-launches-new-privacy-website-but-policies-unchanged/','Latest News 1']);" class="thumb">
+                    <img width="60" height="60" src="https://ktar.com/wp-content/uploads/2019/11/ap_346ef3ff95144becaa9a90e27df9c2ee-60x60.jpg" class="thumb wp-post-image" alt="" srcset="https://ktar.com/wp-content/uploads/2019/11/ap_346ef3ff95144becaa9a90e27df9c2ee-60x60.jpg 60w, https://ktar.com/wp-content/uploads/2019/11/ap_346ef3ff95144becaa9a90e27df9c2ee-150x150.jpg 150w" sizes="(max-width: 60px) 100vw, 60px" />                </a>
+                <a href="https://ktar.com/story/2833153/apple-launches-new-privacy-website-but-policies-unchanged/" onclick="_gaq.push(['_trackEvent','Latest News Nav','https://ktar.com/story/2833153/apple-launches-new-privacy-website-but-policies-unchanged/','Latest News 1']);">
+                    <span>Associated Press<br></span>
+                    Apple launches new privacy website, but policies unchanged                </a>
+            </li>
+                    <li >
+                <a href="https://ktar.com/story/2833065/suspect-arrested-in-mexico-seemingly-not-involved-in-americans-deaths/" onclick="_gaq.push(['_trackEvent','Latest News Nav','https://ktar.com/story/2833065/suspect-arrested-in-mexico-seemingly-not-involved-in-americans-deaths/','Latest News 1']);" class="thumb">
+                    <img width="60" height="60" src="https://ktar.com/wp-content/uploads/2019/11/lebarons-border-ap-60x60.jpg" class="thumb wp-post-image" alt="" srcset="https://ktar.com/wp-content/uploads/2019/11/lebarons-border-ap-60x60.jpg 60w, https://ktar.com/wp-content/uploads/2019/11/lebarons-border-ap-150x150.jpg 150w" sizes="(max-width: 60px) 100vw, 60px" />                </a>
+                <a href="https://ktar.com/story/2833065/suspect-arrested-in-mexico-seemingly-not-involved-in-americans-deaths/" onclick="_gaq.push(['_trackEvent','Latest News Nav','https://ktar.com/story/2833065/suspect-arrested-in-mexico-seemingly-not-involved-in-americans-deaths/','Latest News 1']);">
+                    <span>KTAR.com<br></span>
+                    Suspect arrested in Mexico seemingly not involved in Americans' deaths                </a>
+            </li>
+                    <li >
+                <a href="https://ktar.com/story/2832612/trump-honors-native-americans-us-founders-in-same-month/" onclick="_gaq.push(['_trackEvent','Latest News Nav','https://ktar.com/story/2832612/trump-honors-native-americans-us-founders-in-same-month/','Latest News 1']);" class="thumb">
+                    <img width="60" height="60" src="https://ktar.com/wp-content/uploads/2019/11/ap_9d4d88043a72447f80f86531447092ab-60x60.jpg" class="thumb wp-post-image" alt="" srcset="https://ktar.com/wp-content/uploads/2019/11/ap_9d4d88043a72447f80f86531447092ab-60x60.jpg 60w, https://ktar.com/wp-content/uploads/2019/11/ap_9d4d88043a72447f80f86531447092ab-150x150.jpg 150w" sizes="(max-width: 60px) 100vw, 60px" />                </a>
+                <a href="https://ktar.com/story/2832612/trump-honors-native-americans-us-founders-in-same-month/" onclick="_gaq.push(['_trackEvent','Latest News Nav','https://ktar.com/story/2832612/trump-honors-native-americans-us-founders-in-same-month/','Latest News 1']);">
+                    <span>Associated Press<br></span>
+                    Trump honors Native Americans, US founders in same month                </a>
+            </li>
+                    <li >
+                <a href="https://ktar.com/story/2832665/neighbors-in-mesa-are-sharing-books-through-little-libraries/" onclick="_gaq.push(['_trackEvent','Latest News Nav','https://ktar.com/story/2832665/neighbors-in-mesa-are-sharing-books-through-little-libraries/','Latest News 1']);" class="thumb">
+                    <img width="60" height="60" src="https://ktar.com/wp-content/uploads/2019/11/little-libraries-60x60.jpg" class="thumb wp-post-image" alt="" srcset="https://ktar.com/wp-content/uploads/2019/11/little-libraries-60x60.jpg 60w, https://ktar.com/wp-content/uploads/2019/11/little-libraries-150x150.jpg 150w" sizes="(max-width: 60px) 100vw, 60px" />                </a>
+                <a href="https://ktar.com/story/2832665/neighbors-in-mesa-are-sharing-books-through-little-libraries/" onclick="_gaq.push(['_trackEvent','Latest News Nav','https://ktar.com/story/2832665/neighbors-in-mesa-are-sharing-books-through-little-libraries/','Latest News 1']);">
+                    <span>Griselda Zetino<br></span>
+                    Neighbors in Mesa are sharing books through little libraries                </a>
+            </li>
+                    <li >
+                <a href="https://ktar.com/story/2832614/disinfecting-your-phone-could-decrease-chance-of-catching-sickness/" onclick="_gaq.push(['_trackEvent','Latest News Nav','https://ktar.com/story/2832614/disinfecting-your-phone-could-decrease-chance-of-catching-sickness/','Latest News 1']);" class="thumb">
+                    <img width="60" height="60" src="https://ktar.com/wp-content/uploads/2019/11/Disinfec-tech-60x60.jpg" class="thumb wp-post-image" alt="" srcset="https://ktar.com/wp-content/uploads/2019/11/Disinfec-tech-60x60.jpg 60w, https://ktar.com/wp-content/uploads/2019/11/Disinfec-tech-150x150.jpg 150w" sizes="(max-width: 60px) 100vw, 60px" />                </a>
+                <a href="https://ktar.com/story/2832614/disinfecting-your-phone-could-decrease-chance-of-catching-sickness/" onclick="_gaq.push(['_trackEvent','Latest News Nav','https://ktar.com/story/2832614/disinfecting-your-phone-could-decrease-chance-of-catching-sickness/','Latest News 1']);">
+                    <span>Nailea Leon<br></span>
+                    Disinfecting your phone could decrease chance of catching sickness                </a>
+            </li>
+                    <li >
+                <a href="https://ktar.com/story/2832440/tempe-to-host-open-house-before-new-fire-station-opens/" onclick="_gaq.push(['_trackEvent','Latest News Nav','https://ktar.com/story/2832440/tempe-to-host-open-house-before-new-fire-station-opens/','Latest News 1']);" class="thumb">
+                    <img width="60" height="60" src="https://ktar.com/wp-content/uploads/2019/11/tempe-fire-station-rendering-60x60.jpg" class="thumb wp-post-image" alt="" srcset="https://ktar.com/wp-content/uploads/2019/11/tempe-fire-station-rendering-60x60.jpg 60w, https://ktar.com/wp-content/uploads/2019/11/tempe-fire-station-rendering-150x150.jpg 150w" sizes="(max-width: 60px) 100vw, 60px" />                </a>
+                <a href="https://ktar.com/story/2832440/tempe-to-host-open-house-before-new-fire-station-opens/" onclick="_gaq.push(['_trackEvent','Latest News Nav','https://ktar.com/story/2832440/tempe-to-host-open-house-before-new-fire-station-opens/','Latest News 1']);">
+                    <span>KTAR.com<br></span>
+                    Tempe to host open house before new fire station opens                </a>
+            </li>
+                    <li >
+                <a href="https://ktar.com/story/2832346/mountainside-fitness-to-open-4-valley-locations-in-next-2-years/" onclick="_gaq.push(['_trackEvent','Latest News Nav','https://ktar.com/story/2832346/mountainside-fitness-to-open-4-valley-locations-in-next-2-years/','Latest News 1']);" class="thumb">
+                    <img width="60" height="60" src="https://ktar.com/wp-content/uploads/2019/11/mountainside-fitness-60x60.jpg" class="thumb wp-post-image" alt="" srcset="https://ktar.com/wp-content/uploads/2019/11/mountainside-fitness-60x60.jpg 60w, https://ktar.com/wp-content/uploads/2019/11/mountainside-fitness-150x150.jpg 150w" sizes="(max-width: 60px) 100vw, 60px" />                </a>
+                <a href="https://ktar.com/story/2832346/mountainside-fitness-to-open-4-valley-locations-in-next-2-years/" onclick="_gaq.push(['_trackEvent','Latest News Nav','https://ktar.com/story/2832346/mountainside-fitness-to-open-4-valley-locations-in-next-2-years/','Latest News 1']);">
+                    <span>KTAR.com<br></span>
+                    Mountainside Fitness to open 4 Valley locations in next 2 years                </a>
+            </li>
+                    <li >
+                <a href="https://ktar.com/story/2832739/glendale-votes-against-giving-city-council-members-hefty-raises/" onclick="_gaq.push(['_trackEvent','Latest News Nav','https://ktar.com/story/2832739/glendale-votes-against-giving-city-council-members-hefty-raises/','Latest News 1']);" class="thumb">
+                    <img width="60" height="60" src="https://ktar.com/wp-content/uploads/2019/02/jerry-weiers-60x60.jpg" class="thumb wp-post-image" alt="" srcset="https://ktar.com/wp-content/uploads/2019/02/jerry-weiers-60x60.jpg 60w, https://ktar.com/wp-content/uploads/2019/02/jerry-weiers-150x150.jpg 150w" sizes="(max-width: 60px) 100vw, 60px" />                </a>
+                <a href="https://ktar.com/story/2832739/glendale-votes-against-giving-city-council-members-hefty-raises/" onclick="_gaq.push(['_trackEvent','Latest News Nav','https://ktar.com/story/2832739/glendale-votes-against-giving-city-council-members-hefty-raises/','Latest News 1']);">
+                    <span>KTAR.com<br></span>
+                    Glendale votes against giving city council members hefty raises                </a>
+            </li>
+                    <li >
+                <a href="https://ktar.com/story/2832696/tucson-voters-overwhelmingly-say-no-to-sanctuary-city-proposition/" onclick="_gaq.push(['_trackEvent','Latest News Nav','https://ktar.com/story/2832696/tucson-voters-overwhelmingly-say-no-to-sanctuary-city-proposition/','Latest News 1']);" class="thumb">
+                    <img width="60" height="60" src="https://ktar.com/wp-content/uploads/2019/11/tucson-60x60.jpg" class="thumb wp-post-image" alt="" srcset="https://ktar.com/wp-content/uploads/2019/11/tucson-60x60.jpg 60w, https://ktar.com/wp-content/uploads/2019/11/tucson-150x150.jpg 150w" sizes="(max-width: 60px) 100vw, 60px" />                </a>
+                <a href="https://ktar.com/story/2832696/tucson-voters-overwhelmingly-say-no-to-sanctuary-city-proposition/" onclick="_gaq.push(['_trackEvent','Latest News Nav','https://ktar.com/story/2832696/tucson-voters-overwhelmingly-say-no-to-sanctuary-city-proposition/','Latest News 1']);">
+                    <span>KTAR.com<br></span>
+                    Tucson voters overwhelmingly say no to sanctuary city proposition                </a>
+            </li>
+                    <li >
+                <a href="https://ktar.com/story/2832409/us-victims-in-mexico-attack-from-mormon-offshoot-community/" onclick="_gaq.push(['_trackEvent','Latest News Nav','https://ktar.com/story/2832409/us-victims-in-mexico-attack-from-mormon-offshoot-community/','Latest News 1']);" class="thumb">
+                    <img width="60" height="60" src="https://ktar.com/wp-content/uploads/2019/11/ap_097e3b7e55214a5590f13c618058d216-60x60.jpg" class="thumb wp-post-image" alt="" srcset="https://ktar.com/wp-content/uploads/2019/11/ap_097e3b7e55214a5590f13c618058d216-60x60.jpg 60w, https://ktar.com/wp-content/uploads/2019/11/ap_097e3b7e55214a5590f13c618058d216-150x150.jpg 150w" sizes="(max-width: 60px) 100vw, 60px" />                </a>
+                <a href="https://ktar.com/story/2832409/us-victims-in-mexico-attack-from-mormon-offshoot-community/" onclick="_gaq.push(['_trackEvent','Latest News Nav','https://ktar.com/story/2832409/us-victims-in-mexico-attack-from-mormon-offshoot-community/','Latest News 1']);">
+                    <span>Associated Press<br></span>
+                    US victims in Mexico attack from Mormon offshoot community                </a>
+            </li>
+                    <li >
+                <a href="https://ktar.com/story/2832444/donald-trump-jr-to-sign-copies-of-his-new-book-at-valley-costco/" onclick="_gaq.push(['_trackEvent','Latest News Nav','https://ktar.com/story/2832444/donald-trump-jr-to-sign-copies-of-his-new-book-at-valley-costco/','Latest News 1']);" class="thumb">
+                    <img width="60" height="60" src="https://ktar.com/wp-content/uploads/2019/10/ap_b009a280cc7d4b3ca2f772bbcb1ee228-60x60.jpg" class="thumb wp-post-image" alt="" srcset="https://ktar.com/wp-content/uploads/2019/10/ap_b009a280cc7d4b3ca2f772bbcb1ee228-60x60.jpg 60w, https://ktar.com/wp-content/uploads/2019/10/ap_b009a280cc7d4b3ca2f772bbcb1ee228-150x150.jpg 150w" sizes="(max-width: 60px) 100vw, 60px" />                </a>
+                <a href="https://ktar.com/story/2832444/donald-trump-jr-to-sign-copies-of-his-new-book-at-valley-costco/" onclick="_gaq.push(['_trackEvent','Latest News Nav','https://ktar.com/story/2832444/donald-trump-jr-to-sign-copies-of-his-new-book-at-valley-costco/','Latest News 1']);">
+                    <span>Kevin Stone<br></span>
+                    Donald Trump Jr. to sign copies of his new book at Valley Costco                </a>
+            </li>
+                    <li >
+                <a href="https://ktar.com/story/2832504/fbi-arrests-suspect-wanted-for-stealing-armored-car-in-tempe/" onclick="_gaq.push(['_trackEvent','Latest News Nav','https://ktar.com/story/2832504/fbi-arrests-suspect-wanted-for-stealing-armored-car-in-tempe/','Latest News 1']);" class="thumb">
+                    <img width="60" height="60" src="https://ktar.com/wp-content/uploads/2019/11/edwin-jobany-villa-2-60x60.jpg" class="thumb wp-post-image" alt="" srcset="https://ktar.com/wp-content/uploads/2019/11/edwin-jobany-villa-2-60x60.jpg 60w, https://ktar.com/wp-content/uploads/2019/11/edwin-jobany-villa-2-150x150.jpg 150w" sizes="(max-width: 60px) 100vw, 60px" />                </a>
+                <a href="https://ktar.com/story/2832504/fbi-arrests-suspect-wanted-for-stealing-armored-car-in-tempe/" onclick="_gaq.push(['_trackEvent','Latest News Nav','https://ktar.com/story/2832504/fbi-arrests-suspect-wanted-for-stealing-armored-car-in-tempe/','Latest News 1']);">
+                    <span>KTAR.com<br></span>
+                    FBI arrests suspect wanted for stealing armored car in Tempe                </a>
+            </li>
+                    <li >
+                <a href="https://ktar.com/story/2832380/arizona-officials-adopt-2nd-amendment-sanctuary-county-status/" onclick="_gaq.push(['_trackEvent','Latest News Nav','https://ktar.com/story/2832380/arizona-officials-adopt-2nd-amendment-sanctuary-county-status/','Latest News 1']);" class="thumb">
+                    <img width="60" height="60" src="https://ktar.com/wp-content/uploads/2019/11/mohave-county-60x60.jpg" class="thumb wp-post-image" alt="" srcset="https://ktar.com/wp-content/uploads/2019/11/mohave-county-60x60.jpg 60w, https://ktar.com/wp-content/uploads/2019/11/mohave-county-150x150.jpg 150w" sizes="(max-width: 60px) 100vw, 60px" />                </a>
+                <a href="https://ktar.com/story/2832380/arizona-officials-adopt-2nd-amendment-sanctuary-county-status/" onclick="_gaq.push(['_trackEvent','Latest News Nav','https://ktar.com/story/2832380/arizona-officials-adopt-2nd-amendment-sanctuary-county-status/','Latest News 1']);">
+                    <span>Kevin Stone<br></span>
+                    Arizona officials adopt '2nd Amendment sanctuary county' status                </a>
+            </li>
+                    <li >
+                <a href="https://ktar.com/story/2832488/suspect-wielding-metal-forceps-dies-after-being-shot-by-glendale-police/" onclick="_gaq.push(['_trackEvent','Latest News Nav','https://ktar.com/story/2832488/suspect-wielding-metal-forceps-dies-after-being-shot-by-glendale-police/','Latest News 1']);" class="thumb">
+                    <img width="60" height="60" src="https://ktar.com/wp-content/uploads/2019/11/rasumussen-shot-killed-60x60.jpg" class="thumb wp-post-image" alt="" srcset="https://ktar.com/wp-content/uploads/2019/11/rasumussen-shot-killed-60x60.jpg 60w, https://ktar.com/wp-content/uploads/2019/11/rasumussen-shot-killed-150x150.jpg 150w" sizes="(max-width: 60px) 100vw, 60px" />                </a>
+                <a href="https://ktar.com/story/2832488/suspect-wielding-metal-forceps-dies-after-being-shot-by-glendale-police/" onclick="_gaq.push(['_trackEvent','Latest News Nav','https://ktar.com/story/2832488/suspect-wielding-metal-forceps-dies-after-being-shot-by-glendale-police/','Latest News 1']);">
+                    <span>KTAR.com<br></span>
+                    Suspect wielding metal forceps dies after being shot by Glendale police                </a>
+            </li>
+                    <li >
+                <a href="https://ktar.com/story/2832476/white-house-lawyers-expected-to-take-lead-in-impeachment/" onclick="_gaq.push(['_trackEvent','Latest News Nav','https://ktar.com/story/2832476/white-house-lawyers-expected-to-take-lead-in-impeachment/','Latest News 1']);" class="thumb">
+                    <img width="60" height="60" src="https://ktar.com/wp-content/uploads/2019/11/ap_bba997e6c69e4090a1e37d545c3bc8b1-60x60.jpg" class="thumb wp-post-image" alt="" srcset="https://ktar.com/wp-content/uploads/2019/11/ap_bba997e6c69e4090a1e37d545c3bc8b1-60x60.jpg 60w, https://ktar.com/wp-content/uploads/2019/11/ap_bba997e6c69e4090a1e37d545c3bc8b1-150x150.jpg 150w" sizes="(max-width: 60px) 100vw, 60px" />                </a>
+                <a href="https://ktar.com/story/2832476/white-house-lawyers-expected-to-take-lead-in-impeachment/" onclick="_gaq.push(['_trackEvent','Latest News Nav','https://ktar.com/story/2832476/white-house-lawyers-expected-to-take-lead-in-impeachment/','Latest News 1']);">
+                    <span>Associated Press<br></span>
+                    White House lawyers expected to take lead in impeachment                </a>
+            </li>
+                    <li >
+                <a href="https://ktar.com/story/2832010/activists-call-for-firings-after-tempe-police-use-taser-on-man-holding-baby/" onclick="_gaq.push(['_trackEvent','Latest News Nav','https://ktar.com/story/2832010/activists-call-for-firings-after-tempe-police-use-taser-on-man-holding-baby/','Latest News 1']);" class="thumb">
+                    <img width="60" height="60" src="https://ktar.com/wp-content/uploads/2019/11/tempe-police-body-cam-60x60.png" class="thumb wp-post-image" alt="" srcset="https://ktar.com/wp-content/uploads/2019/11/tempe-police-body-cam-60x60.png 60w, https://ktar.com/wp-content/uploads/2019/11/tempe-police-body-cam-150x150.png 150w" sizes="(max-width: 60px) 100vw, 60px" />                </a>
+                <a href="https://ktar.com/story/2832010/activists-call-for-firings-after-tempe-police-use-taser-on-man-holding-baby/" onclick="_gaq.push(['_trackEvent','Latest News Nav','https://ktar.com/story/2832010/activists-call-for-firings-after-tempe-police-use-taser-on-man-holding-baby/','Latest News 1']);">
+                    <span>KTAR.com<br></span>
+                    Tempe police defend use of Taser on suspect who picked up baby                </a>
+            </li>
+                    <li >
+                <a href="https://ktar.com/story/2831781/driver-in-critical-condition-after-tanker-explodes-in-phoenix/" onclick="_gaq.push(['_trackEvent','Latest News Nav','https://ktar.com/story/2831781/driver-in-critical-condition-after-tanker-explodes-in-phoenix/','Latest News 1']);" class="thumb">
+                    <img width="60" height="60" src="https://ktar.com/wp-content/uploads/2018/01/ambulance-lights2-screenshot-60x60.jpg" class="thumb wp-post-image" alt="" srcset="https://ktar.com/wp-content/uploads/2018/01/ambulance-lights2-screenshot-60x60.jpg 60w, https://ktar.com/wp-content/uploads/2018/01/ambulance-lights2-screenshot-150x150.jpg 150w" sizes="(max-width: 60px) 100vw, 60px" />                </a>
+                <a href="https://ktar.com/story/2831781/driver-in-critical-condition-after-tanker-explodes-in-phoenix/" onclick="_gaq.push(['_trackEvent','Latest News Nav','https://ktar.com/story/2831781/driver-in-critical-condition-after-tanker-explodes-in-phoenix/','Latest News 1']);">
+                    <span>KTAR.com<br></span>
+                    Driver in critical condition after tanker explodes in Phoenix                </a>
+            </li>
+                    <li >
+                <a href="https://ktar.com/story/2832209/assessor-paul-petersen-pleads-not-guilty-to-32-charges-in-arizona/" onclick="_gaq.push(['_trackEvent','Latest News Nav','https://ktar.com/story/2832209/assessor-paul-petersen-pleads-not-guilty-to-32-charges-in-arizona/','Latest News 1']);" class="thumb">
+                    <img width="60" height="60" src="https://ktar.com/wp-content/uploads/2019/11/petersen-mug-nu-60x60.jpg" class="thumb wp-post-image" alt="" srcset="https://ktar.com/wp-content/uploads/2019/11/petersen-mug-nu-60x60.jpg 60w, https://ktar.com/wp-content/uploads/2019/11/petersen-mug-nu-150x150.jpg 150w" sizes="(max-width: 60px) 100vw, 60px" />                </a>
+                <a href="https://ktar.com/story/2832209/assessor-paul-petersen-pleads-not-guilty-to-32-charges-in-arizona/" onclick="_gaq.push(['_trackEvent','Latest News Nav','https://ktar.com/story/2832209/assessor-paul-petersen-pleads-not-guilty-to-32-charges-in-arizona/','Latest News 1']);">
+                    <span>KTAR.com<br></span>
+                    Assessor Paul Petersen pleads not guilty to 32 charges in Arizona                </a>
+            </li>
+                    <li >
+                <a href="https://ktar.com/story/2831765/investigator-reports-arpaio-aides-ignored-order-to-halt-sweeps/" onclick="_gaq.push(['_trackEvent','Latest News Nav','https://ktar.com/story/2831765/investigator-reports-arpaio-aides-ignored-order-to-halt-sweeps/','Latest News 1']);" class="thumb">
+                    <img width="60" height="60" src="https://ktar.com/wp-content/uploads/2019/11/joe-arpaio-2013-ap-60x60.jpg" class="thumb wp-post-image" alt="" srcset="https://ktar.com/wp-content/uploads/2019/11/joe-arpaio-2013-ap-60x60.jpg 60w, https://ktar.com/wp-content/uploads/2019/11/joe-arpaio-2013-ap-150x150.jpg 150w" sizes="(max-width: 60px) 100vw, 60px" />                </a>
+                <a href="https://ktar.com/story/2831765/investigator-reports-arpaio-aides-ignored-order-to-halt-sweeps/" onclick="_gaq.push(['_trackEvent','Latest News Nav','https://ktar.com/story/2831765/investigator-reports-arpaio-aides-ignored-order-to-halt-sweeps/','Latest News 1']);">
+                    <span>Associated Press<br></span>
+                    Investigator reports Arpaio aides ignored order to halt sweeps                </a>
+            </li>
+                    <li >
+                <a href="https://ktar.com/story/2809420/dave-ramsey-says-support-mom-by-finding-not-giving-advice/" onclick="_gaq.push(['_trackEvent','Latest News Nav','https://ktar.com/story/2809420/dave-ramsey-says-support-mom-by-finding-not-giving-advice/','Latest News 1']);" class="thumb">
+                    <img width="60" height="60" src="https://ktar.com/wp-content/uploads/2019/10/laptop-african-american-woman-pexels-60x60.jpg" class="thumb wp-post-image" alt="" srcset="https://ktar.com/wp-content/uploads/2019/10/laptop-african-american-woman-pexels-60x60.jpg 60w, https://ktar.com/wp-content/uploads/2019/10/laptop-african-american-woman-pexels-150x150.jpg 150w" sizes="(max-width: 60px) 100vw, 60px" />                </a>
+                <a href="https://ktar.com/story/2809420/dave-ramsey-says-support-mom-by-finding-not-giving-advice/" onclick="_gaq.push(['_trackEvent','Latest News Nav','https://ktar.com/story/2809420/dave-ramsey-says-support-mom-by-finding-not-giving-advice/','Latest News 1']);">
+                    <span>Dave Ramsey<br></span>
+                    Dave Ramsey says: Support mom by finding, not giving, advice                </a>
+            </li>
+                    <li >
+                <a href="https://ktar.com/story/2831949/flags-flying-half-staff-in-arizona-to-honor-fallen-navajo-sergeant/" onclick="_gaq.push(['_trackEvent','Latest News Nav','https://ktar.com/story/2831949/flags-flying-half-staff-in-arizona-to-honor-fallen-navajo-sergeant/','Latest News 1']);" class="thumb">
+                    <img width="60" height="60" src="https://ktar.com/wp-content/uploads/2019/11/Lamar-Martin-60x60.jpg" class="thumb wp-post-image" alt="" srcset="https://ktar.com/wp-content/uploads/2019/11/Lamar-Martin-60x60.jpg 60w, https://ktar.com/wp-content/uploads/2019/11/Lamar-Martin-150x150.jpg 150w" sizes="(max-width: 60px) 100vw, 60px" />                </a>
+                <a href="https://ktar.com/story/2831949/flags-flying-half-staff-in-arizona-to-honor-fallen-navajo-sergeant/" onclick="_gaq.push(['_trackEvent','Latest News Nav','https://ktar.com/story/2831949/flags-flying-half-staff-in-arizona-to-honor-fallen-navajo-sergeant/','Latest News 1']);">
+                    <span>KTAR.com<br></span>
+                    Flags flying half-staff in Arizona to honor fallen Navajo sergeant                </a>
+            </li>
+                    <li >
+                <a href="https://ktar.com/story/2831917/mesa-names-interim-police-chief-after-ramon-batistas-resignation/" onclick="_gaq.push(['_trackEvent','Latest News Nav','https://ktar.com/story/2831917/mesa-names-interim-police-chief-after-ramon-batistas-resignation/','Latest News 1']);" class="thumb">
+                    <img width="60" height="60" src="https://ktar.com/wp-content/uploads/2019/11/Ken-Cost-60x60.jpg" class="thumb wp-post-image" alt="" srcset="https://ktar.com/wp-content/uploads/2019/11/Ken-Cost-60x60.jpg 60w, https://ktar.com/wp-content/uploads/2019/11/Ken-Cost-150x150.jpg 150w" sizes="(max-width: 60px) 100vw, 60px" />                </a>
+                <a href="https://ktar.com/story/2831917/mesa-names-interim-police-chief-after-ramon-batistas-resignation/" onclick="_gaq.push(['_trackEvent','Latest News Nav','https://ktar.com/story/2831917/mesa-names-interim-police-chief-after-ramon-batistas-resignation/','Latest News 1']);">
+                    <span>KTAR.com<br></span>
+                    Mesa names interim police chief after Ramon Batista's resignation                </a>
+            </li>
+                    <li >
+                <a href="https://ktar.com/story/2831885/monster-jam-truck-extravaganza-returning-to-state-farm-stadium/" onclick="_gaq.push(['_trackEvent','Latest News Nav','https://ktar.com/story/2831885/monster-jam-truck-extravaganza-returning-to-state-farm-stadium/','Latest News 1']);" class="thumb">
+                    <img width="60" height="60" src="https://ktar.com/wp-content/uploads/2019/11/monster-jam-february-60x60.jpg" class="thumb wp-post-image" alt="" srcset="https://ktar.com/wp-content/uploads/2019/11/monster-jam-february-60x60.jpg 60w, https://ktar.com/wp-content/uploads/2019/11/monster-jam-february-150x150.jpg 150w" sizes="(max-width: 60px) 100vw, 60px" />                </a>
+                <a href="https://ktar.com/story/2831885/monster-jam-truck-extravaganza-returning-to-state-farm-stadium/" onclick="_gaq.push(['_trackEvent','Latest News Nav','https://ktar.com/story/2831885/monster-jam-truck-extravaganza-returning-to-state-farm-stadium/','Latest News 1']);">
+                    <span>KTAR.com<br></span>
+                    Monster Jam truck extravaganza returning to State Farm Stadium                </a>
+            </li>
+                    <li >
+                <a href="https://ktar.com/story/2831333/tucson-to-decide-whether-to-be-arizonas-only-sanctuary-city/" onclick="_gaq.push(['_trackEvent','Latest News Nav','https://ktar.com/story/2831333/tucson-to-decide-whether-to-be-arizonas-only-sanctuary-city/','Latest News 1']);" class="thumb">
+                    <img width="60" height="60" src="https://ktar.com/wp-content/uploads/2019/11/ap_53e84ecb22034f009297a03b5f8edf78-60x60.jpg" class="thumb wp-post-image" alt="" srcset="https://ktar.com/wp-content/uploads/2019/11/ap_53e84ecb22034f009297a03b5f8edf78-60x60.jpg 60w, https://ktar.com/wp-content/uploads/2019/11/ap_53e84ecb22034f009297a03b5f8edf78-150x150.jpg 150w" sizes="(max-width: 60px) 100vw, 60px" />                </a>
+                <a href="https://ktar.com/story/2831333/tucson-to-decide-whether-to-be-arizonas-only-sanctuary-city/" onclick="_gaq.push(['_trackEvent','Latest News Nav','https://ktar.com/story/2831333/tucson-to-decide-whether-to-be-arizonas-only-sanctuary-city/','Latest News 1']);">
+                    <span>Associated Press<br></span>
+                    Tucson voters overwhelmingly reject sanctuary city measure                </a>
+            </li>
+                    <li >
+                <a href="https://ktar.com/story/2831252/at-least-9-us-citizens-die-in-cartel-attack-in-north-mexico/" onclick="_gaq.push(['_trackEvent','Latest News Nav','https://ktar.com/story/2831252/at-least-9-us-citizens-die-in-cartel-attack-in-north-mexico/','Latest News 1']);" class="thumb">
+                    <img width="60" height="60" src="https://ktar.com/wp-content/uploads/2019/11/lebaron-sidebyside-ap-60x60.jpg" class="thumb wp-post-image" alt="" srcset="https://ktar.com/wp-content/uploads/2019/11/lebaron-sidebyside-ap-60x60.jpg 60w, https://ktar.com/wp-content/uploads/2019/11/lebaron-sidebyside-ap-150x150.jpg 150w" sizes="(max-width: 60px) 100vw, 60px" />                </a>
+                <a href="https://ktar.com/story/2831252/at-least-9-us-citizens-die-in-cartel-attack-in-north-mexico/" onclick="_gaq.push(['_trackEvent','Latest News Nav','https://ktar.com/story/2831252/at-least-9-us-citizens-die-in-cartel-attack-in-north-mexico/','Latest News 1']);">
+                    <span>Associated Press<br></span>
+                    Drug cartel gunmen kill 9 American citizens in ambush in Mexico                </a>
+            </li>
+                    <li >
+                <a href="https://ktar.com/story/2831135/star-students-asu-team-watches-as-its-project-is-launched-into-orbit/" onclick="_gaq.push(['_trackEvent','Latest News Nav','https://ktar.com/story/2831135/star-students-asu-team-watches-as-its-project-is-launched-into-orbit/','Latest News 1']);" class="thumb">
+                    <img width="60" height="60" src="https://ktar.com/wp-content/uploads/2019/11/04-rocket-launch-full-60x60.jpg" class="thumb wp-post-image" alt="" srcset="https://ktar.com/wp-content/uploads/2019/11/04-rocket-launch-full-60x60.jpg 60w, https://ktar.com/wp-content/uploads/2019/11/04-rocket-launch-full-150x150.jpg 150w" sizes="(max-width: 60px) 100vw, 60px" />                </a>
+                <a href="https://ktar.com/story/2831135/star-students-asu-team-watches-as-its-project-is-launched-into-orbit/" onclick="_gaq.push(['_trackEvent','Latest News Nav','https://ktar.com/story/2831135/star-students-asu-team-watches-as-its-project-is-launched-into-orbit/','Latest News 1']);">
+                    <span>Harrison Mantas/Cronkite News<br></span>
+                    Star students: ASU team watches as its project is launched into orbit                </a>
+            </li>
+                    <li >
+                <a href="https://ktar.com/story/2830888/wildlife-lantern-safari-installed-for-upcoming-zoo-lights/" onclick="_gaq.push(['_trackEvent','Latest News Nav','https://ktar.com/story/2830888/wildlife-lantern-safari-installed-for-upcoming-zoo-lights/','Latest News 1']);" class="thumb">
+                    <img width="60" height="60" src="https://ktar.com/wp-content/uploads/2019/11/Wildlife-Lantern-Safari-60x60.jpg" class="thumb wp-post-image" alt="" srcset="https://ktar.com/wp-content/uploads/2019/11/Wildlife-Lantern-Safari-60x60.jpg 60w, https://ktar.com/wp-content/uploads/2019/11/Wildlife-Lantern-Safari-150x150.jpg 150w" sizes="(max-width: 60px) 100vw, 60px" />                </a>
+                <a href="https://ktar.com/story/2830888/wildlife-lantern-safari-installed-for-upcoming-zoo-lights/" onclick="_gaq.push(['_trackEvent','Latest News Nav','https://ktar.com/story/2830888/wildlife-lantern-safari-installed-for-upcoming-zoo-lights/','Latest News 1']);">
+                    <span>KTAR.com<br></span>
+                    Wildlife Lantern Safari installed for upcoming Zoo Lights                </a>
+            </li>
+            </ul>
+</div>
+<div id="wrapper">
+	<div id="mainbody">
+					<div style="z-index:-1;" id="adtop" class="primaryad">
+      			</div>
+    
+<!-- Content -->
+<article itemscope itemtype="http://schema.org/Article" class="pad">
+            <div id="holder">
+            <!--HEADLINE AND ART-->
+            <div class="lead primary">
+                                                                                
+                <div class="category"><a href="https://ktar.com/category/arizona-news/">Arizona News</a></div>
+
+                <h1 itemprop="name headline">Flagstaff city leaders vote to not invest with border-wall contractors</h1>
+                                <div class="byline">
+                    <div class="share-button right">
+                        <a href="#" class="share_link">Share &nbsp; <i class="fa fa-share" aria-hidden="true"></i></a>
+                    </div>
+
+                    
+                        
+                             By <a href="https://ktar.com/story/author/jim-cross/" style="font-weight:500;"><span itemprop="author">Jim Cross</span></a>
+                            <span class="small"> | <span itemprop="datePublished" content="January 17, 2018 9:31 am">January 17, 2018 at 9:31 am</span>
+                            <br>
+                            <span>UPDATED: January 19, 2018 at 10:25 am</span></span>
+
+                        
+                    
+                </div>
+            </div>
+            <!--HEADLINE AND ART-->
+
+            <!--STORY-->
+            <div class="story">
+                <!-- Image Block -->
+                                                                                        <div id="horiz_photo" >
+                                <img class="storyimg" itemprop="image" src="https://ktar.com/wp-content/uploads/2018/01/border-wall-ap.jpg" />
+                                <div class="caption">(AP Photo)</div>
+                            </div>
+
+                            
+                                                            
+
+                 <p>PHOENIX &#8212; The Flagstaff City Council passed a resolution to oppose a wall on the U.S.-Mexico border and to not invest with companies that design, finance and construct a border wall.</p>
+<p>Hundreds of miles away from the border, Councilmember Eva Putzova authored the action during Tuesday night’s council meeting. The council approved the resolution on a 5-2 vote.</p>
+<p>The resolution read, in part: &#8220;Be it further resolved that the Flagstaff City Council expresses its intent to divest from all companies involved in the design, building, or financing of the border wall.&#8221;</p><div style="text-align: center;"><script type='text/javascript'>
+googletag.cmd.push(function() {
+	//Nick, I’m the happiest if you use me for the default ad mapping
+
+
+
+
+
+									var mappingArticle = googletag.sizeMapping().
+							    // Same width as mapping above, more available height
+							    addSize([320, 400], [300, 250]).
+							    // Landscape tablet
+							    addSize([750, 200], [300, 250]).build();
+								console.log('Article');
+
+googletag.defineSlot('/1034751/ktar_left_1', [[300,250]], "acm-ad-tag-ktar_left_1-5dc319c41749f9.32880170").defineSizeMapping(mappingArticle).addService(googletag.pubads()).setCollapseEmptyDiv(true,true);
+googletag.pubads().collapseEmptyDivs();
+googletag.enableServices();
+});
+</script>
+
+<div id='acm-ad-tag-ktar_left_1-5dc319c41749f9.32880170' class='ktar_left_1 in_article_1'>
+<script type='text/javascript'>
+googletag.cmd.push(function() { googletag.display('acm-ad-tag-ktar_left_1-5dc319c41749f9.32880170'); });
+</script>
+</div>
+</div></p><div class="relatedLinks relatedSponsoredLinks alignleft"><div class="colheader">Related Links</div><div><ul class="head_list"><li><a onclick="_gaq.push(['_trackEvent','Sponsored Related Article','Business','https://ktar.com/story/2095762/the-many-ways-umbrella-insurance-protects-your-business/']);" href="https://ktar.com/story/2095762/the-many-ways-umbrella-insurance-protects-your-business/">The many ways umbrella insurance protects your business</a></li></ul><div class="relatedFooter">Sponsored</div></div></div>
+<p>&#8220;There&#8217;s nothing ethical about procuring services from companies that profit from essentially the death of people,&#8221; Putzova said at the meeting.</p>
+<p>&#8220;Speak with our money but at the end of the day we&#8217;re not going to resolve the underlying problem. Why this wall is being built?&#8221;</p>
+<p>Putznova <a href="https://twitter.com/EvaPutzova/status/952994401030086656" target="_blank" rel="noopener">had tweeted out Monday</a> that the council would be passing the agenda item.</p>
+<p>At a council meeting two weeks ago, councilmen Charlie Odegaard and Scott Overton opposed going ahead with the resolution.</p>
+<p>The <a href="http://azdailysun.com/news/local/contractors-object-to-anti-wall-resolution-blacklist-by-flagstaff-council/article_c3eaba66-5c1c-5ed7-a68d-5d547b8a6899.html" target="_blank" rel="noopener">Arizona Daily Sun reported</a> that the president of the Arizona Chapter of the Associated General Contractors wrote the council and described the move as unconstitutional, limited competition and could cost taxpayers more money.</p>
+<p>A year ago, the group disapproved of a <a href="http://www.azagc.org/article/azagc-opposes-tucsons-resolution-on-border-wall" target="_blank" rel="noopener">similar measure</a> passed in Tucson.</p>
+<p>The Tempe City Council was <a href="http://documents.tempe.gov/sirepub/mtgviewer.aspx?meetid=1271&amp;doctype=AGENDA" target="_blank" rel="noopener">expected to vote on adopting</a> an anti-border wall resolution at Thursday&#8217;s meeting.</p>
+<p><a class="twitter-follow-button" href="https://twitter.com/Crossfire923" data-show-count="false">Follow @Crossfire923</a><script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script></p>
+                
+                <div class="lowertools">
+                    <ul>
+                        
+                                                    <li><a href="?show=comments#comments" onclick="_gaq.push(['_trackEvent','KTAR Article','https://ktar.com/story/1907251/flagstaff-city-leaders-vote-to-not-do-business-with-border-wall-contractors/','Comments']);"><span class="disqus-comment-count" data-disqus-url="https://ktar.com/story/1907251/flagstaff-city-leaders-vote-to-not-do-business-with-border-wall-contractors/"></span> Comments &nbsp; <i class="fa fa-comments" aria-hidden="true"></i></a></li>
+                                                <li><a href="#" class="share_link"> Share &nbsp; <i class="fa fa-share" aria-hidden="true"></i></a></li>
+                    </ul>
+                </div>
+
+                <div style="clear:both;"></div>
+                <div id="article_footer">
+
+                    <div class="bottom_cluster">
+                                                    
+<div class="lowerstories">
+    <div class="colheader">
+                    Top Stories            </div>
+    <ul>
+            <li>
+            <a href="https://ktar.com/story/2833065/arrest-made-in-mexico-could-be-tied-to-americans-deaths/" onclick="_gaq.push(['_trackEvent','KTAR Article','https://ktar.com/story/2833065/arrest-made-in-mexico-could-be-tied-to-americans-deaths/','Top_Stories_1']);">
+                <img width="250" height="149" src="https://ktar.com/wp-content/uploads/2019/11/lebarons-border-ap-250x149.jpg" class="attachment-post_list size-post_list" alt="" srcset="https://ktar.com/wp-content/uploads/2019/11/lebarons-border-ap-250x149.jpg 250w, https://ktar.com/wp-content/uploads/2019/11/lebarons-border-ap-300x179.jpg 300w, https://ktar.com/wp-content/uploads/2019/11/lebarons-border-ap.jpg 620w, https://ktar.com/wp-content/uploads/2019/11/lebarons-border-ap-120x72.jpg 120w, https://ktar.com/wp-content/uploads/2019/11/lebarons-border-ap-294x175.jpg 294w" sizes="(max-width: 250px) 100vw, 250px" />            </a>
+            <a href="https://ktar.com/story/2833065/arrest-made-in-mexico-could-be-tied-to-americans-deaths/" class="subline" onclick="_gaq.push(['_trackEvent','KTAR Article','https://ktar.com/story/2833065/arrest-made-in-mexico-could-be-tied-to-americans-deaths/','Top_Stories_1']);">
+                <b>Suspect arrested in Mexico may not be involved in US deaths</b>
+            </a>
+        </li>
+	                            					<li style="position:relative;" >
+		
+		<a href="https://ktar.com/story/2832665/neighbors-in-mesa-are-sharing-books-through-little-libraries/" onclick="_gaq.push(['_trackEvent','KTAR Article','https://ktar.com/story/2832665/neighbors-in-mesa-are-sharing-books-through-little-libraries/','Top_Stories_2']);">
+			<!--<img src="https://ktar.com/wp-content/uploads/2019/11/little-libraries-300x179.jpg" alt="Neighbors in Mesa are sharing books through little libraries" width="250">-->
+			<img width="250" height="149" src="https://ktar.com/wp-content/uploads/2019/11/little-libraries-250x149.jpg" class="attachment-post_list size-post_list" alt="" srcset="https://ktar.com/wp-content/uploads/2019/11/little-libraries-250x149.jpg 250w, https://ktar.com/wp-content/uploads/2019/11/little-libraries-300x179.jpg 300w, https://ktar.com/wp-content/uploads/2019/11/little-libraries.jpg 620w, https://ktar.com/wp-content/uploads/2019/11/little-libraries-120x72.jpg 120w, https://ktar.com/wp-content/uploads/2019/11/little-libraries-294x175.jpg 294w" sizes="(max-width: 250px) 100vw, 250px" />		</a>
+		<a href="https://ktar.com/story/2832665/neighbors-in-mesa-are-sharing-books-through-little-libraries/" class="subline" onclick="_gaq.push(['_trackEvent','KTAR Article','https://ktar.com/story/2832665/neighbors-in-mesa-are-sharing-books-through-little-libraries/','Top_Stories_2']);">
+			<b>Neighbors in Mesa are sharing books through little libraries</b>
+		</a>
+
+	</li>
+						<li style="position:relative;" >
+		
+		<a href="https://ktar.com/story/2832440/tempe-to-host-open-house-before-new-fire-station-opens/" onclick="_gaq.push(['_trackEvent','KTAR Article','https://ktar.com/story/2832440/tempe-to-host-open-house-before-new-fire-station-opens/','Top_Stories_3']);">
+			<!--<img src="https://ktar.com/wp-content/uploads/2019/11/tempe-fire-station-rendering-300x179.jpg" alt="Tempe to host open house showing off new fire station" width="250">-->
+			<img width="250" height="149" src="https://ktar.com/wp-content/uploads/2019/11/tempe-fire-station-rendering-250x149.jpg" class="attachment-post_list size-post_list" alt="" srcset="https://ktar.com/wp-content/uploads/2019/11/tempe-fire-station-rendering-250x149.jpg 250w, https://ktar.com/wp-content/uploads/2019/11/tempe-fire-station-rendering-300x179.jpg 300w, https://ktar.com/wp-content/uploads/2019/11/tempe-fire-station-rendering.jpg 620w, https://ktar.com/wp-content/uploads/2019/11/tempe-fire-station-rendering-120x72.jpg 120w, https://ktar.com/wp-content/uploads/2019/11/tempe-fire-station-rendering-294x175.jpg 294w" sizes="(max-width: 250px) 100vw, 250px" />		</a>
+		<a href="https://ktar.com/story/2832440/tempe-to-host-open-house-before-new-fire-station-opens/" class="subline" onclick="_gaq.push(['_trackEvent','KTAR Article','https://ktar.com/story/2832440/tempe-to-host-open-house-before-new-fire-station-opens/','Top_Stories_3']);">
+			<b>Tempe to host open house showing off new fire station</b>
+		</a>
+
+	</li>
+						<li style="position:relative;" >
+		
+		<a href="https://ktar.com/story/2832614/disinfecting-your-phone-could-decrease-chance-of-catching-sickness/" onclick="_gaq.push(['_trackEvent','KTAR Article','https://ktar.com/story/2832614/disinfecting-your-phone-could-decrease-chance-of-catching-sickness/','Top_Stories_4']);">
+			<!--<img src="https://ktar.com/wp-content/uploads/2019/11/Disinfec-tech-300x179.jpg" alt="Disinfecting your phone could help avoid getting sick" width="250">-->
+			<img width="250" height="149" src="https://ktar.com/wp-content/uploads/2019/11/Disinfec-tech-250x149.jpg" class="attachment-post_list size-post_list" alt="" srcset="https://ktar.com/wp-content/uploads/2019/11/Disinfec-tech-250x149.jpg 250w, https://ktar.com/wp-content/uploads/2019/11/Disinfec-tech-300x179.jpg 300w, https://ktar.com/wp-content/uploads/2019/11/Disinfec-tech.jpg 620w, https://ktar.com/wp-content/uploads/2019/11/Disinfec-tech-120x72.jpg 120w, https://ktar.com/wp-content/uploads/2019/11/Disinfec-tech-294x175.jpg 294w" sizes="(max-width: 250px) 100vw, 250px" />		</a>
+		<a href="https://ktar.com/story/2832614/disinfecting-your-phone-could-decrease-chance-of-catching-sickness/" class="subline" onclick="_gaq.push(['_trackEvent','KTAR Article','https://ktar.com/story/2832614/disinfecting-your-phone-could-decrease-chance-of-catching-sickness/','Top_Stories_4']);">
+			<b>Disinfecting your phone could help avoid getting sick</b>
+		</a>
+
+	</li>
+	
+</ul>
+
+</div>                                            </div>
+                    <div style="text-align: center;">
+                        <script>
+jQuery(document).ready(function($){
+
+        googletag.cmd.push(function() {
+        googletag.defineSlot('/1034751/ktar_news_TheHomePage_right_300x250', [[300,250], [300,600]], "takeover-ad-tag-ktar_news_TheHomePage_right_300x250-5dc319c42e4d75.27796044").addService(googletag.pubads());
+        
+        googletag.pubads().collapseEmptyDivs();
+        googletag.enableServices();
+        });
+
+        googletag.cmd.push(function() { googletag.display('takeover-ad-tag-ktar_news_TheHomePage_right_300x250-5dc319c42e4d75.27796044'); });
+});
+</script>
+<div id='takeover-ad-tag-ktar_news_TheHomePage_right_300x250-5dc319c42e4d75.27796044' class='ktar_news_TheHomePage_right_300x250'>
+</div>
+                    </div>
+                    
+<div class="sponsoredstories">
+
+    <div class="colheader">
+                    Sponsored Stories            </div>
+
+    <ul>
+
+                            <li>
+                <a href="https://ktar.com/story/2647309/arizona-families-arizona-farms-legacy-of-tradition-embracing-science-and-technology/" onclick="_gaq.push(['_trackEvent','KTAR Article','https://ktar.com/story/2647309/arizona-families-arizona-farms-legacy-of-tradition-embracing-science-and-technology/','Sponsored_1']);">
+                    <img src="https://ktar.com/wp-content/uploads/2019/07/Stephanie-Taylor-Favorites-0005-1-250x149.jpg" alt="Arizona families, Arizona farms: A legacy of tradition embracing animal care and comfort through modern technology">
+                </a>
+                <a href="https://ktar.com/story/2647309/arizona-families-arizona-farms-legacy-of-tradition-embracing-science-and-technology/" class="subline" onclick="_gaq.push(['_trackEvent','KTAR Article','https://ktar.com/story/2647309/arizona-families-arizona-farms-legacy-of-tradition-embracing-science-and-technology/','Sponsored_1']);">
+                    <b>Arizona families, Arizona farms: A legacy of tradition embracing animal care and comfort through modern technology</b>
+                </a>
+
+            </li>
+                                <li>
+                <a href="https://ktar.com/story/2515687/get-to-know-the-best-clean-energy-solutions-for-arizona/" onclick="_gaq.push(['_trackEvent','KTAR Article','https://ktar.com/story/2515687/get-to-know-the-best-clean-energy-solutions-for-arizona/','Sponsored_2']);">
+                    <img src="https://ktar.com/wp-content/uploads/2019/04/arizona_77504035-R-250x149.jpg" alt="Clean energy: Why it matters for Arizona">
+                </a>
+                <a href="https://ktar.com/story/2515687/get-to-know-the-best-clean-energy-solutions-for-arizona/" class="subline" onclick="_gaq.push(['_trackEvent','KTAR Article','https://ktar.com/story/2515687/get-to-know-the-best-clean-energy-solutions-for-arizona/','Sponsored_2']);">
+                    <b>Clean energy: Why it matters for Arizona</b>
+                </a>
+
+            </li>
+                                <li>
+                <a href="https://ktar.com/story/2481341/4-benefits-of-having-a-wireless-security-system/" onclick="_gaq.push(['_trackEvent','KTAR Article','https://ktar.com/story/2481341/4-benefits-of-having-a-wireless-security-system/','Sponsored_3']);">
+                    <img src="https://ktar.com/wp-content/uploads/2019/03/canstockphoto61136757-250x149.jpg" alt="Four benefits of having a wireless security system">
+                </a>
+                <a href="https://ktar.com/story/2481341/4-benefits-of-having-a-wireless-security-system/" class="subline" onclick="_gaq.push(['_trackEvent','KTAR Article','https://ktar.com/story/2481341/4-benefits-of-having-a-wireless-security-system/','Sponsored_3']);">
+                    <b>Four benefits of having a wireless security system</b>
+                </a>
+
+            </li>
+                        </ul>
+
+</div>
+
+                                                                
+                </div>
+
+
+            </div>
+            <!--STORY-->
+
+            <!--RIGHT COLUMN...BELOW STORY ON MOBILE-->
+            <!--<div class="rightcolumn">
+        <div style="margin-bottom: 30px; text-align:center;">
+          </div>
+            </div>-->
+
+
+<div class="rightcolumn">
+    <script>
+jQuery(document).ready(function($){
+
+        googletag.cmd.push(function() {
+        googletag.defineSlot('/1034751/ktar_news_TheHomePage_right_300x250', [[300,250], [300,600]], "takeover-ad-tag-ktar_news_TheHomePage_right_300x250-5dc319c437b982.86612488").addService(googletag.pubads());
+        
+        googletag.pubads().collapseEmptyDivs();
+        googletag.enableServices();
+        });
+
+        googletag.cmd.push(function() { googletag.display('takeover-ad-tag-ktar_news_TheHomePage_right_300x250-5dc319c437b982.86612488'); });
+});
+</script>
+<div id='takeover-ad-tag-ktar_news_TheHomePage_right_300x250-5dc319c437b982.86612488' class='ktar_news_TheHomePage_right_300x250'>
+</div>
+    <div class="textwidget custom-html-widget"><h3>Show Podcasts and Interviews</h3>
+<iframe src="https://omny.fm/shows/ktar-reporter-audio/playlists/ktar-news-92-3-show-podcasts/embed?style=cover&size=square" width="100%" height="700" frameborder="0"></iframe></div><div class="textwidget custom-html-widget"><h3>Reporter Stories</h3>
+<iframe src="https://omny.fm/shows/ktar-reporter-audio/playlists/podcast/embed?style=cover&size=square" width="100%" height="700" frameborder="0"></iframe></div>        <div class="subleads">
+
+    <div class="colheader">
+            Most Popular          </div>
+    
+    <ul class="head_list">
+                    <li><a href="https://ktar.com/story/2833065/suspect-arrested-in-mexico-seemingly-not-involved-in-americans-deaths/"  onclick="_gaq.push(['_trackEvent','Most Popular','https://ktar.com/story/2833065/suspect-arrested-in-mexico-seemingly-not-involved-in-americans-deaths/','Headline 1']);">Suspect arrested in Mexico seemingly not involved in Americans&#39; deaths</a></li>
+                      <li><a href="https://ktar.com/story/2832739/glendale-votes-against-giving-city-council-members-hefty-raises/"  onclick="_gaq.push(['_trackEvent','Most Popular','https://ktar.com/story/2832739/glendale-votes-against-giving-city-council-members-hefty-raises/','Headline 2']);">Glendale votes against giving city council members hefty raises</a></li>
+                      <li><a href="https://ktar.com/story/2832696/tucson-voters-overwhelmingly-say-no-to-sanctuary-city-proposition/"  onclick="_gaq.push(['_trackEvent','Most Popular','https://ktar.com/story/2832696/tucson-voters-overwhelmingly-say-no-to-sanctuary-city-proposition/','Headline 3']);">Tucson voters overwhelmingly say no to sanctuary city proposition</a></li>
+                    
+      <li><a href="/newsletters/"  onclick="_gaq.push(['_trackEvent','Most Popular','Newsletter','Headline 4']);">Sign up for the KTAR Daily Connect email</a></li>
+
+    </ul>
+
+</div>
+                    <script>
+jQuery(document).ready(function($){
+
+        googletag.cmd.push(function() {
+        googletag.defineSlot('/1034751/ktar_news_TheHomePage_right_300x250', [[300,250], [300,600]], "takeover-ad-tag-ktar_news_TheHomePage_right_300x250-5dc319c43d0cf5.27969867").addService(googletag.pubads());
+        
+        googletag.pubads().collapseEmptyDivs();
+        googletag.enableServices();
+        });
+
+        googletag.cmd.push(function() { googletag.display('takeover-ad-tag-ktar_news_TheHomePage_right_300x250-5dc319c43d0cf5.27969867'); });
+});
+</script>
+<div id='takeover-ad-tag-ktar_news_TheHomePage_right_300x250-5dc319c43d0cf5.27969867' class='ktar_news_TheHomePage_right_300x250'>
+</div>
+</div>
+            <!--RIGHT COLUMN...BELOW STORY ON MOBILE-->
+
+
+            <!--STORY HOLDER-->
+
+        </div>
+    </article> <!-- End Content -->
+	</div>
+</div>
+
+<div id="bottom_mobile_heads">
+</div>
+
+<div id="footwrapper">
+	<div id="footbody" class="primary">
+		<footer>
+
+			<a href="/"><img src="https://ktar.com/wp-content/themes/ktar/assets/logo/KTAR-NEWS-Vertical-neg.svg" alt="KTAR News 92.3 FM" style="width:300px;border:none;"></a><br>
+			<span>Phoenix, Arizona, USA</span>
+
+			<ul class="footlisten">
+				<li>
+					<div style="float:left;">On the radio:</div><div style="float:right;"><a href="/listen-to-ktar-92-3-fm-anywhere/">92.3 FM</a></div>
+				</li>
+				<li>
+					<div style="float:left;">Online:</div><div style="float:right;"><a href="/">KTAR.com</a></div>
+				</li>
+				<li>
+					<div style="float:left;">On Your Phone:</div><div style="float:right;"><a href="/the-ktar-newstalk-app/">92.3 KTAR Apps</a></div>
+				</li>
+				<li>
+					<div style="float:left;">On Demand:</div><div style="float:right;"><a href="/category/podcasts/">92.3 KTAR Podcasts</a></div>
+				</li>
+				<li>
+					<div style="float:left;">More:</div><div style="float:right;"><a href="https://itunes.apple.com/" target="new">iTunes</a>, <a href="http://tunein.com/radio/KTAR-FM-923-s33477/" target="new">TuneIn</a>, <a href="http://stitcher.com" target="new">Stitcher</a></div>
+				</li>
+				<li>
+					<div style="float:left;">Call In:</div><div style="float:right;"><a href="tel:602.277.5827">602.277.5827</a></div>
+				</li>
+				<li>
+					<div style="float:left;">Text In:</div><div style="float:right;"><a href="/text-alerts/">411923</a></div>
+				</li>
+			</ul>
+
+
+
+			<ul class="footlinks">
+				<li><a href="/contact-us/">Contact Us</a></li>
+				<li>
+					<a href="http://ktar.com/wp-content/uploads/2018/06/General-Contest-Rules-KTAR.pdf">Contest Rules</a>
+				</li>
+				<li><a href="http://facebook.com/KTARNews">Follow on Facebook</a></li>
+				<li><a href="http://twitter.com/KTAR923">Follow on Twitter</a></li>
+				<li><a href="/newsletters/">Email Alerts</a></li>
+				<!--<li><a href="#">Site Map</a></li>
+                <li><a href="http://jobs.bonnint.net/">Advertise With Us</a></li>-->
+                <li><a href="http://bonneville.com/careers">Employment</a></li>
+			</ul>
+
+
+			<div class="copyright">© 2019 Bonneville International. <a href="/2012/05/01/terms-of-use/">Terms of Use</a> and <a href="/2012/05/01/privacy-statement/">Privacy Policy</a>. All rights reserved.<br><a href="http://ktar.com/wp-content/uploads/2019/05/Phoenix-EEO-Public-File-Report-2019.pdf">EEO Public File Report</a> -  <a href="/story/1409292/copyright-info/">Copyright Infringement</a> <a href="https://bonneville.com/copyright-clearance/">Licensing</a> <br /> FCC Public File: <a href="https://publicfiles.fcc.gov/fm-profile/ktar-fm" target="_blank">KTAR-FM</a> | FCC Station Representative: Natalie Barton &#149; <a href="mailto:nbarton@bonneville.com?subject=Need Assist with FCC Public File">nbarton@bonneville.com</a> &#149; 602.200.2638 </div>
+
+
+
+		</footer>
+	</div>
+</div>
+
+<div id="mobile_ad" style="display: none; text-align: center;">
+	</div>
+
+<!-- Disqus Comment Counts -->
+<script id="dsq-count-scr" src="//ktar.disqus.com/count.js" async></script>
+
+<script type='text/javascript' src='https://ktar.com/wp-content/plugins/ad-code-timing/assets/js/mobile-detect.min.js?ver=1.0'></script>
+<script type='text/javascript' src='https://ktar.com/wp-content/plugins/ad-code-timing/assets/js/jquery.cookie.js?ver=1.0'></script>
+<script type='text/javascript' src='https://ktar.com/wp-content/plugins/ad-code-timing/assets/js/takeover.js?ver=1.1'></script>
+<script type='text/javascript'>
+/* <![CDATA[ */
+var qpprFrontData = {"linkData":{"https:\/\/ktar.com\/?p=988083":[0,0,""],"https:\/\/ktar.com\/?p=1078309":[0,0,""],"https:\/\/ktar.com\/?p=1078423":[0,0,""],"https:\/\/ktar.com\/?p=1095748":[0,0,""],"https:\/\/ktar.com\/?p=1108762":[0,0,""],"https:\/\/ktar.com\/?p=1070104":[0,0,""],"https:\/\/ktar.com\/?p=1119304":[0,0,""],"https:\/\/ktar.com\/?p=1120010":[0,0,""],"https:\/\/ktar.com\/?p=1131204":[0,0,""],"https:\/\/ktar.com\/story\/1131224\/john-cleese-eric-idle-together-again-at-last-for-the-very-first-time\/":[0,0,""],"https:\/\/ktar.com\/?p=1131256":[0,0,""],"https:\/\/ktar.com\/?p=1131313":[0,0,""],"https:\/\/ktar.com\/?p=1149576":[0,0,""],"https:\/\/ktar.com\/?p=1149606":[0,0,""],"https:\/\/ktar.com\/?p=1149624":[0,0,""],"https:\/\/ktar.com\/?p=1160153":[0,0,""],"https:\/\/ktar.com\/?p=1171210":[0,0,""],"https:\/\/ktar.com\/?p=1171268":[0,0,""],"https:\/\/ktar.com\/?p=1132533":[0,0,""],"https:\/\/ktar.com\/?p=1198172":[0,0,""],"https:\/\/ktar.com\/?p=1198240":[0,0,""],"https:\/\/ktar.com\/?p=1206777":[0,0,""],"https:\/\/ktar.com\/?p=1206927":[0,0,""],"https:\/\/ktar.com\/?p=1222428":[0,0,""],"https:\/\/ktar.com\/?p=1233364":[0,0,""],"https:\/\/ktar.com\/?p=1233448":[0,0,""],"https:\/\/ktar.com\/?p=1233576":[0,0,""],"https:\/\/ktar.com\/?p=1233932":[0,0,""],"https:\/\/ktar.com\/?p=1246260":[0,0,""],"https:\/\/ktar.com\/?p=1256784":[0,0,""],"https:\/\/ktar.com\/?p=1256807":[0,0,""],"https:\/\/ktar.com\/?p=1256972":[0,0,""],"https:\/\/ktar.com\/?p=1262506":[0,0,""],"https:\/\/ktar.com\/?p=1262671":[0,0,""],"https:\/\/ktar.com\/?p=1271694":[0,0,""],"https:\/\/ktar.com\/?p=1284041":[0,0,""],"https:\/\/ktar.com\/?p=1302676":[0,0,""],"https:\/\/ktar.com\/?p=1303022":[0,0,""],"https:\/\/ktar.com\/?p=1303103":[0,0,""],"https:\/\/ktar.com\/?p=1312669":[0,0,""],"https:\/\/ktar.com\/?p=1312698":[0,0,""],"https:\/\/ktar.com\/?p=1319582":[0,0,""],"https:\/\/ktar.com\/?p=1332564":[0,0,""],"https:\/\/ktar.com\/?p=1332584":[0,0,""],"https:\/\/ktar.com\/?p=1341537":[0,0,""],"https:\/\/ktar.com\/?p=1341563":[0,0,""],"https:\/\/ktar.com\/?p=1341606":[0,0,""],"https:\/\/ktar.com\/?p=1353126":[0,0,""],"https:\/\/ktar.com\/?p=1353191":[0,0,""],"https:\/\/ktar.com\/?p=1353763":[0,0,""],"https:\/\/ktar.com\/?p=1361092":[0,0,""],"https:\/\/ktar.com\/?p=1361152":[0,0,""],"https:\/\/ktar.com\/?p=1370005":[0,0,""],"https:\/\/ktar.com\/?p=1370022":[0,0,""],"https:\/\/ktar.com\/?p=1374514":[0,0,""],"https:\/\/ktar.com\/?p=1381464":[0,0,""],"https:\/\/ktar.com\/?p=1381497":[0,0,""],"https:\/\/ktar.com\/?p=1391108":[0,0,""],"https:\/\/ktar.com\/?p=1391136":[0,0,""],"https:\/\/ktar.com\/?p=1399010":[0,0,""],"https:\/\/ktar.com\/?p=1399021":[0,0,""],"https:\/\/ktar.com\/?p=1412463":[0,0,""],"https:\/\/ktar.com\/?p=1420773":[0,0,""],"https:\/\/ktar.com\/?p=1428756":[0,0,""],"https:\/\/ktar.com\/?p=1444083":[0,0,""],"https:\/\/ktar.com\/?p=1444127":[0,0,""],"https:\/\/ktar.com\/?p=1439377":[0,0,""],"https:\/\/ktar.com\/?p=1453439":[0,0,""],"https:\/\/ktar.com\/?p=1453482":[0,0,""],"https:\/\/ktar.com\/?p=1453643":[0,0,""],"https:\/\/ktar.com\/?p=1476630":[0,0,""],"https:\/\/ktar.com\/?p=1476633":[0,0,""],"https:\/\/ktar.com\/?p=1468039":[0,0,""],"https:\/\/ktar.com\/?p=1484458":[0,0,""],"https:\/\/ktar.com\/?p=1484507":[0,0,""],"https:\/\/ktar.com\/?p=1484391":[0,0,""],"https:\/\/ktar.com\/?p=1491397":[0,0,""],"https:\/\/ktar.com\/?p=1491440":[0,0,""],"https:\/\/ktar.com\/story\/1499494\/mac-gaydos-pay-tribute-teacher\/":[0,0,""],"https:\/\/ktar.com\/?p=1501992":[0,0,""],"https:\/\/ktar.com\/?p=1510559":[0,0,""],"https:\/\/ktar.com\/?p=1510639":[0,0,""],"https:\/\/ktar.com\/?p=1520183":[0,0,""],"https:\/\/ktar.com\/?p=1521110":[0,0,""],"https:\/\/ktar.com\/?p=1526498":[0,0,""],"https:\/\/ktar.com\/?p=1527750":[0,0,""],"https:\/\/ktar.com\/?p=1545462":[0,0,""],"https:\/\/ktar.com\/?p=1555584":[0,0,""],"https:\/\/ktar.com\/?p=1577010":[0,0,""],"https:\/\/ktar.com\/?p=1587550":[0,0,""],"https:\/\/ktar.com\/?p=1587576":[0,0,""],"https:\/\/ktar.com\/?p=1587518":[0,0,""],"https:\/\/ktar.com\/?p=1600638":[0,0,""],"https:\/\/ktar.com\/?p=1600646":[0,0,""],"https:\/\/ktar.com\/?p=1611495":[0,0,""],"https:\/\/ktar.com\/?p=1611505":[0,0,""],"https:\/\/ktar.com\/?p=1619584":[0,0,""],"https:\/\/ktar.com\/?p=1619594":[0,0,""],"https:\/\/ktar.com\/?p=1621500":[0,0,""],"https:\/\/ktar.com\/?p=1621534":[0,0,""],"https:\/\/ktar.com\/?p=1621962":[0,0,""],"https:\/\/ktar.com\/?p=1630416":[0,0,""],"https:\/\/ktar.com\/?p=1630422":[0,0,""],"https:\/\/ktar.com\/?p=1638188":[0,0,""],"https:\/\/ktar.com\/?p=1638193":[0,0,""],"https:\/\/ktar.com\/?p=1642671":[0,0,""],"https:\/\/ktar.com\/?p=1651884":[0,0,""],"https:\/\/ktar.com\/?p=1653174":[0,0,""],"https:\/\/ktar.com\/?p=1653190":[0,0,""],"https:\/\/ktar.com\/?p=1661576":[0,0,""],"https:\/\/ktar.com\/?p=1670718":[0,0,""],"https:\/\/ktar.com\/?p=1680190":[0,0,""],"https:\/\/ktar.com\/?p=1688399":[0,0,""],"https:\/\/ktar.com\/?p=1703328":[0,0,""],"https:\/\/ktar.com\/?p=1712672":[0,0,""],"https:\/\/ktar.com\/?p=1712677":[0,0,""],"https:\/\/ktar.com\/?p=1721599":[0,0,""],"https:\/\/ktar.com\/?p=1721625":[0,0,""],"https:\/\/ktar.com\/?p=1726072":[0,0,""],"https:\/\/ktar.com\/?p=1734631":[0,0,""],"https:\/\/ktar.com\/?p=1734819":[0,0,""],"https:\/\/ktar.com\/?p=1743223":[0,0,""],"https:\/\/ktar.com\/?p=1744613":[0,0,""],"https:\/\/ktar.com\/?p=1758460":[0,0,""],"https:\/\/ktar.com\/?p=1758486":[0,0,""],"https:\/\/ktar.com\/?p=1758495":[0,0,""],"https:\/\/ktar.com\/?p=1770479":[0,0,""],"https:\/\/ktar.com\/?p=1770550":[0,0,""],"https:\/\/ktar.com\/?p=1781016":[0,0,""],"https:\/\/ktar.com\/?p=1781081":[0,0,""],"https:\/\/ktar.com\/?p=1782264":[0,0,""],"https:\/\/ktar.com\/?p=1792414":[0,0,""],"https:\/\/ktar.com\/?p=1792423":[0,0,""],"https:\/\/ktar.com\/?p=1793807":[0,0,""],"https:\/\/ktar.com\/?p=1813065":[0,0,""],"https:\/\/ktar.com\/?p=1814615":[0,0,""],"https:\/\/ktar.com\/?p=1814629":[0,0,""],"https:\/\/ktar.com\/?p=1823402":[0,0,""],"https:\/\/ktar.com\/?p=1823439":[0,0,""],"https:\/\/ktar.com\/?p=1823448":[0,0,""],"https:\/\/ktar.com\/?p=1833047":[0,0,""],"https:\/\/ktar.com\/?p=1833063":[0,0,""],"https:\/\/ktar.com\/?p=1852647":[0,0,""],"https:\/\/ktar.com\/?p=1852672":[0,0,""],"https:\/\/ktar.com\/?p=1833100":[0,0,""],"https:\/\/ktar.com\/?p=1867828":[0,0,""],"https:\/\/ktar.com\/?p=1867902":[0,0,""],"https:\/\/ktar.com\/?p=1867921":[0,0,""],"https:\/\/ktar.com\/?p=1952859":[0,0,""],"https:\/\/ktar.com\/?p=1999655":[0,0,""],"https:\/\/ktar.com\/?p=2017144":[0,0,""],"https:\/\/ktar.com\/?p=2048497":[0,0,""],"https:\/\/ktar.com\/?p=2069178":[0,0,""],"https:\/\/ktar.com\/?p=2091312":[0,0,""],"https:\/\/ktar.com\/?p=2127745":[0,0,""],"https:\/\/ktar.com\/?p=2189005":[0,0,""],"https:\/\/ktar.com\/?p=2212083":[0,0,""],"https:\/\/ktar.com\/?p=2254023":[0,0,""],"https:\/\/ktar.com\/?p=2297375":[0,0,""],"https:\/\/ktar.com\/?p=2384876":[0,0,""],"https:\/\/ktar.com\/?p=2497860":[0,0,""],"https:\/\/ktar.com\/?p=2509323":[0,0,""],"https:\/\/ktar.com\/?p=2535236":[0,0,""],"https:\/\/ktar.com\/?p=2560053":[0,0,""],"https:\/\/ktar.com\/?p=2597689":[0,0,""],"https:\/\/ktar.com\/?p=2600774":[0,0,""],"https:\/\/ktar.com\/?p=2707195":[0,0,""],"https:\/\/ktar.com\/?p=2772634":[0,0,""]},"siteURL":"https:\/\/ktar.com","siteURLq":"https:\/\/ktar.com"};
+/* ]]> */
+</script>
+<script type='text/javascript' src='https://ktar.com/wp-content/plugins/quick-pagepost-redirect-plugin/js/qppr_frontend_script.min.js?ver=5.1.5'></script>
+<script type='text/javascript'>
+/* <![CDATA[ */
+var pollsL10n = {"ajax_url":"https:\/\/ktar.com\/wp-admin\/admin-ajax.php","text_wait":"Your last request is still being processed. Please wait a while ...","text_valid":"Please choose a valid poll answer.","text_multiple":"Maximum number of choices allowed: ","show_loading":"1","show_fading":"1"};
+/* ]]> */
+</script>
+<script type='text/javascript' src='https://ktar.com/wp-content/plugins/wp-polls/polls-js.js?ver=2.73.8'></script>
+<script type='text/javascript'>
+/* <![CDATA[ */
+var share = {"url":"https:\/\/ktar.com\/story\/1907251\/flagstaff-city-leaders-vote-to-not-do-business-with-border-wall-contractors\/"};
+/* ]]> */
+</script>
+<script type='text/javascript' src='https://ktar.com/wp-content/themes/ktar/assets/js/sharecounts.js?ver=1.0'></script>
+<script type='text/javascript'>
+/* <![CDATA[ */
+var data = {"ajax_url":"https:\/\/ktar.com\/wp-admin\/admin-ajax.php","a_value":"10"};
+var data = {"ajax_url":"https:\/\/ktar.com\/wp-admin\/admin-ajax.php","a_value":"10"};
+/* ]]> */
+</script>
+<script type='text/javascript' src='https://ktar.com/wp-content/plugins/tweak-events/assets/js/plusdate.js?ver=1.0'></script>
+<script type='text/javascript' src='https://ktar.com/wp-includes/js/jquery/ui/core.min.js?ver=1.11.4'></script>
+<script type='text/javascript' src='https://ktar.com/wp-includes/js/jquery/ui/datepicker.min.js?ver=1.11.4'></script>
+<script type='text/javascript'>
+jQuery(document).ready(function(jQuery){jQuery.datepicker.setDefaults({"closeText":"Close","currentText":"Today","monthNames":["January","February","March","April","May","June","July","August","September","October","November","December"],"monthNamesShort":["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"],"nextText":"Next","prevText":"Previous","dayNames":["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"],"dayNamesShort":["Sun","Mon","Tue","Wed","Thu","Fri","Sat"],"dayNamesMin":["S","M","T","W","T","F","S"],"dateFormat":"MM d, yy","firstDay":1,"isRTL":false});});
+</script>
+<script type='text/javascript' src='https://ktar.com/wp-content/plugins/tweak-events/assets/js/datepicker.js?ver=1.0'></script>
+<script type='text/javascript'>
+/* <![CDATA[ */
+var data = {"ajax_url":"https:\/\/ktar.com\/wp-admin\/admin-ajax.php"};
+/* ]]> */
+</script>
+<script type='text/javascript' src='https://ktar.com/wp-content/plugins/tweak-events/assets/js/event-submit-validate.js?ver=1.1'></script>
+<script type='text/javascript' src='https://ktar.com/wp-content/plugins/tweak-events/assets/js/datepicker-submit.js?ver=1.0'></script>
+<script type='text/javascript' src='https://ktar.com/wp-includes/js/wp-embed.min.js?ver=5.2.2'></script>
+
+<!-- Analytics -->
+<!-- Google Analytics -->
+<script>
+  var _gaq = _gaq || [];
+_gaq.push(['_setAccount', 'UA-333933-4']);
+_gaq.push(['_setCustomVar',
+    1,
+    'Article"',
+    'Sports',
+    3
+ ]);;
+_gaq.push(['_setDomainName', 'ktar.com ']);
+  _gaq.push(['_setPageGroup', 1, 'Arizona News']);
+
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://' : 'http://') + 'stats.g.doubleclick.net/dc.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+</script>
+<!-- End Google Analytics --><!-- End Analytics -->
+<script src="https://ktar.com/wp-content/themes/ktar/assets/jquery-smartbanner/jquery.smartbanner.js"></script>
+<script type="text/javascript">
+	jQuery.smartbanner();
+</script>
+
+<script type="text/javascript">window.NREUM||(NREUM={});NREUM.info={"beacon":"bam.nr-data.net","licenseKey":"1502e4f90c","applicationID":"58634209","transactionName":"ZAYDZ0cFXxFVUxZZDF1MIFBBDV4MG0MLXgRfBg==","queueTime":0,"applicationTime":836,"atts":"SEEAEQ8fTB8=","errorBeacon":"bam.nr-data.net","agent":""}</script></body>
+</html>

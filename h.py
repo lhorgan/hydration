@@ -195,6 +195,12 @@ def webpages_different(x, y):
     return False
 
 def producer_thread(redirects_q, stop):
+    c = True
+    def handler3(sig, frame):
+        c = False
+
+    signal.signal(signal.SIGTERM, handler3)
+
     print("PRODUCER")
 
     f = open('urls.tsv','r')
