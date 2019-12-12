@@ -15,13 +15,67 @@ HEADERS = {"User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KH
            "Connection": "keep-alive", 'Accept': '*/*'}
 CACHE = base.Client(('localhost', 11211))
 
+QUEUE = []
+
+TOTAL_COMPLETE = 0
+
 async def fetch(session, url):
     async with session.get(url, ssl=SSL_CONTEXT) as response:
         return await response.text()
 
 async def main():
-    #await follow_redirects({"url": "https://bit.ly/2Pzp9kU"})
-    await strip_params({"url": "https://www.google.com/search?source=hp&ei=r43yXYb7CI-3tAbmw7LwBg&q=hello+world&oq=hello+world&gs_l=psy-ab.3..0l10.68.1064..1168...0.0..0.148.837.8j2......0....1..gws-wiz.......0i131.zNuiCRaD934&ved=0ahUKEwjGjreT5bDmAhWPG80KHeahDG4Q4dUDCAg&uact=5"})
+    #await follow_redirects({"url": "http://untp.beer/s/b295660756"})
+    #await strip_params({"url": "https://www.google.com/search?source=hp&ei=r43yXYb7CI-3tAbmw7LwBg&q=hello+world&oq=hello+world&gs_l=psy-ab.3..0l10.68.1064..1168...0.0..0.148.837.8j2......0....1..gws-wiz.......0i131.zNuiCRaD934&ved=0ahUKEwjGjreT5bDmAhWPG80KHeahDG4Q4dUDCAg&uact=5"})
+    
+    make_queue("todo/results0.tsv")
+
+    tasks = []
+    for i in range(50):
+        task = asyncio.create_task(go())
+        tasks.append(task)
+
+    await asyncio.gather(*tasks)
+
+async def go():
+    global TOTAL_COMPLETE
+
+    entry = url_from_queue()
+    if entry:
+        try:
+            entry = await follow_redirects(entry)
+        except Exception as e:
+            print("Something went wrong with " + entry["url"])
+        
+        try:
+            entry = await strip_params(entry)
+        except Exception as e:
+            print("Something went wrong with " + entry["url"])
+        print("going again...")
+        TOTAL_COMPLETE += 1
+        print("\n~~WE HAVE COMPLETED " + str(TOTAL_COMPLETE) + "\n")
+        await go() # do it all again
+    else:
+        print("The queue is empty")
+
+def make_queue(filename):
+    global QUEUE
+
+    print("building queue...")
+    with open(filename, "r") as fp:
+        for ctr, url in enumerate(fp):
+            url = url.strip()
+            entry = {"url": url, "orig_url": url}
+            #print("Adding " + url + " to queue")
+            QUEUE.append(entry)
+    print("queue built")
+
+def url_from_queue():
+    global QUEUE
+
+    try:
+        return QUEUE.pop()
+    except NameError:
+        return None
 
 async def get_content(url):
     async with aiohttp.ClientSession() as session:
@@ -131,5 +185,6 @@ def update_access_logs(url):
     CACHE.set(domain, time.time_ns(), 5) # clear this entry after 5 seconds
 
 if __name__ == '__main__':
-    loop = asyncio.get_event_loop()
-    loop.run_until_complete(main())
+    #loop = asyncio.get_event_loop()
+    #loop.run_until_complete(main())
+    asyncio.run(main())
