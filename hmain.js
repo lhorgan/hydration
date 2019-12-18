@@ -5,7 +5,8 @@ const { Worker } = require('worker_threads');
 
 class Earl {
     constructor(ifname, results_name, binSize) {
-        this.urlIndex = 0;
+        this.dispatchedURLIndex = 0;
+        this.processedURLIndex = 0;
         this.binSize = binSize; 
         this.accessLogs = {};
         this.assignmentCounts = [];
@@ -65,12 +66,13 @@ class Earl {
                 this.writeURLs();
             }
 
-            if(this.urlIndex < this.urls.length) {
-                worker.postMessage({"url": this.urls[this.urlIndex], "queue": false});
-                console.log("Processed URL " + this.urlIndex + " of " + this.urls.length);
-                this.urlIndex++;
+            if(this.dispatchedURLIndex < this.urls.length) {
+                worker.postMessage({"url": this.urls[this.urlDispatchedIndex], "queue": false});
+                console.log("Processed URL " + this.processedURLIndex + " of " + this.urls.length);
+                this.dispatchedURLIndex++;
+                this.processedURLIndex++;
             }
-            else {
+            else if(this.processedURLIndex >= this.urls.length) {
                 console.log("we are done");
                 this.writeURLs();
             }
@@ -169,16 +171,17 @@ class Earl {
         for(let i = 0; i < this.binSize; i++) {
             for(let j = 0; j < this.workers.length; j++) {
                 if(assignedURLsCount < this.urls.length) {
-                    this.workers[j].postMessage({"url": this.urls[this.urlIndex][0], "queue": true, "year": this.urls[this.urlIndex][1]});
+                    this.workers[j].postMessage({"url": this.urls[assignedURLsCount][0], "queue": true, "year": this.urls[assignedURLsCount][1]});
                     //this.urlIndex++;
                     assignedURLsCount++;
+                    this.dispatchedURLIndex++;
                 }
                 else {
                     break;
                 }
             }
         }
-        console.log("URL INDEX IS " + this.urlIndex);
+        //console.log("URL INDEX IS " + this.urlIndex);
 
         for(let i = 0; i < this.workers.length; i++) {
             this.workers[i].postMessage({"go": true});
