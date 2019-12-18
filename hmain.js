@@ -164,7 +164,7 @@ class Earl {
     initialAssignWorkers() {
         console.log("ASSINGING WORKERS");
         //console.log(this.urls);
-        assignedURLsCount = 0;
+        let assignedURLsCount = 0;
         for(let i = 0; i < this.binSize; i++) {
             for(let j = 0; j < this.workers.length; j++) {
                 if(assignedURLsCount < this.urls.length) {
@@ -193,4 +193,4 @@ class Earl {
     }
 }
 
-let e = new Earl("urls.tsv", "results.tsv", 50);
+let e = new Earl("todos/0.tsv", "results/0.tsv", 50);
