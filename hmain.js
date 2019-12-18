@@ -82,7 +82,7 @@ class Earl {
         this.urlsToWrite.length = 0;
         let urlStr = "";
         for(let i = 0; i < urlsCopy.length; i++) {
-            urlStr += urlsCopy[i].url + "\t" + urlsCopy[i].origURL + "\t" + urlsCopy[i].urlWithParams + "\t" + urlsCopy[i].error;
+            urlStr += urlsCopy[i].url + "\t" + urlsCopy[i].origURL + "\t" + urlsCopy[i].urlWithParams + "\t" + urlsCopy[i].year + "\t" + urlsCopy[i].error;
             if(urlsCopy[i].error) {
                 //console.log("There has been an error, we are writing "  + urlsCopy[i].errorMessage);
                 urlStr += "\t" + '"' + urlsCopy[i].errorMessage + '"';
@@ -111,10 +111,10 @@ class Earl {
         let duplicates = 0;
         let p = new Promise((resolve, reject) => {
             readInterface.on('line', (line) => {
-                let url = line.trim();
+                let [url, year] = line.trim().split("\t");
                 if(url[0] != "#" && !this.processedURLs.has(url)) {
                     ////console.log(url);
-                    urls.push(url);
+                    urls.push([url, year]);
                 }
                 else if(this.processedURLs.has(url)) {
                     duplicates++;
@@ -167,7 +167,7 @@ class Earl {
         for(let i = 0; i < this.binSize; i++) {
             for(let j = 0; j < this.workers.length; j++) {
                 if(this.urlIndex < this.urls.length) {
-                    this.workers[j].postMessage({"url": this.urls[this.urlIndex], "queue": true});
+                    this.workers[j].postMessage({"url": this.urls[this.urlIndex][0], "queue": true, "year": this.urls[this.urlIndex][1]});
                     this.urlIndex++;
                 }
                 else {

@@ -70,3 +70,28 @@ def repair(results_filename, input_filename):
     for line in reader(new_results):
         f.write("\t".join(line) + "\r\n")
     f.close()
+
+def split2019():
+    directory = "/media/luke/277eaea3-2185-4341-a594-d0fe5146d917/twitter_urls"
+    filenames = [str(year) for year in range(2010, 2020)]
+
+    target_file_num = 0
+    target_file_len = 0
+    target_file = open("%s/todos/%i.tsv" % (directory, target_file_num), "w+")
+    print("Writing file %i" % target_file_num)
+
+    for filename in filenames:
+        path = "%s/%s.tsv" % (directory, filename)
+        with open(path) as f:
+            for ctr, line in enumerate(f):
+                if target_file_len >= 20000:
+                    target_file.close()
+                    target_file_num += 1
+                    target_file_len = 0
+                    target_file = open("%s/todos/%i.tsv" % (directory, target_file_num), "w+")
+                    print("Writing file %i" % target_file_num)
+                
+                target_file.write("%s\t%s\r\n" % (line.strip(), filename))
+                target_file_len += 1
+    
+    target_file.close()
