@@ -67,6 +67,7 @@ class Earl {
 
             if(this.urlIndex < this.urls.length) {
                 worker.postMessage({"url": this.urls[this.urlIndex], "queue": false});
+                console.log("Processed URL " + this.urlIndex + " of " + this.urls.length);
                 this.urlIndex++;
             }
             else {
@@ -164,7 +165,7 @@ class Earl {
     initialAssignWorkers() {
         console.log("ASSINGING WORKERS");
         //console.log(this.urls);
-        assignedURLsCount = 0;
+        let assignedURLsCount = 0;
         for(let i = 0; i < this.binSize; i++) {
             for(let j = 0; j < this.workers.length; j++) {
                 if(assignedURLsCount < this.urls.length) {
