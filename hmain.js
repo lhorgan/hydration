@@ -194,4 +194,4 @@ class Earl {
     }
 }
 
-let e = new Earl("urls.tsv", "results.tsv", 50);
+let e = new Earl("todos/0.tsv", "results/0.tsv", 50);
