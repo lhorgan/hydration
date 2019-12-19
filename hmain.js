@@ -167,13 +167,14 @@ class Earl {
     initialAssignWorkers() {
         console.log("ASSINGING WORKERS");
         //console.log(this.urls);
-        let assignedURLsCount = 0;
+        /*let assignedURLsCount = 0;*/
         for(let i = 0; i < this.binSize; i++) {
             for(let j = 0; j < this.workers.length; j++) {
-                if(assignedURLsCount < this.urls.length) {
-                    this.workers[j].postMessage({"url": this.urls[assignedURLsCount][0], "queue": true, "year": this.urls[assignedURLsCount][1]});
+                if(this.dispatchedURLIndex < this.urls.length) {
+                    console.log("URL: " + this.urls[this.dispatchedURLIndex]);
+                    this.workers[j].postMessage({"url": this.urls[this.dispatchedURLIndex][0], "queue": true, "year": this.urls[this.dispatchedURLIndex][1]});
                     //this.urlIndex++;
-                    assignedURLsCount++;
+                    //assignedURLsCount++;
                     this.dispatchedURLIndex++;
                 }
                 else {
