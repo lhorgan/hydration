@@ -67,8 +67,9 @@ class Earl {
             }
 
             if(this.dispatchedURLIndex < this.urls.length) {
-                worker.postMessage({"url": this.urls[this.urlDispatchedIndex], "queue": false});
+                worker.postMessage({"url": this.urls[this.dispatchedURLIndex], "queue": false});
                 console.log("Processed URL " + this.processedURLIndex + " of " + this.urls.length);
+                console.log("Dispatching URL " + this.urls[this.dispatchedURLIndex]);
                 this.dispatchedURLIndex++;
                 this.processedURLIndex++;
             }
